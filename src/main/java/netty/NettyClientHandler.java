@@ -14,7 +14,7 @@ public class NettyClientHandler extends ChannelHandlerAdapter {
 		requestBuffer = Unpooled.buffer(requestBytes.length);
 		requestBuffer.writeBytes(requestBytes);
 	}
-	
+
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
 		ctx.writeAndFlush(requestBuffer);
