@@ -1,13 +1,9 @@
 package com.atguigu.netty.inboundhandlerandoutboundhandler;
 
-import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.util.CharsetUtil;
 
-import java.nio.charset.Charset;
-
-public class MyClientHandler  extends SimpleChannelInboundHandler<Long> {
+public class MyClientHandler extends SimpleChannelInboundHandler<Long> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Long msg) throws Exception {
 
@@ -57,7 +53,7 @@ public class MyClientHandler  extends SimpleChannelInboundHandler<Long> {
         }
         4. 因此我们编写 Encoder 是要注意传入的数据类型和处理的数据类型一致
         */
-       // ctx.writeAndFlush(Unpooled.copiedBuffer("abcdabcdabcdabcd",CharsetUtil.UTF_8));
+        // ctx.writeAndFlush(Unpooled.copiedBuffer("abcdabcdabcdabcd",CharsetUtil.UTF_8));
 
     }
 }

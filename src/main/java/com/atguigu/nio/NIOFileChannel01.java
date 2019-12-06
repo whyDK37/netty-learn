@@ -5,7 +5,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 
 public class NIOFileChannel01 {
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception {
 
         String str = "hello,尚硅谷";
         //创建一个输出流->channel

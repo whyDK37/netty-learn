@@ -5,7 +5,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 
 public class NIOClient {
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception {
 
         //得到一个网络通道
         SocketChannel socketChannel = SocketChannel.open();

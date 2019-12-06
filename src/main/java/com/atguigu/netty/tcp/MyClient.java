@@ -1,7 +1,6 @@
 package com.atguigu.netty.tcp;
 
 
-
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.EventLoopGroup;
@@ -9,7 +8,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
 public class MyClient {
-    public static void main(String[] args)  throws  Exception{
+    public static void main(String[] args) throws Exception {
 
         EventLoopGroup group = new NioEventLoopGroup();
 
@@ -23,7 +22,7 @@ public class MyClient {
 
             channelFuture.channel().closeFuture().sync();
 
-        }finally {
+        } finally {
             group.shutdownGracefully();
         }
     }

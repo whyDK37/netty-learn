@@ -34,7 +34,7 @@ public class ScatteringAndGatheringTest {
 
             int byteRead = 0;
 
-            while (byteRead < messageLength ) {
+            while (byteRead < messageLength) {
                 long l = socketChannel.read(byteBuffers);
                 byteRead += l; //累计读取的字节数
                 System.out.println("byteRead=" + byteRead);
@@ -53,14 +53,12 @@ public class ScatteringAndGatheringTest {
             }
 
             //将所有的buffer 进行clear
-            Arrays.asList(byteBuffers).forEach(buffer-> {
+            Arrays.asList(byteBuffers).forEach(buffer -> {
                 buffer.clear();
             });
 
             System.out.println("byteRead:=" + byteRead + " byteWrite=" + byteWirte + ", messagelength" + messageLength);
         }
-
-
 
 
     }

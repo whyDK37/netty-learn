@@ -25,9 +25,5 @@ public class NIOByteBufferPutGet {
         System.out.println(buffer.getShort());
 
 
-
-
-
-
     }
 }

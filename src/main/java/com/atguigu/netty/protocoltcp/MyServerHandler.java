@@ -1,7 +1,5 @@
 package com.atguigu.netty.protocoltcp;
 
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
@@ -10,7 +8,7 @@ import java.util.UUID;
 
 
 //处理业务的handler
-public class MyServerHandler extends SimpleChannelInboundHandler<MessageProtocol>{
+public class MyServerHandler extends SimpleChannelInboundHandler<MessageProtocol> {
     private int count;
 
     @Override
@@ -39,7 +37,7 @@ public class MyServerHandler extends SimpleChannelInboundHandler<MessageProtocol
 
         String responseContent = UUID.randomUUID().toString();
         int responseLen = responseContent.getBytes("utf-8").length;
-        byte[]  responseContent2 = responseContent.getBytes("utf-8");
+        byte[] responseContent2 = responseContent.getBytes("utf-8");
         //构建一个协议包
         MessageProtocol messageProtocol = new MessageProtocol();
         messageProtocol.setLen(responseLen);

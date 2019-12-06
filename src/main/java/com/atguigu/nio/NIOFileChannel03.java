@@ -30,7 +30,7 @@ public class NIOFileChannel03 {
             byteBuffer.clear(); //清空buffer
             int read = fileChannel01.read(byteBuffer);
             System.out.println("read =" + read);
-            if(read == -1) { //表示读完
+            if (read == -1) { //表示读完
                 break;
             }
             //将buffer 中的数据写入到 fileChannel02 -- 2.txt

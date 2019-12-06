@@ -12,7 +12,7 @@ public class NettyByteBuf02 {
         ByteBuf byteBuf = Unpooled.copiedBuffer("hello,world!", Charset.forName("utf-8"));
 
         //使用相关的方法
-        if(byteBuf.hasArray()) { // true
+        if (byteBuf.hasArray()) { // true
 
             byte[] content = byteBuf.array();
 
@@ -33,7 +33,7 @@ public class NettyByteBuf02 {
             System.out.println("len=" + len);
 
             //使用for取出各个字节
-            for(int i = 0; i < len; i++) {
+            for (int i = 0; i < len; i++) {
                 System.out.println((char) byteBuf.getByte(i));
             }
 

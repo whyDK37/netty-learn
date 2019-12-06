@@ -15,8 +15,8 @@ public class BasicBuffer {
 //        intBuffer.put(12);
 //        intBuffer.put(13);
 //        intBuffer.put(14);
-        for(int i = 0; i < intBuffer.capacity(); i++) {
-            intBuffer.put( i * 2);
+        for (int i = 0; i < intBuffer.capacity(); i++) {
+            intBuffer.put(i * 2);
         }
 
         //如何从buffer读取数据

@@ -1,8 +1,8 @@
 package com.atguigu.netty.codec;
 
-import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import io.netty.channel.*;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.util.CharsetUtil;
 
 /*
@@ -27,7 +27,6 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<StudentPOJO.
 
         System.out.println("客户端发送的数据 id=" + msg.getId() + " 名字=" + msg.getName());
     }
-
 
 
 //    //读取数据实际(这里我们可以读取客户端发送的消息)

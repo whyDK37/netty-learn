@@ -8,8 +8,8 @@ public class ReadOnlyBuffer {
         //创建一个buffer
         ByteBuffer buffer = ByteBuffer.allocate(64);
 
-        for(int i = 0; i < 64; i++) {
-            buffer.put((byte)i);
+        for (int i = 0; i < 64; i++) {
+            buffer.put((byte) i);
         }
 
         //读取
@@ -24,6 +24,6 @@ public class ReadOnlyBuffer {
             System.out.println(readOnlyBuffer.get());
         }
 
-        readOnlyBuffer.put((byte)100); //ReadOnlyBufferException
+        readOnlyBuffer.put((byte) 100); //ReadOnlyBufferException
     }
 }

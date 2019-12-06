@@ -45,12 +45,13 @@
             alert("连接没有开启");
         }
     }
+
 </script>
-    <form onsubmit="return false">
-        <textarea name="message" style="height: 300px; width: 300px"></textarea>
-        <input type="button" value="发生消息" onclick="send(this.form.message.value)">
-        <textarea id="responseText" style="height: 300px; width: 300px"></textarea>
-        <input type="button" value="清空内容" onclick="document.getElementById('responseText').value=''">
-    </form>
+<form onsubmit="return false">
+    <textarea name="message" style="height: 300px; width: 300px"></textarea>
+    <input type="button" value="发生消息" onclick="send(this.form.message.value)">
+    <textarea id="responseText" style="height: 300px; width: 300px"></textarea>
+    <input type="button" value="清空内容" onclick="document.getElementById('responseText').value=''">
+</form>
 </body>
 </html>

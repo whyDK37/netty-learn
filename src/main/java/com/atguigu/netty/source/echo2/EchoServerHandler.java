@@ -24,8 +24,6 @@ import io.netty.util.CharsetUtil;
 import io.netty.util.concurrent.DefaultEventExecutorGroup;
 import io.netty.util.concurrent.EventExecutorGroup;
 
-import java.util.concurrent.Callable;
-
 /**
  * Handler implementation for the echo server.
  */

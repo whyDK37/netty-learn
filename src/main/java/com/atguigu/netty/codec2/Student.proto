@@ -1,7 +1,7 @@
 syntax = "proto3";
 option optimize_for = SPEED; // 加快解析
-option java_package="com.atguigu.netty.codec2";   //指定生成到哪个包下
-option java_outer_classname="MyDataInfo"; // 外部类名, 文件名
+option java_package = "com.atguigu.netty.codec2"; //指定生成到哪个包下
+option java_outer_classname = "MyDataInfo"; // 外部类名, 文件名
 
 //protobuf 可以使用message 管理其他的message
 message MyMessage {
@@ -25,10 +25,10 @@ message MyMessage {
 
 
 message Student {
-    int32 id = 1;//Student类的属性
+    int32 id = 1; //Student类的属性
     string name = 2; //
 }
 message Worker {
-    string name=1;
-    int32 age=2;
+    string name = 1;
+    int32 age = 2;
 }
