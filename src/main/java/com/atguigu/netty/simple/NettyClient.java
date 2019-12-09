@@ -16,10 +16,10 @@ public class NettyClient {
         EventLoopGroup group = new NioEventLoopGroup();
 
 
+        Bootstrap bootstrap = new Bootstrap();
         try {
             //创建客户端启动对象
             //注意客户端使用的不是 ServerBootstrap 而是 Bootstrap
-            Bootstrap bootstrap = new Bootstrap();
 
             //设置相关参数
             bootstrap.group(group) //设置线程组
