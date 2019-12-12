@@ -1,5 +1,6 @@
 package com.atguigu.netty.simple;
 
+import com.atguigu.netty.DefaultThreadFactory;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -20,8 +21,8 @@ public class NettyServer {
         //3. 两个都是无限循环
         //4. bossGroup 和 workerGroup 含有的子线程(NioEventLoop)的个数
         //   默认实际 cpu核数 * 2
-        EventLoopGroup bossGroup = new NioEventLoopGroup(1);
-        EventLoopGroup workerGroup = new NioEventLoopGroup(); //8
+        EventLoopGroup bossGroup = new NioEventLoopGroup(1, new DefaultThreadFactory("boss"));
+        EventLoopGroup workerGroup = new NioEventLoopGroup(8, new DefaultThreadFactory("worker")); //8
 
         try {
             //创建服务器端的启动对象，配置参数
@@ -65,7 +66,7 @@ public class NettyServer {
 
             //绑定一个端口并且同步, 生成了一个 ChannelFuture 对象
             //启动服务器(并绑定端口)
-            ChannelFuture cf = bootstrap.bind(6668).sync();
+            final ChannelFuture cf = bootstrap.bind(6668).sync();
 
             //给cf 注册监听器，监控我们关心的事件
 
