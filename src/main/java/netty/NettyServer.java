@@ -7,6 +7,8 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.util.concurrent.DefaultThreadFactory;
+import io.netty.util.concurrent.EventExecutorGroup;
 
 import java.nio.charset.StandardCharsets;
 
@@ -16,6 +18,7 @@ public class NettyServer {
         EventLoopGroup parentGroup = new NioEventLoopGroup(); // thread group -> Acceptor thread
         EventLoopGroup childGroup = new NioEventLoopGroup(); // thread group -> Processor / Handler
 
+        EventExecutorGroup eventExecutors = new DefaultEventLoopGroup(Runtime.getRuntime().availableProcessors(),new DefaultThreadFactory("worker"));
         try {
             ServerBootstrap serverBootstrap = new ServerBootstrap(); // Netty server
 
@@ -27,7 +30,8 @@ public class NettyServer {
 
                         @Override
                         protected void initChannel(SocketChannel socketChannel) throws Exception {
-                            socketChannel.pipeline().addLast(new NettyServerHandler()); // business code
+
+                            socketChannel.pipeline().addLast(eventExecutors, new NettyServerHandler()); // business code
                         }
 
                     });

@@ -1,20 +1,71 @@
 package com.atguigu.netty.http;
 
+import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.channel.*;
+import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.SocketChannel;
+import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.http.*;
 import io.netty.util.CharsetUtil;
 
 import java.net.URI;
+
+public class TestHTTPServer {
+    public static void main(String[] args) throws Exception {
+
+        EventLoopGroup bossGroup = new NioEventLoopGroup(1);
+        EventLoopGroup workerGroup = new NioEventLoopGroup();
+
+        try {
+            ServerBootstrap serverBootstrap = new ServerBootstrap();
+
+            serverBootstrap.group(bossGroup, workerGroup)
+                    .channel(NioServerSocketChannel.class)
+//                    .handler(null)
+                    .childHandler(new TestServerInitializer())
+            ;
+
+            ChannelFuture channelFuture = serverBootstrap.bind(6668).sync();
+
+            channelFuture.channel().closeFuture().sync();
+
+        } finally {
+            bossGroup.shutdownGracefully();
+            workerGroup.shutdownGracefully();
+        }
+    }
+}
+class TestServerInitializer extends ChannelInitializer<SocketChannel> {
+
+    @Override
+    protected void initChannel(SocketChannel ch) throws Exception {
+
+        //向管道加入处理器
+
+        //得到管道
+        ChannelPipeline pipeline = ch.pipeline();
+
+        //加入一个netty 提供的httpServerCodec codec =>[coder - decoder]
+        //HttpServerCodec 说明
+        //1. HttpServerCodec 是netty 提供的处理http的 编-解码器
+        pipeline.addLast("MyHttpServerCodec", new HttpServerCodec());
+        //2. 增加一个自定义的handler
+        pipeline.addLast("MyTestHttpServerHandler", new TestHttpServerHandler());
+
+        System.out.println("ok~~~~");
+
+    }
+}
+
 
 /*
 说明
 1. SimpleChannelInboundHandler 是 ChannelInboundHandlerAdapter
 2. HttpObject 客户端和服务器端相互通讯的数据被封装成 HttpObject
  */
-public class TestHttpServerHandler extends SimpleChannelInboundHandler<HttpObject> {
+class TestHttpServerHandler extends SimpleChannelInboundHandler<HttpObject> {
 
 
     //channelRead0 读取客户端数据
