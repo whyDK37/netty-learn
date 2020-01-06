@@ -1,6 +1,6 @@
-package netty.heartbeat.server;
+package fep.server;
 
-import netty.heartbeat.AbstractEndpoint;
+import fep.AbstractEndpoint;
 
 import java.net.InetSocketAddress;
 import java.util.concurrent.ExecutorService;

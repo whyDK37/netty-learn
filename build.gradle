@@ -1,6 +1,7 @@
 plugins {
     id 'java'
 }
+apply plugin: 'maven'
 
 group 'me'
 version '1.0-SNAPSHOT'

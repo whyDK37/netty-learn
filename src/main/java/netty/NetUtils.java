@@ -1,4 +1,4 @@
-package netty.heartbeat;
+package netty;
 
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;

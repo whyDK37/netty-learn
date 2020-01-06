@@ -1,4 +1,4 @@
-package netty.heartbeat;
+package fep;
 
 public class AbstractEndpoint {
 

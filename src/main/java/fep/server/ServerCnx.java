@@ -1,21 +1,20 @@
-package netty.heartbeat.server;
+package fep.server;
 
+import fep.MessageInfo;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.protobuf.ProtobufDecoder;
+import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.concurrent.DefaultThreadFactory;
-import netty.heartbeat.NetUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.InetSocketAddress;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Map;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static netty.heartbeat.ConstantValue.DEFAULT_IO_THREADS;
@@ -28,8 +27,6 @@ public class ServerCnx extends AbstractServer {
     private static final Logger logger = LoggerFactory.getLogger(ServerCnx.class);
 
 
-    private Map<String, Channel> channels; // <ip:port, channel>
-
     private ServerBootstrap bootstrap;
 
     private io.netty.channel.Channel channel;
@@ -39,7 +36,6 @@ public class ServerCnx extends AbstractServer {
 
     public ServerCnx(String bindIp, int bindPort, int timeout, long allIdleTime, long connectTimeout) {
         super(bindIp, bindPort, timeout, allIdleTime, connectTimeout);
-        this.channels = channels;
     }
 
     public void open() throws Throwable {
@@ -61,13 +57,15 @@ public class ServerCnx extends AbstractServer {
                         ch.pipeline()//.addLast("logging",new LoggingHandler(LogLevel.INFO))//for debug
 //                                .addLast("decoder", adapter.getDecoder())
 //                                .addLast("encoder", adapter.getEncoder())
+                                .addLast("encoder", new ProtobufEncoder())
+                                .addLast("decoder", new ProtobufDecoder(MessageInfo.Message.getDefaultInstance()))
                                 .addLast("server-idle-handler", new IdleStateHandler(0, 0, getIdleTimeout(), MILLISECONDS))
                                 .addLast("handler", new ServerHandler());
                     }
                 });
 
         ChannelFuture channelFuture = bootstrap.bind(getBindAddress());
-        channelFuture.syncUninterruptibly();
+//        channelFuture.syncUninterruptibly();
         channel = channelFuture.channel();
     }
 
@@ -104,29 +102,28 @@ public class ServerCnx extends AbstractServer {
             logger.warn(e.getMessage(), e);
         }
         try {
-            if (channels != null) {
-                channels.clear();
-            }
+            SessionManager.getInstance().clear();
         } catch (Throwable e) {
             logger.warn(e.getMessage(), e);
         }
     }
 
     public Collection<Channel> getChannels() {
-        Collection<Channel> chs = new HashSet<Channel>();
-        for (Channel channel : this.channels.values()) {
-            if (channel.isActive()) {
-                chs.add(channel);
-            } else {
-                channels.remove(NetUtils.toAddressString((InetSocketAddress) channel.remoteAddress()));
-            }
-        }
-        return chs;
+        return SessionManager.getInstance().getChannels();
+//        Collection<Channel> chs = new HashSet<Channel>();
+//        for (Channel channel : SessionManager.getInstance().getChannels()) {
+//            if (channel.isActive()) {
+//                chs.add(channel);
+//            } else {
+//                channels.remove(NetUtils.toAddressString((InetSocketAddress) channel.remoteAddress()));
+//            }
+//        }
+//        return chs;
     }
-
-    public Channel getChannel(InetSocketAddress remoteAddress) {
-        return channels.get(NetUtils.toAddressString(remoteAddress));
-    }
+//
+//    public Channel getChannel(InetSocketAddress remoteAddress) {
+//        return channels.get(NetUtils.toAddressString(remoteAddress));
+//    }
 
     public boolean isBound() {
         return channel.isActive();
