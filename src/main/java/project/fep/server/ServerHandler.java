@@ -1,6 +1,6 @@
-package fep.server;
+package project.fep.server;
 
-import fep.MessageInfo;
+import project.fep.MessageInfo;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -22,6 +22,7 @@ public class ServerHandler extends ChannelDuplexHandler {
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         logger.info("channelInactive");
+        SessionManager.getInstance().remove(ctx.channel());
     }
 
     @Override
@@ -34,6 +35,7 @@ public class ServerHandler extends ChannelDuplexHandler {
                     .setPong(MessageInfo.Pong.newBuilder().setMsg("pong").build())
                     .build();
             ctx.writeAndFlush(ping);
+            SessionManager.getInstance().touch(ctx.channel());
         }
         // 认证信息
         else if (message.getDataType() == MessageInfo.Message.DataType.AUTHENTICATION) {

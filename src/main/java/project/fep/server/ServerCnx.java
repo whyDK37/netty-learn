@@ -1,6 +1,6 @@
-package fep.server;
+package project.fep.server;
 
-import fep.MessageInfo;
+import project.fep.MessageInfo;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.*;
@@ -110,20 +110,8 @@ public class ServerCnx extends AbstractServer {
 
     public Collection<Channel> getChannels() {
         return SessionManager.getInstance().getChannels();
-//        Collection<Channel> chs = new HashSet<Channel>();
-//        for (Channel channel : SessionManager.getInstance().getChannels()) {
-//            if (channel.isActive()) {
-//                chs.add(channel);
-//            } else {
-//                channels.remove(NetUtils.toAddressString((InetSocketAddress) channel.remoteAddress()));
-//            }
-//        }
-//        return chs;
     }
-//
-//    public Channel getChannel(InetSocketAddress remoteAddress) {
-//        return channels.get(NetUtils.toAddressString(remoteAddress));
-//    }
+
 
     public boolean isBound() {
         return channel.isActive();

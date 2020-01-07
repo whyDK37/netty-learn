@@ -1,7 +1,6 @@
-package fep.client;
+package project.fep.client;
 
-import fep.MessageInfo;
-import fep.support.DefaultFuture;
+import project.fep.MessageInfo;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.timeout.IdleState;
@@ -41,7 +40,7 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
         } else if (message.getDataType() == MessageInfo.Message.DataType.PONG) {
             logger.info("收到 pong 消息");
         } else if (message.getDataType() == MessageInfo.Message.DataType.AUTHENTICATION) {
-            DefaultFuture.received(ctx.channel(), message.getId(), message.getAuthentication());
+//            DefaultFuture.received(ctx.channel(), message.getId(), message.getAuthentication());
             logger.info("注冊成功...");
         }
     }
@@ -53,7 +52,7 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
             if (state == IdleState.WRITER_IDLE) {
                 MessageInfo.Message ping = MessageInfo.Message.newBuilder().setDataType(MessageInfo.Message.DataType.PING)
                         .setPing(MessageInfo.Ping.newBuilder().setMsg("ping").build())
-                        .setId(clientCnx.getRequestId())
+                        .setId(0)
                         .build();
                 ctx.writeAndFlush(ping);
                 logger.info("userEventTriggered send PING...");
@@ -64,19 +63,19 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        logger.warn("channelInactive:{}", ctx);
         reConnect(ctx);
         super.channelInactive(ctx);
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        logger.warn("", cause);
+        logger.warn("exceptionCaught", cause);
         reConnect(ctx);
     }
 
     private void reConnect(ChannelHandlerContext ctx) {
         ctx.close();
-        clientCnx.closed();
         try {
             clientCnx.doConnect();
         } catch (Throwable throwable) {

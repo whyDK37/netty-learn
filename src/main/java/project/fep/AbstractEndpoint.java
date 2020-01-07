@@ -1,4 +1,4 @@
-package fep;
+package project.fep;
 
 public class AbstractEndpoint {
 

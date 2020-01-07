@@ -1,6 +1,6 @@
-package fep.support;
+package project.fep.support;
 
-import fep.MessageInfo;
+import project.fep.MessageInfo;
 import io.netty.channel.Channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
