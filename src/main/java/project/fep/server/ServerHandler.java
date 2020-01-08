@@ -1,11 +1,12 @@
 package project.fep.server;
 
-import project.fep.MessageInfo;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import project.fep.MessageInfo;
+import project.fep.support.DefaultFuture;
 
 /**
  * @author why
@@ -31,7 +32,9 @@ public class ServerHandler extends ChannelDuplexHandler {
         MessageInfo.Message message = (MessageInfo.Message) msg;
         if (message.getDataType() == MessageInfo.Message.DataType.PING) {
             logger.info("ping...pong");
-            MessageInfo.Message ping = MessageInfo.Message.newBuilder().setDataType(MessageInfo.Message.DataType.PONG)
+            MessageInfo.Message ping = MessageInfo.Message.newBuilder()
+                    .setDataType(MessageInfo.Message.DataType.PONG)
+                    .setId(message.getId())
                     .setPong(MessageInfo.Pong.newBuilder().setMsg("pong").build())
                     .build();
             ctx.writeAndFlush(ping);
@@ -46,12 +49,18 @@ public class ServerHandler extends ChannelDuplexHandler {
             SessionManager.getInstance().registerChannel(orgCode, channel);
 
             // response
-            MessageInfo.Message response = MessageInfo.Message.newBuilder().setDataType(MessageInfo.Message.DataType.AUTHENTICATION)
+            MessageInfo.Message response = MessageInfo.Message.newBuilder()
+                    .setDataType(MessageInfo.Message.DataType.AUTHENTICATION)
+                    .setId(message.getId())
                     .setAuthentication(MessageInfo.Authentication.newBuilder()
                             .setSuccess(true)
                             .build())
                     .build();
             ctx.writeAndFlush(response);
+        }
+        // 查询
+        else if (message.getDataType() == MessageInfo.Message.DataType.QUERY) {
+            DefaultFuture.received(ctx.channel(), message.getId(), message.getQuery());
         }
     }
 

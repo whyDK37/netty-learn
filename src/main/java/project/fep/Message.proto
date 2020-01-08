@@ -23,19 +23,19 @@ message Message {
 
     //表示每次枚举类型最多只能出现其中的一个, 节省空间
     oneof dataBody {
-        Ping ping = 4;
-        Pong pong = 5;
-        Authentication authentication = 6;
-        Query query = 7;
+        Ping ping = 3;
+        Pong pong = 4;
+        Authentication authentication = 5;
+        Query query = 6;
     }
 }
 
 message Ping {
-    string msg = 2; //
+    string msg = 1; //
 }
 
 message Pong {
-    string msg = 2; //
+    string msg = 1; //
 }
 
 //认证信息
@@ -51,4 +51,7 @@ message Authentication {
 message Query {
     string goodId = 1;
     string stationNo = 2;
+
+    bool success = 3;
+    string errorMsg = 4;
 }

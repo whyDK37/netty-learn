@@ -1,12 +1,12 @@
 package project.fep.client;
 
-import project.fep.MessageInfo;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import project.fep.MessageInfo;
 
 /**
  *
@@ -41,7 +41,17 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
             logger.info("收到 pong 消息");
         } else if (message.getDataType() == MessageInfo.Message.DataType.AUTHENTICATION) {
 //            DefaultFuture.received(ctx.channel(), message.getId(), message.getAuthentication());
-            logger.info("注冊成功...");
+            logger.info("认证成功...");
+        } else if (message.getDataType() == MessageInfo.Message.DataType.QUERY) {
+            logger.info("query...");
+            MessageInfo.Message query = MessageInfo.Message.newBuilder()
+                    .setDataType(MessageInfo.Message.DataType.QUERY)
+                    .setId(message.getId())
+                    .setQuery(MessageInfo.Query.newBuilder()
+                            .setSuccess(true)
+                            .build())
+                    .build();
+            ctx.writeAndFlush(query);
         }
     }
 

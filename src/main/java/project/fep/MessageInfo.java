@@ -42,62 +42,62 @@ public final class MessageInfo {
     long getId();
 
     /**
-     * <code>.Ping ping = 4;</code>
+     * <code>.Ping ping = 3;</code>
      * @return Whether the ping field is set.
      */
     boolean hasPing();
     /**
-     * <code>.Ping ping = 4;</code>
+     * <code>.Ping ping = 3;</code>
      * @return The ping.
      */
     MessageInfo.Ping getPing();
     /**
-     * <code>.Ping ping = 4;</code>
+     * <code>.Ping ping = 3;</code>
      */
     MessageInfo.PingOrBuilder getPingOrBuilder();
 
     /**
-     * <code>.Pong pong = 5;</code>
+     * <code>.Pong pong = 4;</code>
      * @return Whether the pong field is set.
      */
     boolean hasPong();
     /**
-     * <code>.Pong pong = 5;</code>
+     * <code>.Pong pong = 4;</code>
      * @return The pong.
      */
     MessageInfo.Pong getPong();
     /**
-     * <code>.Pong pong = 5;</code>
+     * <code>.Pong pong = 4;</code>
      */
     MessageInfo.PongOrBuilder getPongOrBuilder();
 
     /**
-     * <code>.Authentication authentication = 6;</code>
+     * <code>.Authentication authentication = 5;</code>
      * @return Whether the authentication field is set.
      */
     boolean hasAuthentication();
     /**
-     * <code>.Authentication authentication = 6;</code>
+     * <code>.Authentication authentication = 5;</code>
      * @return The authentication.
      */
     MessageInfo.Authentication getAuthentication();
     /**
-     * <code>.Authentication authentication = 6;</code>
+     * <code>.Authentication authentication = 5;</code>
      */
     MessageInfo.AuthenticationOrBuilder getAuthenticationOrBuilder();
 
     /**
-     * <code>.Query query = 7;</code>
+     * <code>.Query query = 6;</code>
      * @return Whether the query field is set.
      */
     boolean hasQuery();
     /**
-     * <code>.Query query = 7;</code>
+     * <code>.Query query = 6;</code>
      * @return The query.
      */
     MessageInfo.Query getQuery();
     /**
-     * <code>.Query query = 7;</code>
+     * <code>.Query query = 6;</code>
      */
     MessageInfo.QueryOrBuilder getQueryOrBuilder();
 
@@ -165,9 +165,9 @@ public final class MessageInfo {
               id_ = input.readInt64();
               break;
             }
-            case 34: {
+            case 26: {
               MessageInfo.Ping.Builder subBuilder = null;
-              if (dataBodyCase_ == 4) {
+              if (dataBodyCase_ == 3) {
                 subBuilder = ((MessageInfo.Ping) dataBody_).toBuilder();
               }
               dataBody_ =
@@ -176,12 +176,12 @@ public final class MessageInfo {
                 subBuilder.mergeFrom((MessageInfo.Ping) dataBody_);
                 dataBody_ = subBuilder.buildPartial();
               }
-              dataBodyCase_ = 4;
+              dataBodyCase_ = 3;
               break;
             }
-            case 42: {
+            case 34: {
               MessageInfo.Pong.Builder subBuilder = null;
-              if (dataBodyCase_ == 5) {
+              if (dataBodyCase_ == 4) {
                 subBuilder = ((MessageInfo.Pong) dataBody_).toBuilder();
               }
               dataBody_ =
@@ -190,12 +190,12 @@ public final class MessageInfo {
                 subBuilder.mergeFrom((MessageInfo.Pong) dataBody_);
                 dataBody_ = subBuilder.buildPartial();
               }
-              dataBodyCase_ = 5;
+              dataBodyCase_ = 4;
               break;
             }
-            case 50: {
+            case 42: {
               MessageInfo.Authentication.Builder subBuilder = null;
-              if (dataBodyCase_ == 6) {
+              if (dataBodyCase_ == 5) {
                 subBuilder = ((MessageInfo.Authentication) dataBody_).toBuilder();
               }
               dataBody_ =
@@ -204,12 +204,12 @@ public final class MessageInfo {
                 subBuilder.mergeFrom((MessageInfo.Authentication) dataBody_);
                 dataBody_ = subBuilder.buildPartial();
               }
-              dataBodyCase_ = 6;
+              dataBodyCase_ = 5;
               break;
             }
-            case 58: {
+            case 50: {
               MessageInfo.Query.Builder subBuilder = null;
-              if (dataBodyCase_ == 7) {
+              if (dataBodyCase_ == 6) {
                 subBuilder = ((MessageInfo.Query) dataBody_).toBuilder();
               }
               dataBody_ =
@@ -218,7 +218,7 @@ public final class MessageInfo {
                 subBuilder.mergeFrom((MessageInfo.Query) dataBody_);
                 dataBody_ = subBuilder.buildPartial();
               }
-              dataBodyCase_ = 7;
+              dataBodyCase_ = 6;
               break;
             }
             default: {
@@ -384,10 +384,10 @@ public final class MessageInfo {
     public enum DataBodyCase
         implements com.google.protobuf.Internal.EnumLite,
             com.google.protobuf.AbstractMessage.InternalOneOfEnum {
-      PING(4),
-      PONG(5),
-      AUTHENTICATION(6),
-      QUERY(7),
+      PING(3),
+      PONG(4),
+      AUTHENTICATION(5),
+      QUERY(6),
       DATABODY_NOT_SET(0);
       private final int value;
       private DataBodyCase(int value) {
@@ -405,10 +405,10 @@ public final class MessageInfo {
 
       public static DataBodyCase forNumber(int value) {
         switch (value) {
-          case 4: return PING;
-          case 5: return PONG;
-          case 6: return AUTHENTICATION;
-          case 7: return QUERY;
+          case 3: return PING;
+          case 4: return PONG;
+          case 5: return AUTHENTICATION;
+          case 6: return QUERY;
           case 0: return DATABODY_NOT_SET;
           default: return null;
         }
@@ -461,113 +461,113 @@ public final class MessageInfo {
       return id_;
     }
 
-    public static final int PING_FIELD_NUMBER = 4;
+    public static final int PING_FIELD_NUMBER = 3;
     /**
-     * <code>.Ping ping = 4;</code>
+     * <code>.Ping ping = 3;</code>
      * @return Whether the ping field is set.
      */
     public boolean hasPing() {
-      return dataBodyCase_ == 4;
+      return dataBodyCase_ == 3;
     }
     /**
-     * <code>.Ping ping = 4;</code>
+     * <code>.Ping ping = 3;</code>
      * @return The ping.
      */
     public MessageInfo.Ping getPing() {
-      if (dataBodyCase_ == 4) {
+      if (dataBodyCase_ == 3) {
          return (MessageInfo.Ping) dataBody_;
       }
       return MessageInfo.Ping.getDefaultInstance();
     }
     /**
-     * <code>.Ping ping = 4;</code>
+     * <code>.Ping ping = 3;</code>
      */
     public MessageInfo.PingOrBuilder getPingOrBuilder() {
-      if (dataBodyCase_ == 4) {
+      if (dataBodyCase_ == 3) {
          return (MessageInfo.Ping) dataBody_;
       }
       return MessageInfo.Ping.getDefaultInstance();
     }
 
-    public static final int PONG_FIELD_NUMBER = 5;
+    public static final int PONG_FIELD_NUMBER = 4;
     /**
-     * <code>.Pong pong = 5;</code>
+     * <code>.Pong pong = 4;</code>
      * @return Whether the pong field is set.
      */
     public boolean hasPong() {
-      return dataBodyCase_ == 5;
+      return dataBodyCase_ == 4;
     }
     /**
-     * <code>.Pong pong = 5;</code>
+     * <code>.Pong pong = 4;</code>
      * @return The pong.
      */
     public MessageInfo.Pong getPong() {
-      if (dataBodyCase_ == 5) {
+      if (dataBodyCase_ == 4) {
          return (MessageInfo.Pong) dataBody_;
       }
       return MessageInfo.Pong.getDefaultInstance();
     }
     /**
-     * <code>.Pong pong = 5;</code>
+     * <code>.Pong pong = 4;</code>
      */
     public MessageInfo.PongOrBuilder getPongOrBuilder() {
-      if (dataBodyCase_ == 5) {
+      if (dataBodyCase_ == 4) {
          return (MessageInfo.Pong) dataBody_;
       }
       return MessageInfo.Pong.getDefaultInstance();
     }
 
-    public static final int AUTHENTICATION_FIELD_NUMBER = 6;
+    public static final int AUTHENTICATION_FIELD_NUMBER = 5;
     /**
-     * <code>.Authentication authentication = 6;</code>
+     * <code>.Authentication authentication = 5;</code>
      * @return Whether the authentication field is set.
      */
     public boolean hasAuthentication() {
-      return dataBodyCase_ == 6;
+      return dataBodyCase_ == 5;
     }
     /**
-     * <code>.Authentication authentication = 6;</code>
+     * <code>.Authentication authentication = 5;</code>
      * @return The authentication.
      */
     public MessageInfo.Authentication getAuthentication() {
-      if (dataBodyCase_ == 6) {
+      if (dataBodyCase_ == 5) {
          return (MessageInfo.Authentication) dataBody_;
       }
       return MessageInfo.Authentication.getDefaultInstance();
     }
     /**
-     * <code>.Authentication authentication = 6;</code>
+     * <code>.Authentication authentication = 5;</code>
      */
     public MessageInfo.AuthenticationOrBuilder getAuthenticationOrBuilder() {
-      if (dataBodyCase_ == 6) {
+      if (dataBodyCase_ == 5) {
          return (MessageInfo.Authentication) dataBody_;
       }
       return MessageInfo.Authentication.getDefaultInstance();
     }
 
-    public static final int QUERY_FIELD_NUMBER = 7;
+    public static final int QUERY_FIELD_NUMBER = 6;
     /**
-     * <code>.Query query = 7;</code>
+     * <code>.Query query = 6;</code>
      * @return Whether the query field is set.
      */
     public boolean hasQuery() {
-      return dataBodyCase_ == 7;
+      return dataBodyCase_ == 6;
     }
     /**
-     * <code>.Query query = 7;</code>
+     * <code>.Query query = 6;</code>
      * @return The query.
      */
     public MessageInfo.Query getQuery() {
-      if (dataBodyCase_ == 7) {
+      if (dataBodyCase_ == 6) {
          return (MessageInfo.Query) dataBody_;
       }
       return MessageInfo.Query.getDefaultInstance();
     }
     /**
-     * <code>.Query query = 7;</code>
+     * <code>.Query query = 6;</code>
      */
     public MessageInfo.QueryOrBuilder getQueryOrBuilder() {
-      if (dataBodyCase_ == 7) {
+      if (dataBodyCase_ == 6) {
          return (MessageInfo.Query) dataBody_;
       }
       return MessageInfo.Query.getDefaultInstance();
@@ -593,17 +593,17 @@ public final class MessageInfo {
       if (id_ != 0L) {
         output.writeInt64(2, id_);
       }
+      if (dataBodyCase_ == 3) {
+        output.writeMessage(3, (MessageInfo.Ping) dataBody_);
+      }
       if (dataBodyCase_ == 4) {
-        output.writeMessage(4, (MessageInfo.Ping) dataBody_);
+        output.writeMessage(4, (MessageInfo.Pong) dataBody_);
       }
       if (dataBodyCase_ == 5) {
-        output.writeMessage(5, (MessageInfo.Pong) dataBody_);
+        output.writeMessage(5, (MessageInfo.Authentication) dataBody_);
       }
       if (dataBodyCase_ == 6) {
-        output.writeMessage(6, (MessageInfo.Authentication) dataBody_);
-      }
-      if (dataBodyCase_ == 7) {
-        output.writeMessage(7, (MessageInfo.Query) dataBody_);
+        output.writeMessage(6, (MessageInfo.Query) dataBody_);
       }
       unknownFields.writeTo(output);
     }
@@ -622,21 +622,21 @@ public final class MessageInfo {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(2, id_);
       }
+      if (dataBodyCase_ == 3) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, (MessageInfo.Ping) dataBody_);
+      }
       if (dataBodyCase_ == 4) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(4, (MessageInfo.Ping) dataBody_);
+          .computeMessageSize(4, (MessageInfo.Pong) dataBody_);
       }
       if (dataBodyCase_ == 5) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(5, (MessageInfo.Pong) dataBody_);
+          .computeMessageSize(5, (MessageInfo.Authentication) dataBody_);
       }
       if (dataBodyCase_ == 6) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(6, (MessageInfo.Authentication) dataBody_);
-      }
-      if (dataBodyCase_ == 7) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(7, (MessageInfo.Query) dataBody_);
+          .computeMessageSize(6, (MessageInfo.Query) dataBody_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -658,19 +658,19 @@ public final class MessageInfo {
           != other.getId()) return false;
       if (!getDataBodyCase().equals(other.getDataBodyCase())) return false;
       switch (dataBodyCase_) {
-        case 4:
+        case 3:
           if (!getPing()
               .equals(other.getPing())) return false;
           break;
-        case 5:
+        case 4:
           if (!getPong()
               .equals(other.getPong())) return false;
           break;
-        case 6:
+        case 5:
           if (!getAuthentication()
               .equals(other.getAuthentication())) return false;
           break;
-        case 7:
+        case 6:
           if (!getQuery()
               .equals(other.getQuery())) return false;
           break;
@@ -694,19 +694,19 @@ public final class MessageInfo {
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getId());
       switch (dataBodyCase_) {
-        case 4:
+        case 3:
           hash = (37 * hash) + PING_FIELD_NUMBER;
           hash = (53 * hash) + getPing().hashCode();
           break;
-        case 5:
+        case 4:
           hash = (37 * hash) + PONG_FIELD_NUMBER;
           hash = (53 * hash) + getPong().hashCode();
           break;
-        case 6:
+        case 5:
           hash = (37 * hash) + AUTHENTICATION_FIELD_NUMBER;
           hash = (53 * hash) + getAuthentication().hashCode();
           break;
-        case 7:
+        case 6:
           hash = (37 * hash) + QUERY_FIELD_NUMBER;
           hash = (53 * hash) + getQuery().hashCode();
           break;
@@ -885,28 +885,28 @@ public final class MessageInfo {
         MessageInfo.Message result = new MessageInfo.Message(this);
         result.dataType_ = dataType_;
         result.id_ = id_;
-        if (dataBodyCase_ == 4) {
+        if (dataBodyCase_ == 3) {
           if (pingBuilder_ == null) {
             result.dataBody_ = dataBody_;
           } else {
             result.dataBody_ = pingBuilder_.build();
           }
         }
-        if (dataBodyCase_ == 5) {
+        if (dataBodyCase_ == 4) {
           if (pongBuilder_ == null) {
             result.dataBody_ = dataBody_;
           } else {
             result.dataBody_ = pongBuilder_.build();
           }
         }
-        if (dataBodyCase_ == 6) {
+        if (dataBodyCase_ == 5) {
           if (authenticationBuilder_ == null) {
             result.dataBody_ = dataBody_;
           } else {
             result.dataBody_ = authenticationBuilder_.build();
           }
         }
-        if (dataBodyCase_ == 7) {
+        if (dataBodyCase_ == 6) {
           if (queryBuilder_ == null) {
             result.dataBody_ = dataBody_;
           } else {
@@ -1138,31 +1138,31 @@ public final class MessageInfo {
       private com.google.protobuf.SingleFieldBuilderV3<
           MessageInfo.Ping, MessageInfo.Ping.Builder, MessageInfo.PingOrBuilder> pingBuilder_;
       /**
-       * <code>.Ping ping = 4;</code>
+       * <code>.Ping ping = 3;</code>
        * @return Whether the ping field is set.
        */
       public boolean hasPing() {
-        return dataBodyCase_ == 4;
+        return dataBodyCase_ == 3;
       }
       /**
-       * <code>.Ping ping = 4;</code>
+       * <code>.Ping ping = 3;</code>
        * @return The ping.
        */
       public MessageInfo.Ping getPing() {
         if (pingBuilder_ == null) {
-          if (dataBodyCase_ == 4) {
+          if (dataBodyCase_ == 3) {
             return (MessageInfo.Ping) dataBody_;
           }
           return MessageInfo.Ping.getDefaultInstance();
         } else {
-          if (dataBodyCase_ == 4) {
+          if (dataBodyCase_ == 3) {
             return pingBuilder_.getMessage();
           }
           return MessageInfo.Ping.getDefaultInstance();
         }
       }
       /**
-       * <code>.Ping ping = 4;</code>
+       * <code>.Ping ping = 3;</code>
        */
       public Builder setPing(MessageInfo.Ping value) {
         if (pingBuilder_ == null) {
@@ -1174,11 +1174,11 @@ public final class MessageInfo {
         } else {
           pingBuilder_.setMessage(value);
         }
-        dataBodyCase_ = 4;
+        dataBodyCase_ = 3;
         return this;
       }
       /**
-       * <code>.Ping ping = 4;</code>
+       * <code>.Ping ping = 3;</code>
        */
       public Builder setPing(
           MessageInfo.Ping.Builder builderForValue) {
@@ -1188,15 +1188,15 @@ public final class MessageInfo {
         } else {
           pingBuilder_.setMessage(builderForValue.build());
         }
-        dataBodyCase_ = 4;
+        dataBodyCase_ = 3;
         return this;
       }
       /**
-       * <code>.Ping ping = 4;</code>
+       * <code>.Ping ping = 3;</code>
        */
       public Builder mergePing(MessageInfo.Ping value) {
         if (pingBuilder_ == null) {
-          if (dataBodyCase_ == 4 &&
+          if (dataBodyCase_ == 3 &&
               dataBody_ != MessageInfo.Ping.getDefaultInstance()) {
             dataBody_ = MessageInfo.Ping.newBuilder((MessageInfo.Ping) dataBody_)
                 .mergeFrom(value).buildPartial();
@@ -1205,26 +1205,26 @@ public final class MessageInfo {
           }
           onChanged();
         } else {
-          if (dataBodyCase_ == 4) {
+          if (dataBodyCase_ == 3) {
             pingBuilder_.mergeFrom(value);
           }
           pingBuilder_.setMessage(value);
         }
-        dataBodyCase_ = 4;
+        dataBodyCase_ = 3;
         return this;
       }
       /**
-       * <code>.Ping ping = 4;</code>
+       * <code>.Ping ping = 3;</code>
        */
       public Builder clearPing() {
         if (pingBuilder_ == null) {
-          if (dataBodyCase_ == 4) {
+          if (dataBodyCase_ == 3) {
             dataBodyCase_ = 0;
             dataBody_ = null;
             onChanged();
           }
         } else {
-          if (dataBodyCase_ == 4) {
+          if (dataBodyCase_ == 3) {
             dataBodyCase_ = 0;
             dataBody_ = null;
           }
@@ -1233,32 +1233,32 @@ public final class MessageInfo {
         return this;
       }
       /**
-       * <code>.Ping ping = 4;</code>
+       * <code>.Ping ping = 3;</code>
        */
       public MessageInfo.Ping.Builder getPingBuilder() {
         return getPingFieldBuilder().getBuilder();
       }
       /**
-       * <code>.Ping ping = 4;</code>
+       * <code>.Ping ping = 3;</code>
        */
       public MessageInfo.PingOrBuilder getPingOrBuilder() {
-        if ((dataBodyCase_ == 4) && (pingBuilder_ != null)) {
+        if ((dataBodyCase_ == 3) && (pingBuilder_ != null)) {
           return pingBuilder_.getMessageOrBuilder();
         } else {
-          if (dataBodyCase_ == 4) {
+          if (dataBodyCase_ == 3) {
             return (MessageInfo.Ping) dataBody_;
           }
           return MessageInfo.Ping.getDefaultInstance();
         }
       }
       /**
-       * <code>.Ping ping = 4;</code>
+       * <code>.Ping ping = 3;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           MessageInfo.Ping, MessageInfo.Ping.Builder, MessageInfo.PingOrBuilder> 
           getPingFieldBuilder() {
         if (pingBuilder_ == null) {
-          if (!(dataBodyCase_ == 4)) {
+          if (!(dataBodyCase_ == 3)) {
             dataBody_ = MessageInfo.Ping.getDefaultInstance();
           }
           pingBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
@@ -1268,7 +1268,7 @@ public final class MessageInfo {
                   isClean());
           dataBody_ = null;
         }
-        dataBodyCase_ = 4;
+        dataBodyCase_ = 3;
         onChanged();;
         return pingBuilder_;
       }
@@ -1276,31 +1276,31 @@ public final class MessageInfo {
       private com.google.protobuf.SingleFieldBuilderV3<
           MessageInfo.Pong, MessageInfo.Pong.Builder, MessageInfo.PongOrBuilder> pongBuilder_;
       /**
-       * <code>.Pong pong = 5;</code>
+       * <code>.Pong pong = 4;</code>
        * @return Whether the pong field is set.
        */
       public boolean hasPong() {
-        return dataBodyCase_ == 5;
+        return dataBodyCase_ == 4;
       }
       /**
-       * <code>.Pong pong = 5;</code>
+       * <code>.Pong pong = 4;</code>
        * @return The pong.
        */
       public MessageInfo.Pong getPong() {
         if (pongBuilder_ == null) {
-          if (dataBodyCase_ == 5) {
+          if (dataBodyCase_ == 4) {
             return (MessageInfo.Pong) dataBody_;
           }
           return MessageInfo.Pong.getDefaultInstance();
         } else {
-          if (dataBodyCase_ == 5) {
+          if (dataBodyCase_ == 4) {
             return pongBuilder_.getMessage();
           }
           return MessageInfo.Pong.getDefaultInstance();
         }
       }
       /**
-       * <code>.Pong pong = 5;</code>
+       * <code>.Pong pong = 4;</code>
        */
       public Builder setPong(MessageInfo.Pong value) {
         if (pongBuilder_ == null) {
@@ -1312,11 +1312,11 @@ public final class MessageInfo {
         } else {
           pongBuilder_.setMessage(value);
         }
-        dataBodyCase_ = 5;
+        dataBodyCase_ = 4;
         return this;
       }
       /**
-       * <code>.Pong pong = 5;</code>
+       * <code>.Pong pong = 4;</code>
        */
       public Builder setPong(
           MessageInfo.Pong.Builder builderForValue) {
@@ -1326,15 +1326,15 @@ public final class MessageInfo {
         } else {
           pongBuilder_.setMessage(builderForValue.build());
         }
-        dataBodyCase_ = 5;
+        dataBodyCase_ = 4;
         return this;
       }
       /**
-       * <code>.Pong pong = 5;</code>
+       * <code>.Pong pong = 4;</code>
        */
       public Builder mergePong(MessageInfo.Pong value) {
         if (pongBuilder_ == null) {
-          if (dataBodyCase_ == 5 &&
+          if (dataBodyCase_ == 4 &&
               dataBody_ != MessageInfo.Pong.getDefaultInstance()) {
             dataBody_ = MessageInfo.Pong.newBuilder((MessageInfo.Pong) dataBody_)
                 .mergeFrom(value).buildPartial();
@@ -1343,26 +1343,26 @@ public final class MessageInfo {
           }
           onChanged();
         } else {
-          if (dataBodyCase_ == 5) {
+          if (dataBodyCase_ == 4) {
             pongBuilder_.mergeFrom(value);
           }
           pongBuilder_.setMessage(value);
         }
-        dataBodyCase_ = 5;
+        dataBodyCase_ = 4;
         return this;
       }
       /**
-       * <code>.Pong pong = 5;</code>
+       * <code>.Pong pong = 4;</code>
        */
       public Builder clearPong() {
         if (pongBuilder_ == null) {
-          if (dataBodyCase_ == 5) {
+          if (dataBodyCase_ == 4) {
             dataBodyCase_ = 0;
             dataBody_ = null;
             onChanged();
           }
         } else {
-          if (dataBodyCase_ == 5) {
+          if (dataBodyCase_ == 4) {
             dataBodyCase_ = 0;
             dataBody_ = null;
           }
@@ -1371,32 +1371,32 @@ public final class MessageInfo {
         return this;
       }
       /**
-       * <code>.Pong pong = 5;</code>
+       * <code>.Pong pong = 4;</code>
        */
       public MessageInfo.Pong.Builder getPongBuilder() {
         return getPongFieldBuilder().getBuilder();
       }
       /**
-       * <code>.Pong pong = 5;</code>
+       * <code>.Pong pong = 4;</code>
        */
       public MessageInfo.PongOrBuilder getPongOrBuilder() {
-        if ((dataBodyCase_ == 5) && (pongBuilder_ != null)) {
+        if ((dataBodyCase_ == 4) && (pongBuilder_ != null)) {
           return pongBuilder_.getMessageOrBuilder();
         } else {
-          if (dataBodyCase_ == 5) {
+          if (dataBodyCase_ == 4) {
             return (MessageInfo.Pong) dataBody_;
           }
           return MessageInfo.Pong.getDefaultInstance();
         }
       }
       /**
-       * <code>.Pong pong = 5;</code>
+       * <code>.Pong pong = 4;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           MessageInfo.Pong, MessageInfo.Pong.Builder, MessageInfo.PongOrBuilder> 
           getPongFieldBuilder() {
         if (pongBuilder_ == null) {
-          if (!(dataBodyCase_ == 5)) {
+          if (!(dataBodyCase_ == 4)) {
             dataBody_ = MessageInfo.Pong.getDefaultInstance();
           }
           pongBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
@@ -1406,7 +1406,7 @@ public final class MessageInfo {
                   isClean());
           dataBody_ = null;
         }
-        dataBodyCase_ = 5;
+        dataBodyCase_ = 4;
         onChanged();;
         return pongBuilder_;
       }
@@ -1414,31 +1414,31 @@ public final class MessageInfo {
       private com.google.protobuf.SingleFieldBuilderV3<
           MessageInfo.Authentication, MessageInfo.Authentication.Builder, MessageInfo.AuthenticationOrBuilder> authenticationBuilder_;
       /**
-       * <code>.Authentication authentication = 6;</code>
+       * <code>.Authentication authentication = 5;</code>
        * @return Whether the authentication field is set.
        */
       public boolean hasAuthentication() {
-        return dataBodyCase_ == 6;
+        return dataBodyCase_ == 5;
       }
       /**
-       * <code>.Authentication authentication = 6;</code>
+       * <code>.Authentication authentication = 5;</code>
        * @return The authentication.
        */
       public MessageInfo.Authentication getAuthentication() {
         if (authenticationBuilder_ == null) {
-          if (dataBodyCase_ == 6) {
+          if (dataBodyCase_ == 5) {
             return (MessageInfo.Authentication) dataBody_;
           }
           return MessageInfo.Authentication.getDefaultInstance();
         } else {
-          if (dataBodyCase_ == 6) {
+          if (dataBodyCase_ == 5) {
             return authenticationBuilder_.getMessage();
           }
           return MessageInfo.Authentication.getDefaultInstance();
         }
       }
       /**
-       * <code>.Authentication authentication = 6;</code>
+       * <code>.Authentication authentication = 5;</code>
        */
       public Builder setAuthentication(MessageInfo.Authentication value) {
         if (authenticationBuilder_ == null) {
@@ -1450,11 +1450,11 @@ public final class MessageInfo {
         } else {
           authenticationBuilder_.setMessage(value);
         }
-        dataBodyCase_ = 6;
+        dataBodyCase_ = 5;
         return this;
       }
       /**
-       * <code>.Authentication authentication = 6;</code>
+       * <code>.Authentication authentication = 5;</code>
        */
       public Builder setAuthentication(
           MessageInfo.Authentication.Builder builderForValue) {
@@ -1464,15 +1464,15 @@ public final class MessageInfo {
         } else {
           authenticationBuilder_.setMessage(builderForValue.build());
         }
-        dataBodyCase_ = 6;
+        dataBodyCase_ = 5;
         return this;
       }
       /**
-       * <code>.Authentication authentication = 6;</code>
+       * <code>.Authentication authentication = 5;</code>
        */
       public Builder mergeAuthentication(MessageInfo.Authentication value) {
         if (authenticationBuilder_ == null) {
-          if (dataBodyCase_ == 6 &&
+          if (dataBodyCase_ == 5 &&
               dataBody_ != MessageInfo.Authentication.getDefaultInstance()) {
             dataBody_ = MessageInfo.Authentication.newBuilder((MessageInfo.Authentication) dataBody_)
                 .mergeFrom(value).buildPartial();
@@ -1481,26 +1481,26 @@ public final class MessageInfo {
           }
           onChanged();
         } else {
-          if (dataBodyCase_ == 6) {
+          if (dataBodyCase_ == 5) {
             authenticationBuilder_.mergeFrom(value);
           }
           authenticationBuilder_.setMessage(value);
         }
-        dataBodyCase_ = 6;
+        dataBodyCase_ = 5;
         return this;
       }
       /**
-       * <code>.Authentication authentication = 6;</code>
+       * <code>.Authentication authentication = 5;</code>
        */
       public Builder clearAuthentication() {
         if (authenticationBuilder_ == null) {
-          if (dataBodyCase_ == 6) {
+          if (dataBodyCase_ == 5) {
             dataBodyCase_ = 0;
             dataBody_ = null;
             onChanged();
           }
         } else {
-          if (dataBodyCase_ == 6) {
+          if (dataBodyCase_ == 5) {
             dataBodyCase_ = 0;
             dataBody_ = null;
           }
@@ -1509,32 +1509,32 @@ public final class MessageInfo {
         return this;
       }
       /**
-       * <code>.Authentication authentication = 6;</code>
+       * <code>.Authentication authentication = 5;</code>
        */
       public MessageInfo.Authentication.Builder getAuthenticationBuilder() {
         return getAuthenticationFieldBuilder().getBuilder();
       }
       /**
-       * <code>.Authentication authentication = 6;</code>
+       * <code>.Authentication authentication = 5;</code>
        */
       public MessageInfo.AuthenticationOrBuilder getAuthenticationOrBuilder() {
-        if ((dataBodyCase_ == 6) && (authenticationBuilder_ != null)) {
+        if ((dataBodyCase_ == 5) && (authenticationBuilder_ != null)) {
           return authenticationBuilder_.getMessageOrBuilder();
         } else {
-          if (dataBodyCase_ == 6) {
+          if (dataBodyCase_ == 5) {
             return (MessageInfo.Authentication) dataBody_;
           }
           return MessageInfo.Authentication.getDefaultInstance();
         }
       }
       /**
-       * <code>.Authentication authentication = 6;</code>
+       * <code>.Authentication authentication = 5;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           MessageInfo.Authentication, MessageInfo.Authentication.Builder, MessageInfo.AuthenticationOrBuilder> 
           getAuthenticationFieldBuilder() {
         if (authenticationBuilder_ == null) {
-          if (!(dataBodyCase_ == 6)) {
+          if (!(dataBodyCase_ == 5)) {
             dataBody_ = MessageInfo.Authentication.getDefaultInstance();
           }
           authenticationBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
@@ -1544,7 +1544,7 @@ public final class MessageInfo {
                   isClean());
           dataBody_ = null;
         }
-        dataBodyCase_ = 6;
+        dataBodyCase_ = 5;
         onChanged();;
         return authenticationBuilder_;
       }
@@ -1552,31 +1552,31 @@ public final class MessageInfo {
       private com.google.protobuf.SingleFieldBuilderV3<
           MessageInfo.Query, MessageInfo.Query.Builder, MessageInfo.QueryOrBuilder> queryBuilder_;
       /**
-       * <code>.Query query = 7;</code>
+       * <code>.Query query = 6;</code>
        * @return Whether the query field is set.
        */
       public boolean hasQuery() {
-        return dataBodyCase_ == 7;
+        return dataBodyCase_ == 6;
       }
       /**
-       * <code>.Query query = 7;</code>
+       * <code>.Query query = 6;</code>
        * @return The query.
        */
       public MessageInfo.Query getQuery() {
         if (queryBuilder_ == null) {
-          if (dataBodyCase_ == 7) {
+          if (dataBodyCase_ == 6) {
             return (MessageInfo.Query) dataBody_;
           }
           return MessageInfo.Query.getDefaultInstance();
         } else {
-          if (dataBodyCase_ == 7) {
+          if (dataBodyCase_ == 6) {
             return queryBuilder_.getMessage();
           }
           return MessageInfo.Query.getDefaultInstance();
         }
       }
       /**
-       * <code>.Query query = 7;</code>
+       * <code>.Query query = 6;</code>
        */
       public Builder setQuery(MessageInfo.Query value) {
         if (queryBuilder_ == null) {
@@ -1588,11 +1588,11 @@ public final class MessageInfo {
         } else {
           queryBuilder_.setMessage(value);
         }
-        dataBodyCase_ = 7;
+        dataBodyCase_ = 6;
         return this;
       }
       /**
-       * <code>.Query query = 7;</code>
+       * <code>.Query query = 6;</code>
        */
       public Builder setQuery(
           MessageInfo.Query.Builder builderForValue) {
@@ -1602,15 +1602,15 @@ public final class MessageInfo {
         } else {
           queryBuilder_.setMessage(builderForValue.build());
         }
-        dataBodyCase_ = 7;
+        dataBodyCase_ = 6;
         return this;
       }
       /**
-       * <code>.Query query = 7;</code>
+       * <code>.Query query = 6;</code>
        */
       public Builder mergeQuery(MessageInfo.Query value) {
         if (queryBuilder_ == null) {
-          if (dataBodyCase_ == 7 &&
+          if (dataBodyCase_ == 6 &&
               dataBody_ != MessageInfo.Query.getDefaultInstance()) {
             dataBody_ = MessageInfo.Query.newBuilder((MessageInfo.Query) dataBody_)
                 .mergeFrom(value).buildPartial();
@@ -1619,26 +1619,26 @@ public final class MessageInfo {
           }
           onChanged();
         } else {
-          if (dataBodyCase_ == 7) {
+          if (dataBodyCase_ == 6) {
             queryBuilder_.mergeFrom(value);
           }
           queryBuilder_.setMessage(value);
         }
-        dataBodyCase_ = 7;
+        dataBodyCase_ = 6;
         return this;
       }
       /**
-       * <code>.Query query = 7;</code>
+       * <code>.Query query = 6;</code>
        */
       public Builder clearQuery() {
         if (queryBuilder_ == null) {
-          if (dataBodyCase_ == 7) {
+          if (dataBodyCase_ == 6) {
             dataBodyCase_ = 0;
             dataBody_ = null;
             onChanged();
           }
         } else {
-          if (dataBodyCase_ == 7) {
+          if (dataBodyCase_ == 6) {
             dataBodyCase_ = 0;
             dataBody_ = null;
           }
@@ -1647,32 +1647,32 @@ public final class MessageInfo {
         return this;
       }
       /**
-       * <code>.Query query = 7;</code>
+       * <code>.Query query = 6;</code>
        */
       public MessageInfo.Query.Builder getQueryBuilder() {
         return getQueryFieldBuilder().getBuilder();
       }
       /**
-       * <code>.Query query = 7;</code>
+       * <code>.Query query = 6;</code>
        */
       public MessageInfo.QueryOrBuilder getQueryOrBuilder() {
-        if ((dataBodyCase_ == 7) && (queryBuilder_ != null)) {
+        if ((dataBodyCase_ == 6) && (queryBuilder_ != null)) {
           return queryBuilder_.getMessageOrBuilder();
         } else {
-          if (dataBodyCase_ == 7) {
+          if (dataBodyCase_ == 6) {
             return (MessageInfo.Query) dataBody_;
           }
           return MessageInfo.Query.getDefaultInstance();
         }
       }
       /**
-       * <code>.Query query = 7;</code>
+       * <code>.Query query = 6;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           MessageInfo.Query, MessageInfo.Query.Builder, MessageInfo.QueryOrBuilder> 
           getQueryFieldBuilder() {
         if (queryBuilder_ == null) {
-          if (!(dataBodyCase_ == 7)) {
+          if (!(dataBodyCase_ == 6)) {
             dataBody_ = MessageInfo.Query.getDefaultInstance();
           }
           queryBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
@@ -1682,7 +1682,7 @@ public final class MessageInfo {
                   isClean());
           dataBody_ = null;
         }
-        dataBodyCase_ = 7;
+        dataBodyCase_ = 6;
         onChanged();;
         return queryBuilder_;
       }
@@ -1747,7 +1747,7 @@ public final class MessageInfo {
      * <pre>
      * </pre>
      *
-     * <code>string msg = 2;</code>
+     * <code>string msg = 1;</code>
      * @return The msg.
      */
     java.lang.String getMsg();
@@ -1755,7 +1755,7 @@ public final class MessageInfo {
      * <pre>
      * </pre>
      *
-     * <code>string msg = 2;</code>
+     * <code>string msg = 1;</code>
      * @return The bytes for msg.
      */
     com.google.protobuf.ByteString
@@ -1807,7 +1807,7 @@ public final class MessageInfo {
             case 0:
               done = true;
               break;
-            case 18: {
+            case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
               msg_ = s;
@@ -1845,13 +1845,13 @@ public final class MessageInfo {
               MessageInfo.Ping.class, MessageInfo.Ping.Builder.class);
     }
 
-    public static final int MSG_FIELD_NUMBER = 2;
+    public static final int MSG_FIELD_NUMBER = 1;
     private volatile java.lang.Object msg_;
     /**
      * <pre>
      * </pre>
      *
-     * <code>string msg = 2;</code>
+     * <code>string msg = 1;</code>
      * @return The msg.
      */
     public java.lang.String getMsg() {
@@ -1870,7 +1870,7 @@ public final class MessageInfo {
      * <pre>
      * </pre>
      *
-     * <code>string msg = 2;</code>
+     * <code>string msg = 1;</code>
      * @return The bytes for msg.
      */
     public com.google.protobuf.ByteString
@@ -1902,7 +1902,7 @@ public final class MessageInfo {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getMsgBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, msg_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, msg_);
       }
       unknownFields.writeTo(output);
     }
@@ -1914,7 +1914,7 @@ public final class MessageInfo {
 
       size = 0;
       if (!getMsgBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, msg_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, msg_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -2194,7 +2194,7 @@ public final class MessageInfo {
        * <pre>
        * </pre>
        *
-       * <code>string msg = 2;</code>
+       * <code>string msg = 1;</code>
        * @return The msg.
        */
       public java.lang.String getMsg() {
@@ -2213,7 +2213,7 @@ public final class MessageInfo {
        * <pre>
        * </pre>
        *
-       * <code>string msg = 2;</code>
+       * <code>string msg = 1;</code>
        * @return The bytes for msg.
        */
       public com.google.protobuf.ByteString
@@ -2233,7 +2233,7 @@ public final class MessageInfo {
        * <pre>
        * </pre>
        *
-       * <code>string msg = 2;</code>
+       * <code>string msg = 1;</code>
        * @param value The msg to set.
        * @return This builder for chaining.
        */
@@ -2251,7 +2251,7 @@ public final class MessageInfo {
        * <pre>
        * </pre>
        *
-       * <code>string msg = 2;</code>
+       * <code>string msg = 1;</code>
        * @return This builder for chaining.
        */
       public Builder clearMsg() {
@@ -2264,7 +2264,7 @@ public final class MessageInfo {
        * <pre>
        * </pre>
        *
-       * <code>string msg = 2;</code>
+       * <code>string msg = 1;</code>
        * @param value The bytes for msg to set.
        * @return This builder for chaining.
        */
@@ -2340,7 +2340,7 @@ public final class MessageInfo {
      * <pre>
      * </pre>
      *
-     * <code>string msg = 2;</code>
+     * <code>string msg = 1;</code>
      * @return The msg.
      */
     java.lang.String getMsg();
@@ -2348,7 +2348,7 @@ public final class MessageInfo {
      * <pre>
      * </pre>
      *
-     * <code>string msg = 2;</code>
+     * <code>string msg = 1;</code>
      * @return The bytes for msg.
      */
     com.google.protobuf.ByteString
@@ -2400,7 +2400,7 @@ public final class MessageInfo {
             case 0:
               done = true;
               break;
-            case 18: {
+            case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
               msg_ = s;
@@ -2438,13 +2438,13 @@ public final class MessageInfo {
               MessageInfo.Pong.class, MessageInfo.Pong.Builder.class);
     }
 
-    public static final int MSG_FIELD_NUMBER = 2;
+    public static final int MSG_FIELD_NUMBER = 1;
     private volatile java.lang.Object msg_;
     /**
      * <pre>
      * </pre>
      *
-     * <code>string msg = 2;</code>
+     * <code>string msg = 1;</code>
      * @return The msg.
      */
     public java.lang.String getMsg() {
@@ -2463,7 +2463,7 @@ public final class MessageInfo {
      * <pre>
      * </pre>
      *
-     * <code>string msg = 2;</code>
+     * <code>string msg = 1;</code>
      * @return The bytes for msg.
      */
     public com.google.protobuf.ByteString
@@ -2495,7 +2495,7 @@ public final class MessageInfo {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (!getMsgBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, msg_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, msg_);
       }
       unknownFields.writeTo(output);
     }
@@ -2507,7 +2507,7 @@ public final class MessageInfo {
 
       size = 0;
       if (!getMsgBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, msg_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, msg_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -2787,7 +2787,7 @@ public final class MessageInfo {
        * <pre>
        * </pre>
        *
-       * <code>string msg = 2;</code>
+       * <code>string msg = 1;</code>
        * @return The msg.
        */
       public java.lang.String getMsg() {
@@ -2806,7 +2806,7 @@ public final class MessageInfo {
        * <pre>
        * </pre>
        *
-       * <code>string msg = 2;</code>
+       * <code>string msg = 1;</code>
        * @return The bytes for msg.
        */
       public com.google.protobuf.ByteString
@@ -2826,7 +2826,7 @@ public final class MessageInfo {
        * <pre>
        * </pre>
        *
-       * <code>string msg = 2;</code>
+       * <code>string msg = 1;</code>
        * @param value The msg to set.
        * @return This builder for chaining.
        */
@@ -2844,7 +2844,7 @@ public final class MessageInfo {
        * <pre>
        * </pre>
        *
-       * <code>string msg = 2;</code>
+       * <code>string msg = 1;</code>
        * @return This builder for chaining.
        */
       public Builder clearMsg() {
@@ -2857,7 +2857,7 @@ public final class MessageInfo {
        * <pre>
        * </pre>
        *
-       * <code>string msg = 2;</code>
+       * <code>string msg = 1;</code>
        * @param value The bytes for msg to set.
        * @return This builder for chaining.
        */
@@ -3918,6 +3918,24 @@ public final class MessageInfo {
      */
     com.google.protobuf.ByteString
         getStationNoBytes();
+
+    /**
+     * <code>bool success = 3;</code>
+     * @return The success.
+     */
+    boolean getSuccess();
+
+    /**
+     * <code>string errorMsg = 4;</code>
+     * @return The errorMsg.
+     */
+    java.lang.String getErrorMsg();
+    /**
+     * <code>string errorMsg = 4;</code>
+     * @return The bytes for errorMsg.
+     */
+    com.google.protobuf.ByteString
+        getErrorMsgBytes();
   }
   /**
    * Protobuf type {@code Query}
@@ -3934,6 +3952,7 @@ public final class MessageInfo {
     private Query() {
       goodId_ = "";
       stationNo_ = "";
+      errorMsg_ = "";
     }
 
     @java.lang.Override
@@ -3976,6 +3995,17 @@ public final class MessageInfo {
               java.lang.String s = input.readStringRequireUtf8();
 
               stationNo_ = s;
+              break;
+            }
+            case 24: {
+
+              success_ = input.readBool();
+              break;
+            }
+            case 34: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              errorMsg_ = s;
               break;
             }
             default: {
@@ -4082,6 +4112,52 @@ public final class MessageInfo {
       }
     }
 
+    public static final int SUCCESS_FIELD_NUMBER = 3;
+    private boolean success_;
+    /**
+     * <code>bool success = 3;</code>
+     * @return The success.
+     */
+    public boolean getSuccess() {
+      return success_;
+    }
+
+    public static final int ERRORMSG_FIELD_NUMBER = 4;
+    private volatile java.lang.Object errorMsg_;
+    /**
+     * <code>string errorMsg = 4;</code>
+     * @return The errorMsg.
+     */
+    public java.lang.String getErrorMsg() {
+      java.lang.Object ref = errorMsg_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        errorMsg_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string errorMsg = 4;</code>
+     * @return The bytes for errorMsg.
+     */
+    public com.google.protobuf.ByteString
+        getErrorMsgBytes() {
+      java.lang.Object ref = errorMsg_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        errorMsg_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -4102,6 +4178,12 @@ public final class MessageInfo {
       if (!getStationNoBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, stationNo_);
       }
+      if (success_ != false) {
+        output.writeBool(3, success_);
+      }
+      if (!getErrorMsgBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, errorMsg_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -4116,6 +4198,13 @@ public final class MessageInfo {
       }
       if (!getStationNoBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, stationNo_);
+      }
+      if (success_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(3, success_);
+      }
+      if (!getErrorMsgBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, errorMsg_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -4136,6 +4225,10 @@ public final class MessageInfo {
           .equals(other.getGoodId())) return false;
       if (!getStationNo()
           .equals(other.getStationNo())) return false;
+      if (getSuccess()
+          != other.getSuccess()) return false;
+      if (!getErrorMsg()
+          .equals(other.getErrorMsg())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -4151,6 +4244,11 @@ public final class MessageInfo {
       hash = (53 * hash) + getGoodId().hashCode();
       hash = (37 * hash) + STATIONNO_FIELD_NUMBER;
       hash = (53 * hash) + getStationNo().hashCode();
+      hash = (37 * hash) + SUCCESS_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getSuccess());
+      hash = (37 * hash) + ERRORMSG_FIELD_NUMBER;
+      hash = (53 * hash) + getErrorMsg().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -4288,6 +4386,10 @@ public final class MessageInfo {
 
         stationNo_ = "";
 
+        success_ = false;
+
+        errorMsg_ = "";
+
         return this;
       }
 
@@ -4316,6 +4418,8 @@ public final class MessageInfo {
         MessageInfo.Query result = new MessageInfo.Query(this);
         result.goodId_ = goodId_;
         result.stationNo_ = stationNo_;
+        result.success_ = success_;
+        result.errorMsg_ = errorMsg_;
         onBuilt();
         return result;
       }
@@ -4370,6 +4474,13 @@ public final class MessageInfo {
         }
         if (!other.getStationNo().isEmpty()) {
           stationNo_ = other.stationNo_;
+          onChanged();
+        }
+        if (other.getSuccess() != false) {
+          setSuccess(other.getSuccess());
+        }
+        if (!other.getErrorMsg().isEmpty()) {
+          errorMsg_ = other.errorMsg_;
           onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
@@ -4552,6 +4663,112 @@ public final class MessageInfo {
         onChanged();
         return this;
       }
+
+      private boolean success_ ;
+      /**
+       * <code>bool success = 3;</code>
+       * @return The success.
+       */
+      public boolean getSuccess() {
+        return success_;
+      }
+      /**
+       * <code>bool success = 3;</code>
+       * @param value The success to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSuccess(boolean value) {
+        
+        success_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool success = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSuccess() {
+        
+        success_ = false;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object errorMsg_ = "";
+      /**
+       * <code>string errorMsg = 4;</code>
+       * @return The errorMsg.
+       */
+      public java.lang.String getErrorMsg() {
+        java.lang.Object ref = errorMsg_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          errorMsg_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string errorMsg = 4;</code>
+       * @return The bytes for errorMsg.
+       */
+      public com.google.protobuf.ByteString
+          getErrorMsgBytes() {
+        java.lang.Object ref = errorMsg_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          errorMsg_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string errorMsg = 4;</code>
+       * @param value The errorMsg to set.
+       * @return This builder for chaining.
+       */
+      public Builder setErrorMsg(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        errorMsg_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string errorMsg = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearErrorMsg() {
+        
+        errorMsg_ = getDefaultInstance().getErrorMsg();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string errorMsg = 4;</code>
+       * @param value The bytes for errorMsg to set.
+       * @return This builder for chaining.
+       */
+      public Builder setErrorMsgBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        errorMsg_ = value;
+        onChanged();
+        return this;
+      }
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -4641,16 +4858,17 @@ public final class MessageInfo {
     java.lang.String[] descriptorData = {
       "\n\rMessage.proto\"\370\001\n\007Message\022$\n\tdata_type" +
       "\030\001 \001(\0162\021.Message.DataType\022\n\n\002id\030\002 \001(\003\022\025\n" +
-      "\004ping\030\004 \001(\0132\005.PingH\000\022\025\n\004pong\030\005 \001(\0132\005.Pon" +
-      "gH\000\022)\n\016authentication\030\006 \001(\0132\017.Authentica" +
-      "tionH\000\022\027\n\005query\030\007 \001(\0132\006.QueryH\000\"=\n\010DataT" +
+      "\004ping\030\003 \001(\0132\005.PingH\000\022\025\n\004pong\030\004 \001(\0132\005.Pon" +
+      "gH\000\022)\n\016authentication\030\005 \001(\0132\017.Authentica" +
+      "tionH\000\022\027\n\005query\030\006 \001(\0132\006.QueryH\000\"=\n\010DataT" +
       "ype\022\010\n\004PING\020\000\022\010\n\004PONG\020\001\022\022\n\016AUTHENTICATIO" +
       "N\020\002\022\t\n\005QUERY\020\003B\n\n\010dataBody\"\023\n\004Ping\022\013\n\003ms" +
-      "g\030\002 \001(\t\"\023\n\004Pong\022\013\n\003msg\030\002 \001(\t\"U\n\016Authenti" +
+      "g\030\001 \001(\t\"\023\n\004Pong\022\013\n\003msg\030\001 \001(\t\"U\n\016Authenti" +
       "cation\022\017\n\007orgCode\030\001 \001(\t\022\017\n\007secrete\030\002 \001(\t" +
-      "\022\017\n\007success\030\003 \001(\010\022\020\n\010errorMsg\030\004 \001(\t\"*\n\005Q" +
-      "uery\022\016\n\006goodId\030\001 \001(\t\022\021\n\tstationNo\030\002 \001(\tB" +
-      "\017B\013MessageInfoH\001b\006proto3"
+      "\022\017\n\007success\030\003 \001(\010\022\020\n\010errorMsg\030\004 \001(\t\"M\n\005Q" +
+      "uery\022\016\n\006goodId\030\001 \001(\t\022\021\n\tstationNo\030\002 \001(\t\022" +
+      "\017\n\007success\030\003 \001(\010\022\020\n\010errorMsg\030\004 \001(\tB\017B\013Me" +
+      "ssageInfoH\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -4685,7 +4903,7 @@ public final class MessageInfo {
     internal_static_Query_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Query_descriptor,
-        new java.lang.String[] { "GoodId", "StationNo", });
+        new java.lang.String[] { "GoodId", "StationNo", "Success", "ErrorMsg", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

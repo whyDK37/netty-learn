@@ -1,15 +1,13 @@
 package project.fep.client;
 
-import project.fep.MessageInfo;
 import io.netty.channel.Channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.concurrent.atomic.AtomicLong;
+import project.fep.MessageInfo;
+import project.fep.support.DefaultFuture;
 
 public class Client {
     private static Logger logger = LoggerFactory.getLogger(Client.class);
-    private AtomicLong requestId = new AtomicLong();
     private ClientCnx clientCnx;
 
     private String orgCode;
@@ -24,12 +22,11 @@ public class Client {
     public void authentication(Channel channel, String orgCode) {
         logger.info("发送认证信息:{}", orgCode);
 
-        MessageInfo.Message message = MessageInfo.Message.newBuilder()
+        DefaultFuture defaultFuture = DefaultFuture.newFuture(channel, MessageInfo.Message.newBuilder()
                 .setDataType(MessageInfo.Message.DataType.AUTHENTICATION)
-                .setId(requestId.getAndIncrement())
+                .setId(DefaultFuture.REQUEST_ID.incrementAndGet())
                 .setAuthentication(MessageInfo.Authentication.newBuilder()
                         .setOrgCode(orgCode).build())
-                .build();
-        channel.writeAndFlush(message);
+                .build());
     }
 }

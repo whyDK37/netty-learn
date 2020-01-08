@@ -1,7 +1,9 @@
 package project.fep;
 
+import project.fep.server.Machine;
 import project.fep.server.ServerCnx;
 import project.fep.server.SessionManager;
+import project.fep.support.DefaultFuture;
 
 import java.util.Scanner;
 
@@ -20,6 +22,15 @@ public class ServerCnxTest {
                 SessionManager.getInstance().getMachines().forEach(machine -> {
                     System.out.println("machine = " + machine.toString());
                 });
+            } else if ("1".equals(input)) {
+                Machine next = SessionManager.getInstance().getMachines().iterator().next();
+                MessageInfo.Message message = MessageInfo.Message.newBuilder()
+                        .setDataType(MessageInfo.Message.DataType.QUERY)
+                        .setId(DefaultFuture.REQUEST_ID.incrementAndGet())
+                        .build();
+                DefaultFuture defaultFuture = DefaultFuture.newFuture(next.getChannel(), message);
+                MessageInfo.Query query = defaultFuture.get();
+                System.out.println("query.getSuccess() = " + query.getSuccess());
             }
         }
     }

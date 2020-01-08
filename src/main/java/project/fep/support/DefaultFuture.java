@@ -1,15 +1,16 @@
 package project.fep.support;
 
-import project.fep.MessageInfo;
 import io.netty.channel.Channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import project.fep.MessageInfo;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -48,6 +49,8 @@ public class DefaultFuture implements ResponseFuture {
 
     private MessageInfo.Message request;
     private Object response;
+
+    public static AtomicLong REQUEST_ID = new AtomicLong();
 
     private DefaultFuture(Channel channel, MessageInfo.Message request) {
         this.channel = channel;
