@@ -1,6 +1,5 @@
 package project.fep.server;
 
-import project.fep.MessageInfo;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.*;
@@ -13,6 +12,7 @@ import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.concurrent.DefaultThreadFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import project.fep.MessageInfo;
 
 import java.util.Collection;
 
@@ -20,12 +20,11 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static netty.heartbeat.ConstantValue.DEFAULT_IO_THREADS;
 
 /**
- * 服務端
+ * 服务端
  */
 public class ServerCnx extends AbstractServer {
 
     private static final Logger logger = LoggerFactory.getLogger(ServerCnx.class);
-
 
     private ServerBootstrap bootstrap;
 

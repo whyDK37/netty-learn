@@ -3,8 +3,6 @@ package project.fep.server;
 import java.util.Date;
 
 /**
- * 租期
- *
  * @author why
  */
 public class Lease {
