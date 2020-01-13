@@ -1,6 +1,6 @@
 package project.fep;
 
-import project.fep.client.Client;
+import dubbo.mini.client.Client;
 
 import java.util.concurrent.TimeUnit;
 

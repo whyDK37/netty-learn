@@ -1,9 +1,10 @@
 package project.fep;
 
-import project.fep.server.Machine;
-import project.fep.server.ServerCnx;
-import project.fep.server.SessionManager;
-import project.fep.support.DefaultFuture;
+import dubbo.mini.MessageInfo;
+import dubbo.mini.server.Machine;
+import dubbo.mini.server.ServerCnx;
+import dubbo.mini.server.SessionManager;
+import dubbo.mini.support.DefaultFuture;
 
 import java.util.Scanner;
 
