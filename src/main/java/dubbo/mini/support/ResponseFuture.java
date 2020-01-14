@@ -1,5 +1,7 @@
 package dubbo.mini.support;
 
+import dubbo.mini.remote.RemotingException;
+
 public interface ResponseFuture {
 
     /**

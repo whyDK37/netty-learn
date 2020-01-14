@@ -1,22 +1,25 @@
-package dubbo.mini.client;
+package dubbo.mini.netty4;
 
+import dubbo.mini.MessageInfo;
+import dubbo.mini.common.URL;
+import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import dubbo.mini.MessageInfo;
 
 /**
  *
  */
-public class ClientHandler extends ChannelInboundHandlerAdapter {
+public class NettyClientHandler extends ChannelDuplexHandler {
 
-    private static Logger logger = LoggerFactory.getLogger(ClientHandler.class);
-    private ClientCnx clientCnx;
+    private static Logger logger = LoggerFactory.getLogger(NettyClientHandler.class);
+    private NettyClient clientCnx;
+    private URL url;
 
-    ClientHandler(ClientCnx clientCnx) {
+    NettyClientHandler(URL url, NettyClient clientCnx) {
+        this.url = url;
         this.clientCnx = clientCnx;
     }
 

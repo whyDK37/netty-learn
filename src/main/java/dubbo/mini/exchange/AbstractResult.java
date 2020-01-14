@@ -1,6 +1,6 @@
 package dubbo.mini.exchange;
 
-import dubbo.mini.common.StringUtils;
+import dubbo.mini.common.utils.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;

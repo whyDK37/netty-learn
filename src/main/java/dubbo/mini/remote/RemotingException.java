@@ -1,4 +1,4 @@
-package dubbo.mini.support;
+package dubbo.mini.remote;
 
 import io.netty.channel.Channel;
 
@@ -12,8 +12,8 @@ public class RemotingException extends Exception {
 
     private SocketAddress remoteAddress;
 
-    public RemotingException(Channel channel, String msg) {
-        this(channel == null ? null : channel.remoteAddress(), channel == null ? null : channel.remoteAddress(),
+    public RemotingException(NetChannel channel, String msg) {
+        this(channel == null ? null : channel.getRemoteAddress(), channel == null ? null : channel.getRemoteAddress(),
                 msg);
     }
 
@@ -24,8 +24,8 @@ public class RemotingException extends Exception {
         this.remoteAddress = remoteAddress;
     }
 
-    public RemotingException(Channel channel, Throwable cause) {
-        this(channel == null ? null : channel.remoteAddress(), channel == null ? null : channel.remoteAddress(),
+    public RemotingException(NetChannel channel, Throwable cause) {
+        this(channel == null ? null : channel.getRemoteAddress(), channel == null ? null : channel.getRemoteAddress(),
                 cause);
     }
 
@@ -36,8 +36,8 @@ public class RemotingException extends Exception {
         this.remoteAddress = remoteAddress;
     }
 
-    public RemotingException(Channel channel, String message, Throwable cause) {
-        this(channel == null ? null : channel.remoteAddress(), channel == null ? null : channel.remoteAddress(),
+    public RemotingException(NetChannel channel, String message, Throwable cause) {
+        this(channel == null ? null : channel.getRemoteAddress(), channel == null ? null : channel.getRemoteAddress(),
                 message, cause);
     }
 

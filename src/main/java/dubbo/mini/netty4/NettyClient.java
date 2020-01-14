@@ -1,8 +1,12 @@
-package dubbo.mini.client;
+package dubbo.mini.netty4;
 
-import dubbo.mini.AbstractEndpoint;
 import dubbo.mini.MessageInfo;
-import dubbo.mini.support.DefaultFuture;
+import dubbo.mini.client.ConnectListener;
+import dubbo.mini.common.URL;
+import dubbo.mini.common.utils.NetUtils;
+import dubbo.mini.remote.ChannelEventHandler;
+import dubbo.mini.remote.ChannelHandlers;
+import dubbo.mini.remote.NetChannel;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -14,6 +18,7 @@ import io.netty.handler.timeout.IdleStateHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.InetSocketAddress;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
@@ -22,12 +27,10 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
-public class ClientCnx extends AbstractEndpoint {
+public class NettyClient extends AbstractEndpoint implements NetChannel {
 
-    private static Logger logger = LoggerFactory.getLogger(ClientCnx.class);
+    private static Logger logger = LoggerFactory.getLogger(NettyClient.class);
 
-    private String ip;
-    private int port;
     private EventLoopGroup group;
     private Bootstrap bootstrap;
 
@@ -43,16 +46,15 @@ public class ClientCnx extends AbstractEndpoint {
         connectListeners.add(listener);
     }
 
-    public ClientCnx(String ip, int port, int timeout, long idleTimeout, long connectTimeout) {
-        super(timeout, idleTimeout, connectTimeout);
-        this.ip = ip;
-        this.port = port;
+    public NettyClient(URL url, ChannelEventHandler channelEventHandler) {
+        super(url, ChannelHandlers.wrap(channelEventHandler, url));
     }
 
     public void connect() {
+        final NettyClientHandler nettyClientHandler = new NettyClientHandler(getUrl(), this);
         this.group = new NioEventLoopGroup();
         this.bootstrap = new Bootstrap();
-        ClientCnx clientCnx = this;
+        NettyClient clientCnx = this;
         bootstrap.group(group)
                 .option(ChannelOption.SO_KEEPALIVE, true)
                 .channel(NioSocketChannel.class)
@@ -62,7 +64,7 @@ public class ClientCnx extends AbstractEndpoint {
                         ch.pipeline().addLast("encoder", new ProtobufEncoder());
                         ch.pipeline().addLast("decoder", new ProtobufDecoder(MessageInfo.Message.getDefaultInstance()));
                         ch.pipeline().addLast(new IdleStateHandler(0, 5, 0, TimeUnit.SECONDS));
-                        ch.pipeline().addLast(new ClientHandler(clientCnx));
+                        ch.pipeline().addLast(nettyClientHandler);
                     }
 
                     @Override
@@ -82,7 +84,7 @@ public class ClientCnx extends AbstractEndpoint {
             if (isConnected()) {
                 return;
             }
-            ChannelFuture future = bootstrap.connect(ip, port);
+            ChannelFuture future = bootstrap.connect(getConnectAddress());
             try {
                 boolean ret = future.awaitUninterruptibly(getConnectTimeout(), MILLISECONDS);
                 if (ret && future.isSuccess()) {
@@ -144,37 +146,53 @@ public class ClientCnx extends AbstractEndpoint {
         }
     }
 
-    private boolean isClosed() {
+
+    @Override
+    public boolean isConnected() {
+        return false;
+    }
+
+
+    public InetSocketAddress getConnectAddress() {
+        return new InetSocketAddress(NetUtils.filterLocalHost(getUrl().getHost()), getUrl().getPort());
+    }
+
+    @Override
+    public boolean isClosed() {
         return closed;
     }
 
 
-    public boolean isConnected() {
-        Channel channel = getChannel();
-        if (channel == null) {
-            return false;
+    protected NetChannel getChannel() {
+        Channel c = channel;
+        if (c == null || !c.isActive()) {
+            return null;
         }
-        return channel.isOpen();
+        return null;//NettyChannel.getOrAddChannel(c, getUrl(), this);
     }
 
-    private Channel getChannel() {
-        return this.channel;
+    @Override
+    public InetSocketAddress getRemoteAddress() {
+        return null;
     }
 
-    public void closed() {
-        this.closed = true;
-        this.channel = null;
+    @Override
+    public boolean hasAttribute(String key) {
+        return false;
     }
 
-    public <T> T send(MessageInfo.Message message) throws Throwable {
-        if (!isConnected()) {
-            doConnect();
-        }
+    @Override
+    public Object getAttribute(String key) {
+        return null;
+    }
 
-        Channel channel = getChannel();
-        DefaultChannelPromise promise = new DefaultChannelPromise(channel);
-        DefaultFuture defaultFuture = DefaultFuture.newFuture(channel, message);
-        channel.writeAndFlush(message, promise);
-        return defaultFuture.get(60 * 1000);
+    @Override
+    public void setAttribute(String key, Object value) {
+
+    }
+
+    @Override
+    public void removeAttribute(String key) {
+
     }
 }

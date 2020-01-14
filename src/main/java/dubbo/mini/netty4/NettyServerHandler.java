@@ -1,5 +1,6 @@
-package dubbo.mini.server;
+package dubbo.mini.netty4;
 
+import dubbo.mini.server.SessionManager;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -11,9 +12,9 @@ import dubbo.mini.support.DefaultFuture;
 /**
  * @author why
  */
-public class ServerHandler extends ChannelDuplexHandler {
+public class NettyServerHandler extends ChannelDuplexHandler {
 
-    private static Logger logger = LoggerFactory.getLogger(ServerHandler.class);
+    private static Logger logger = LoggerFactory.getLogger(NettyServerHandler.class);
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
