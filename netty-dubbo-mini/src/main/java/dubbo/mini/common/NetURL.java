@@ -1169,15 +1169,7 @@ public class NetURL implements Serializable {
     }
 
     public static String buildKey(String path) {
-        StringBuilder buf = new StringBuilder();
-//        if (group != null && group.length() > 0) {
-//            buf.append(group).append("/");
-//        }
-//        buf.append(path);
-//        if (version != null && version.length() > 0) {
-//            buf.append(":").append(version);
-//        }
-        return buf.toString();
+        return path;
     }
 
     public String toServiceStringWithoutResolving() {

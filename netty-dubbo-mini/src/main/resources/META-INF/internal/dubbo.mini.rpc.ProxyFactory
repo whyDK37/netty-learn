@@ -1,0 +1,2 @@
+jdk=dubbo.mini.rpc.JdkProxyFactory
+javassist=dubbo.mini.rpc.JavassistProxyFactory

@@ -20,6 +20,7 @@
 
         <netty.version>4.1.43.Final</netty.version>
 
+        <javassist_version>3.20.0-GA</javassist_version>
         <kryo_version>4.0.1</kryo_version>
         <kryo_serializers_version>0.42</kryo_serializers_version>
         <hessian_lite_version>3.2.6</hessian_lite_version>

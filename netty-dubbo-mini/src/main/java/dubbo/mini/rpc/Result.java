@@ -1,4 +1,4 @@
-package dubbo.mini.exchange;
+package dubbo.mini.rpc;
 
 import java.io.Serializable;
 import java.util.Map;

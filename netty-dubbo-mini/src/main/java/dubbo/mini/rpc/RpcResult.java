@@ -1,4 +1,6 @@
-package dubbo.mini.exchange;
+package dubbo.mini.rpc;
+
+import dubbo.mini.exchange.AbstractResult;
 
 import java.lang.reflect.Field;
 
