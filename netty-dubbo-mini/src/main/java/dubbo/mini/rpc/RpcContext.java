@@ -13,9 +13,6 @@ import java.util.concurrent.Future;
 
 public class RpcContext {
 
-    /**
-     * use internal thread local to improve performance
-     */
     // FIXME REQUEST_CONTEXT
     private static final ThreadLocal<RpcContext> LOCAL = new ThreadLocal<RpcContext>() {
         @Override

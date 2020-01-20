@@ -7,6 +7,5 @@ import java.lang.annotation.*;
 @Target({ ElementType.TYPE })
 public @interface SPI {
 
-    // Default SPI name
     String value() default "";
 }

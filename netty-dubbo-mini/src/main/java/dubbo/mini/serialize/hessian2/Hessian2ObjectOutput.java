@@ -23,9 +23,6 @@ import dubbo.mini.serialize.ObjectOutput;
 import java.io.IOException;
 import java.io.OutputStream;
 
-/**
- * Hessian2 object output implementation
- */
 public class Hessian2ObjectOutput implements ObjectOutput {
     private final Hessian2Output mH2o;
 

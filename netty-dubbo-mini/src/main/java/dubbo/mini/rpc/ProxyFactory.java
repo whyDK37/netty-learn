@@ -10,22 +10,7 @@ import dubbo.mini.support.SPI;
 @SPI("javassist")
 public interface ProxyFactory {
 
-    /**
-     * create proxy.
-     *
-     * @param invoker
-     * @return proxy
-     */
     <T> T getProxy(Invoker<T> invoker) throws RpcException;
 
-    /**
-     * create invoker.
-     *
-     * @param <T>
-     * @param proxy
-     * @param type
-     * @param url
-     * @return invoker
-     */
     <T> Invoker<T> getInvoker(T proxy, Class<T> type, NetURL url) throws RpcException;
 }

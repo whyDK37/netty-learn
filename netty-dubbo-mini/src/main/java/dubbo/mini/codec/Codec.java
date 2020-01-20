@@ -13,7 +13,6 @@ public interface Codec {
 
     Object decode(NetChannel channel, ChannelBuffer buffer) throws IOException;
 
-
     enum DecodeResult {
         NEED_MORE_INPUT, SKIP_SOME_INPUT
     }

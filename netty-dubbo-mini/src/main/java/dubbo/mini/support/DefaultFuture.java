@@ -21,32 +21,17 @@ public class DefaultFuture implements ResponseFuture {
 
     private static final Logger logger = LoggerFactory.getLogger(DefaultFuture.class);
 
-    /**
-     * Future 集合
-     * <p>
-     * key：请求编号
-     */
     private static final Map<Long, DefaultFuture> FUTURES = new ConcurrentHashMap<>();
 
-    // invoke id.
-    /**
-     * 请求编号
-     */
     private final long id;
     private final Channel channel;
 
     private final Lock lock = new ReentrantLock();
-    /**
-     * 请求是否完成条件
-     */
+
     private final Condition done = lock.newCondition();
-    /**
-     * 创建开始时间
-     */
+
     private final long start = System.currentTimeMillis();
-    /**
-     * 发送请求时间
-     */
+
     private volatile long sent;
 
     private Request request;
@@ -62,15 +47,6 @@ public class DefaultFuture implements ResponseFuture {
         FUTURES.put(id, this);
     }
 
-    /**
-     * init a DefaultFuture
-     * 1.init a DefaultFuture
-     * 2.timeout check
-     *
-     * @param channel channel
-     * @param request the request
-     * @return a new DefaultFuture
-     */
     public static DefaultFuture newFuture(Channel channel, Request request) {
         return new DefaultFuture(channel, request);
     }

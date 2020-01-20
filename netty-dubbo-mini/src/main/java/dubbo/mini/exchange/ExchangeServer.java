@@ -7,19 +7,8 @@ import java.util.Collection;
 
 public interface ExchangeServer extends Server {
 
-    /**
-     * get channels.
-     *
-     * @return channels
-     */
     Collection<ExchangeChannel> getExchangeChannels();
 
-    /**
-     * get channel.
-     *
-     * @param remoteAddress
-     * @return channel
-     */
     ExchangeChannel getExchangeChannel(InetSocketAddress remoteAddress);
 
 }
