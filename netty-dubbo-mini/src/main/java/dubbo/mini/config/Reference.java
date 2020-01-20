@@ -17,11 +17,6 @@ public @interface Reference {
     String version() default "";
 
     /**
-     * Service group, default value is empty string
-     */
-    String group() default "";
-
-    /**
      * Service target URL for direct invocation, if this is specified, then registry center takes no effect.
      */
     String url() default "";
@@ -30,12 +25,6 @@ public @interface Reference {
      * Client transport type, default value is "netty"
      */
     String client() default "";
-
-
-    /**
-     * Whether eager initialize the reference bean when all properties are set, default value is false
-     */
-    boolean init() default false;
 
 
     /**

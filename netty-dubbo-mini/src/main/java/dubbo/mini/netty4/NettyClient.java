@@ -1,11 +1,8 @@
 package dubbo.mini.netty4;
 
-import dubbo.mini.client.ConnectListener;
 import dubbo.mini.common.NetURL;
 import dubbo.mini.common.utils.NetUtils;
-import dubbo.mini.remote.ChannelEventHandler;
-import dubbo.mini.remote.ChannelHandlers;
-import dubbo.mini.remote.NetChannel;
+import dubbo.mini.remote.*;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -16,15 +13,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.InetSocketAddress;
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
-public class NettyClient extends AbstractEndpoint implements NetChannel {
+public class NettyClient extends AbstractEndpoint implements NetChannel , Client {
 
     private static Logger logger = LoggerFactory.getLogger(NettyClient.class);
 
@@ -38,12 +33,6 @@ public class NettyClient extends AbstractEndpoint implements NetChannel {
     private volatile boolean closing = false;
 
     private final Lock connectLock = new ReentrantLock();
-
-    List<ConnectListener> connectListeners = new CopyOnWriteArrayList<>();
-
-    public void addConnectListener(ConnectListener listener) {
-        connectListeners.add(listener);
-    }
 
     public NettyClient(NetURL url, ChannelEventHandler channelEventHandler) {
         super(url, ChannelHandlers.wrap(channelEventHandler, url));
@@ -139,11 +128,6 @@ public class NettyClient extends AbstractEndpoint implements NetChannel {
             connectLock.unlock();
         }
         logger.info("connect time:{}", (System.currentTimeMillis() - start));
-        if (isConnected()) {
-            for (ConnectListener connectListener : this.connectListeners) {
-                connectListener.connect(channel);
-            }
-        }
     }
 
 
@@ -199,6 +183,11 @@ public class NettyClient extends AbstractEndpoint implements NetChannel {
 
     @Override
     public void removeAttribute(String key) {
+
+    }
+
+    @Override
+    public void reconnect() throws RemotingException {
 
     }
 }

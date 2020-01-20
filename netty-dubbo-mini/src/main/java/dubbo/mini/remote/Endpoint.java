@@ -62,4 +62,5 @@ public interface Endpoint {
      */
     boolean isClosed();
 
+    void reset(NetURL url);
 }

@@ -1,7 +1,8 @@
-package dubbo.mini.config;
+package dubbo.mini.config.spring;
 
 import dubbo.mini.common.Constants;
 import dubbo.mini.common.NetURL;
+import dubbo.mini.common.utils.StringUtils;
 import dubbo.mini.rpc.Invoker;
 import dubbo.mini.rpc.ProxyFactory;
 import dubbo.mini.rpc.model.ApplicationModel;
@@ -17,23 +18,27 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  * @author why
  */
-public class ReferenceBean<T> extends AbstractInterfaceConfig implements FactoryBean, ApplicationContextAware, InitializingBean, DisposableBean {
+public class ReferenceBean<T> implements FactoryBean, ApplicationContextAware, InitializingBean, DisposableBean {
 
     private static Logger logger = LoggerFactory.getLogger(ReferenceBean.class);
 
     private T ref;
 
-    private NetURL url;
+
+    private String interfaceName;
+    private Class<?> interfaceClass;
 
     private static final ProxyFactory proxyFactory = ExtensionLoader.getExtensionLoader(ProxyFactory.class).getDefaultExtension();
     /**
      * The invoker of the reference service
      */
+    private NetURL url;
     private transient volatile Invoker<?> invoker;
 
     private transient volatile boolean destroyed;
@@ -52,7 +57,25 @@ public class ReferenceBean<T> extends AbstractInterfaceConfig implements Factory
     }
 
     public void checkAndUpdateSubConfigs() {
+        try {
+            interfaceClass = Class.forName(interfaceName, true, Thread.currentThread()
+                    .getContextClassLoader());
+        } catch (ClassNotFoundException e) {
+            throw new IllegalStateException(e.getMessage(), e);
+        }
+    }
 
+
+    public void setInterface(Class<?> interfaceClass) {
+        if (interfaceClass != null && !interfaceClass.isInterface()) {
+            throw new IllegalStateException("The interface class " + interfaceClass + " is not a interface!");
+        }
+        this.interfaceClass = interfaceClass;
+        setInterface(interfaceClass == null ? null : interfaceClass.getName());
+    }
+
+    public void setInterface(String interfaceName) {
+        this.interfaceName = interfaceName;
     }
 
     private void init() {
@@ -66,13 +89,15 @@ public class ReferenceBean<T> extends AbstractInterfaceConfig implements Factory
         map.put(Constants.INTERFACE_KEY, interfaceName);
         ref = createProxy(map);
 
-        String serviceKey = NetURL.buildKey(getInterfaceName());
+        String serviceKey = NetURL.buildKey(interfaceName);
         ApplicationModel.initConsumerModel(serviceKey, buildConsumerModel(serviceKey));
     }
 
     private T createProxy(Map<String, String> map) {
 
-
+        if (logger.isInfoEnabled()) {
+            logger.info("Refer dubbo service " + interfaceName + " from url " + invoker.getUrl());
+        }
 
         return (T) proxyFactory.getProxy(invoker);
     }

@@ -10,10 +10,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.regex.Pattern;
@@ -351,6 +348,25 @@ public class ExtensionLoader<T> {
         }
     }
 
+    public boolean hasExtension(String name) {
+        if (StringUtils.isEmpty(name)) {
+            throw new IllegalArgumentException("Extension name == null");
+        }
+        Class<?> c = this.getExtensionClass(name);
+        return c != null;
+    }
+
+
+    private Class<?> getExtensionClass(String name) {
+        if (type == null) {
+            throw new IllegalArgumentException("Extension type == null");
+        }
+        if (name == null) {
+            throw new IllegalArgumentException("Extension name == null");
+        }
+        return getExtensionClasses().get(name);
+    }
+
     @SuppressWarnings("unused")
     private static ClassLoader findClassLoader() {
         return ExtensionLoader.class.getClassLoader();
@@ -359,6 +375,11 @@ public class ExtensionLoader<T> {
     @Override
     public String toString() {
         return this.getClass().getName() + "[" + type.getName() + "]";
+    }
+
+    public Set<String> getSupportedExtensions() {
+        Map<String, Class<?>> clazzes = getExtensionClasses();
+        return Collections.unmodifiableSet(new TreeSet<>(clazzes.keySet()));
     }
 
     private static class Holder<T> {

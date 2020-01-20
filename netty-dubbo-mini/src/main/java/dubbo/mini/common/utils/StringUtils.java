@@ -12,6 +12,7 @@ public class StringUtils {
 
 
     private static final Pattern KVP_PATTERN = Pattern.compile("([_.a-zA-Z0-9][-_.a-zA-Z0-9]*)[=](.*)"); //key value pair pattern.
+    private static final Pattern INT_PATTERN = Pattern.compile("^\\d+$");
 
     public static final String EMPTY = "";
 
@@ -19,10 +20,15 @@ public class StringUtils {
         return str == null ? EMPTY : str.trim();
     }
 
-    /**
-     * @param e
-     * @return string
-     */
+
+    public static int parseInteger(String str) {
+        return isInteger(str) ? Integer.parseInt(str) : 0;
+    }
+
+    public static boolean isInteger(String str) {
+        return !isEmpty(str) && INT_PATTERN.matcher(str).matches();
+    }
+
     public static String toString(Throwable e) {
         UnsafeStringWriter w = new UnsafeStringWriter();
         PrintWriter p = new PrintWriter(w);
@@ -37,6 +43,10 @@ public class StringUtils {
         } finally {
             p.close();
         }
+    }
+
+    public static boolean isNotEmpty(String str) {
+        return !isEmpty(str);
     }
 
     public static boolean isEmpty(String str) {

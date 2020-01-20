@@ -5,11 +5,15 @@ import dubbo.mini.common.NetURL;
 import dubbo.mini.common.utils.NetUtils;
 import dubbo.mini.common.utils.UrlUtils;
 import dubbo.mini.remote.ChannelEventHandler;
+import dubbo.mini.remote.NetChannel;
 import dubbo.mini.remote.RemotingException;
-import dubbo.mini.server.SessionManager;
+import dubbo.mini.remote.Server;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
-import io.netty.channel.*;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelOption;
+import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
@@ -20,7 +24,10 @@ import org.slf4j.LoggerFactory;
 
 import java.net.InetSocketAddress;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ThreadPoolExecutor;
 
 import static dubbo.mini.common.Constants.DEFAULT_IO_THREADS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -28,11 +35,13 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 /**
  * 服务端
  */
-public class NettyServer extends AbstractEndpoint {
+public class NettyServer extends AbstractEndpoint implements Server {
 
     private static final Logger logger = LoggerFactory.getLogger(NettyServer.class);
 
     private ServerBootstrap bootstrap;
+
+    private Map<String, NetChannel> channels; // <ip:port, channel>
 
     private io.netty.channel.Channel channel;
 
@@ -71,6 +80,8 @@ public class NettyServer extends AbstractEndpoint {
         bootstrap = new ServerBootstrap();
         bossGroup = new NioEventLoopGroup(1, new DefaultThreadFactory("NettyServerBoss", true));
         workerGroup = new NioEventLoopGroup(DEFAULT_IO_THREADS, new DefaultThreadFactory("NettyServerWorker", true));
+        NettyServerHandler nettyServerHandler = new NettyServerHandler(getUrl(), this);
+        channels = nettyServerHandler.getChannels();
 
         bootstrap.group(bossGroup, workerGroup)
                 .channel(NioServerSocketChannel.class)
@@ -88,7 +99,7 @@ public class NettyServer extends AbstractEndpoint {
                                 .addLast("decoder", adapter.getDecoder())
                                 .addLast("encoder", adapter.getEncoder())
                                 .addLast("server-idle-handler", new IdleStateHandler(0, 0, idleTimeout, MILLISECONDS))
-                                .addLast("handler", new NettyServerHandler());
+                                .addLast("handler", nettyServerHandler);
                     }
                 });
 
@@ -98,8 +109,78 @@ public class NettyServer extends AbstractEndpoint {
     }
 
 
-    public Collection<Channel> getChannels() {
-        return SessionManager.getInstance().getChannels();
+    @Override
+    public boolean isBound() {
+        return false;
+    }
+
+    public Collection<NetChannel> getChannels() {
+        Collection<NetChannel> chs = new HashSet<>();
+        for (NetChannel channel : this.channels.values()) {
+            if (channel.isConnected()) {
+                chs.add(channel);
+            } else {
+                channels.remove(NetUtils.toAddressString(channel.getRemoteAddress()));
+            }
+        }
+        return chs;
+    }
+
+    @Override
+    public NetChannel getChannel(InetSocketAddress remoteAddress) {
+        return null;
+    }
+
+    @Override
+    public void reset(NetURL url) {
+        if (url == null) {
+            return;
+        }
+        try {
+            if (url.hasParameter(Constants.ACCEPTS_KEY)) {
+                int a = url.getParameter(Constants.ACCEPTS_KEY, 0);
+                if (a > 0) {
+                    this.accepts = a;
+                }
+            }
+        } catch (Throwable t) {
+            logger.error(t.getMessage(), t);
+        }
+        try {
+            if (url.hasParameter(Constants.IDLE_TIMEOUT_KEY)) {
+                int t = url.getParameter(Constants.IDLE_TIMEOUT_KEY, 0);
+                if (t > 0) {
+                    this.idleTimeout = t;
+                }
+            }
+        } catch (Throwable t) {
+            logger.error(t.getMessage(), t);
+        }
+        try {
+            if (url.hasParameter(Constants.THREADS_KEY)
+                    && executor instanceof ThreadPoolExecutor && !executor.isShutdown()) {
+                ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) executor;
+                int threads = url.getParameter(Constants.THREADS_KEY, 0);
+                int max = threadPoolExecutor.getMaximumPoolSize();
+                int core = threadPoolExecutor.getCorePoolSize();
+                if (threads > 0 && (threads != max || threads != core)) {
+                    if (threads < core) {
+                        threadPoolExecutor.setCorePoolSize(threads);
+                        if (core == max) {
+                            threadPoolExecutor.setMaximumPoolSize(threads);
+                        }
+                    } else {
+                        threadPoolExecutor.setMaximumPoolSize(threads);
+                        if (core == max) {
+                            threadPoolExecutor.setCorePoolSize(threads);
+                        }
+                    }
+                }
+            }
+        } catch (Throwable t) {
+            logger.error(t.getMessage(), t);
+        }
+        super.setUrl(getUrl().addParameters(url.getParameters()));
     }
 
 

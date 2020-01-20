@@ -1,7 +1,6 @@
 package dubbo.mini.spring;
 
-import dubbo.mini.config.Reference;
-import dubbo.mini.config.ReferenceBean;
+import dubbo.mini.config.spring.ReferenceBean;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessorAdapter;
 import org.springframework.context.ApplicationContext;
