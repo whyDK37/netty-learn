@@ -8,7 +8,7 @@ public abstract class AbstractPeer implements Endpoint, ChannelEventHandler {
 
     private final ChannelEventHandler handler;
 
-    private volatile NetURL url;
+    volatile NetURL url;
 
     // closing closed means the process is being closed and close is finished
     private volatile boolean closing;

@@ -30,11 +30,6 @@ public class Request {
     private final long mId;
 
     /**
-     * Dubbo 版本
-     */
-    private String mVersion;
-
-    /**
      * 是否需要响应
      *
      * true-需要
@@ -89,14 +84,6 @@ public class Request {
         return mId;
     }
 
-    public String getVersion() {
-        return mVersion;
-    }
-
-    public void setVersion(String version) {
-        mVersion = version;
-    }
-
     public boolean isTwoWay() {
         return mTwoWay;
     }
@@ -146,7 +133,7 @@ public class Request {
 
     @Override
     public String toString() {
-        return "Request [id=" + mId + ", version=" + mVersion + ", twoway=" + mTwoWay + ", event=" + mEvent
+        return "Request [id=" + mId + ", twoway=" + mTwoWay + ", event=" + mEvent
                 + ", broken=" + mBroken + ", data=" + (mData == this ? "this" : safeToString(mData)) + "]";
     }
 }

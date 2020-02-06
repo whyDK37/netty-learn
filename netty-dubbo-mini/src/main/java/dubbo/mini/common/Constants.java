@@ -411,8 +411,6 @@ public class Constants {
 
     public static final String REVISION_KEY = "revision";
 
-    public static final String DUBBO_VERSION_KEY = "dubbo";
-
     public static final String HESSIAN_VERSION_KEY = "hessian.version";
 
     public static final String DISPATCHER_KEY = "dispatcher";
@@ -774,9 +772,9 @@ public class Constants {
     public static final String REGISTRIES_SUFFIX = "dubbo.registries.";
 
     public static final String[] DEFAULT_REGISTER_PROVIDER_KEYS = {APPLICATION_KEY, CODEC_KEY, EXCHANGER_KEY, SERIALIZATION_KEY, CLUSTER_KEY, CONNECTIONS_KEY, DEPRECATED_KEY,
-            GROUP_KEY, LOADBALANCE_KEY, MOCK_KEY, PATH_KEY, TIMEOUT_KEY, TOKEN_KEY, VERSION_KEY, WARMUP_KEY, WEIGHT_KEY, TIMESTAMP_KEY, DUBBO_VERSION_KEY, RELEASE_KEY};
+            GROUP_KEY, LOADBALANCE_KEY, MOCK_KEY, PATH_KEY, TIMEOUT_KEY, TOKEN_KEY, VERSION_KEY, WARMUP_KEY, WEIGHT_KEY, TIMESTAMP_KEY, RELEASE_KEY};
 
-    public static final String[] DEFAULT_REGISTER_CONSUMER_KEYS = {APPLICATION_KEY, VERSION_KEY, GROUP_KEY, DUBBO_VERSION_KEY, RELEASE_KEY};
+    public static final String[] DEFAULT_REGISTER_CONSUMER_KEYS = {APPLICATION_KEY, VERSION_KEY, GROUP_KEY, RELEASE_KEY};
 
     public static final String TELNET = "telnet";
 

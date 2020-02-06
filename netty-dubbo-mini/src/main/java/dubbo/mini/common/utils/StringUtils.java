@@ -80,4 +80,30 @@ public class StringUtils {
         }
         return map;
     }
+
+    public static String toString(String msg, Throwable e) {
+        UnsafeStringWriter w = new UnsafeStringWriter();
+        w.write(msg + "\n");
+        PrintWriter p = new PrintWriter(w);
+        try {
+            e.printStackTrace(p);
+            return w.toString();
+        } finally {
+            p.close();
+        }
+    }
+
+    public static String join(String[] array, String split) {
+        if (ArrayUtils.isEmpty(array)) {
+            return EMPTY;
+        }
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < array.length; i++) {
+            if (i > 0) {
+                sb.append(split);
+            }
+            sb.append(array[i]);
+        }
+        return sb.toString();
+    }
 }

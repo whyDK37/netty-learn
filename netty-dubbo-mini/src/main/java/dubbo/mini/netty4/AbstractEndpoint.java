@@ -6,6 +6,8 @@ import dubbo.mini.common.NetURL;
 import dubbo.mini.remote.ChannelEventHandler;
 import dubbo.mini.remote.RemotingException;
 import dubbo.mini.support.ExtensionLoader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.InetSocketAddress;
 
@@ -14,7 +16,7 @@ import java.net.InetSocketAddress;
  */
 public abstract class AbstractEndpoint extends AbstractPeer implements ChannelEventHandler {
 
-
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
     private int timeout;
 
     private int connectTimeout;
@@ -44,7 +46,7 @@ public abstract class AbstractEndpoint extends AbstractPeer implements ChannelEv
 
     @Override
     public NetURL getUrl() {
-        return null;
+        return url;
     }
 
     @Override
@@ -70,5 +72,40 @@ public abstract class AbstractEndpoint extends AbstractPeer implements ChannelEv
 
     protected Codec getCodec() {
         return codec;
+    }
+
+
+    public void reset(NetURL url) {
+        if (isClosed()) {
+            throw new IllegalStateException("Failed to reset parameters "
+                    + url + ", cause: Channel closed. channel: " + getLocalAddress());
+        }
+        try {
+            if (url.hasParameter(Constants.TIMEOUT_KEY)) {
+                int t = url.getParameter(Constants.TIMEOUT_KEY, 0);
+                if (t > 0) {
+                    this.timeout = t;
+                }
+            }
+        } catch (Throwable t) {
+            logger.error(t.getMessage(), t);
+        }
+        try {
+            if (url.hasParameter(Constants.CONNECT_TIMEOUT_KEY)) {
+                int t = url.getParameter(Constants.CONNECT_TIMEOUT_KEY, 0);
+                if (t > 0) {
+                    this.connectTimeout = t;
+                }
+            }
+        } catch (Throwable t) {
+            logger.error(t.getMessage(), t);
+        }
+        try {
+            if (url.hasParameter(Constants.CODEC_KEY)) {
+                this.codec = getChannelCodec(url);
+            }
+        } catch (Throwable t) {
+            logger.error(t.getMessage(), t);
+        }
     }
 }

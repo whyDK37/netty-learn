@@ -1,2 +1,2 @@
-injvm=dubbo.mini.protocol.InjvmProtocol
-dubbo=dubbo.mini.protocol.DubboProtocol
+injvm=dubbo.mini.protocol.jvm.InjvmProtocol
+dubbo=dubbo.mini.protocol.dubbo.DubboProtocol

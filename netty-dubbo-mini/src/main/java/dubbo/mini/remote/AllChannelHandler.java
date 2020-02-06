@@ -46,7 +46,7 @@ public class AllChannelHandler extends WrappedChannelHandler {
                 Request request = (Request) message;
                 if (request.isTwoWay()) {
                     String msg = "Server side(" + url.getIp() + "," + url.getPort() + ") threadpool is exhausted ,detail msg:" + t.getMessage();
-                    Response response = new Response(request.getId(), request.getVersion());
+                    Response response = new Response(request.getId());
                     response.setStatus(Response.SERVER_THREADPOOL_EXHAUSTED_ERROR);
                     response.setErrorMessage(msg);
                     channel.send(response);

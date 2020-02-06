@@ -19,20 +19,12 @@
 package dubbo.mini;
 
 
-import dubbo.mini.common.Constants;
-import dubbo.mini.common.NetURL;
 import dubbo.mini.config.spring.ReferenceBean;
-import dubbo.mini.exchange.ExchangeServer;
-import dubbo.mini.protocol.DubboProtocol;
-import dubbo.mini.protocol.Exporter;
-import dubbo.mini.rpc.Invoker;
 import dubbo.mini.rpc.ProxyFactory;
-import dubbo.mini.support.CliDemoServiceImpl;
 import dubbo.mini.support.DemoService;
 import dubbo.mini.support.ExtensionLoader;
 
 import java.io.IOException;
-import java.util.Collection;
 
 public class ConsumerApplication {
     private static ProxyFactory proxy = ExtensionLoader.getExtensionLoader(ProxyFactory.class).getDefaultExtension();

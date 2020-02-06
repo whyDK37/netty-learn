@@ -1,9 +1,12 @@
 package dubbo.mini.common.utils;
 
+import dubbo.mini.common.timer.HashedWheelTimer;
+
 /**
  * @author why
  */
 public class ClassHelper {
+    private static final char PACKAGE_SEPARATOR_CHAR = '.';
 
     public static ClassLoader getClassLoader() {
         return getClassLoader(ClassHelper.class);
@@ -30,5 +33,17 @@ public class ClassHelper {
         }
 
         return cl;
+    }
+
+    public static String simpleClassName(Class<?> clazz) {
+        if (clazz == null) {
+            throw new NullPointerException("clazz");
+        }
+        String className = clazz.getName();
+        final int lastDotIdx = className.lastIndexOf(PACKAGE_SEPARATOR_CHAR);
+        if (lastDotIdx > -1) {
+            return className.substring(lastDotIdx + 1);
+        }
+        return className;
     }
 }

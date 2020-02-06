@@ -190,4 +190,9 @@ public class NettyClient extends AbstractEndpoint implements NetChannel , Client
     public void reconnect() throws RemotingException {
 
     }
+
+    @Override
+    public boolean canHandleIdle() {
+        return true;
+    }
 }

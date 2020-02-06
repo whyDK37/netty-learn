@@ -6,6 +6,6 @@ package dubbo.mini.support;
 public class CliDemoServiceImpl implements DemoService {
     @Override
     public String sayHello(String name) {
-        return "client service," + name;
+        return "client ," + name;
     }
 }

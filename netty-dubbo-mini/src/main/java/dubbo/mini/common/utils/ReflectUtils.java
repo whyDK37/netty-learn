@@ -2,8 +2,11 @@ package dubbo.mini.common.utils;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -72,6 +75,11 @@ public class ReflectUtils {
     public static final Pattern IS_HAS_CAN_METHOD_DESC_PATTERN = Pattern.compile("(?:is|has|can)([A-Z][_a-zA-Z0-9]*)\\(\\)Z");
 
     private static final ConcurrentMap<String, Class<?>> NAME_CLASS_CACHE = new ConcurrentHashMap<String, Class<?>>();
+
+
+    public static final Class<?>[] EMPTY_CLASS_ARRAY = new Class<?>[0];
+    public static final Pattern DESC_PATTERN = Pattern.compile(DESC_REGEX);
+    private static final ConcurrentMap<String, Class<?>> DESC_CLASS_CACHE = new ConcurrentHashMap<>();
 
 
     public static Class<?> forName(ClassLoader cl, String name) {
@@ -174,6 +182,18 @@ public class ReflectUtils {
         return ret.toString();
     }
 
+    public static String getDesc(final Class<?>[] cs) {
+        if (cs.length == 0) {
+            return "";
+        }
+
+        StringBuilder sb = new StringBuilder(64);
+        for (Class<?> c : cs) {
+            sb.append(getDesc(c));
+        }
+        return sb.toString();
+    }
+
     public static String getDesc(Class<?> c) {
         StringBuilder ret = new StringBuilder();
 
@@ -262,5 +282,65 @@ public class ReflectUtils {
         }
         ret.append(')').append(getDesc(m.getReturnType()));
         return ret.toString();
+    }
+
+    public static Class<?>[] desc2classArray(String desc) throws ClassNotFoundException {
+        Class<?>[] ret = desc2classArray(ClassHelper.getClassLoader(), desc);
+        return ret;
+    }
+
+    private static Class<?>[] desc2classArray(ClassLoader cl, String desc) throws ClassNotFoundException {
+        if (desc.length() == 0) {
+            return EMPTY_CLASS_ARRAY;
+        }
+
+        List<Class<?>> cs = new ArrayList<Class<?>>();
+        Matcher m = DESC_PATTERN.matcher(desc);
+        while (m.find()) {
+            cs.add(desc2class(cl, m.group()));
+        }
+        return cs.toArray(EMPTY_CLASS_ARRAY);
+    }
+
+
+    private static Class<?> desc2class(ClassLoader cl, String desc) throws ClassNotFoundException {
+        switch (desc.charAt(0)) {
+            case JVM_VOID:
+                return void.class;
+            case JVM_BOOLEAN:
+                return boolean.class;
+            case JVM_BYTE:
+                return byte.class;
+            case JVM_CHAR:
+                return char.class;
+            case JVM_DOUBLE:
+                return double.class;
+            case JVM_FLOAT:
+                return float.class;
+            case JVM_INT:
+                return int.class;
+            case JVM_LONG:
+                return long.class;
+            case JVM_SHORT:
+                return short.class;
+            case 'L':
+                desc = desc.substring(1, desc.length() - 1).replace('/', '.'); // "Ljava/lang/Object;" ==> "java.lang.Object"
+                break;
+            case '[':
+                desc = desc.replace('/', '.');  // "[[Ljava/lang/Object;" ==> "[[Ljava.lang.Object;"
+                break;
+            default:
+                throw new ClassNotFoundException("Class not found: " + desc);
+        }
+
+        if (cl == null) {
+            cl = ClassHelper.getClassLoader();
+        }
+        Class<?> clazz = DESC_CLASS_CACHE.get(desc);
+        if (clazz == null) {
+            clazz = Class.forName(desc, true, cl);
+            DESC_CLASS_CACHE.put(desc, clazz);
+        }
+        return clazz;
     }
 }

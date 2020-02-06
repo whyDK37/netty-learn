@@ -74,14 +74,9 @@ public class Response {
     /**
      * 响应编号
      *
-     * 一个 {@link Request#mId} 和 {@link Response#mId} 一一对应。
+     * 一个 {@link Request#getId()} 和 {@link Response#mId} 一一对应。
      */
     private long mId = 0;
-
-    /**
-     * 版本
-     */
-    private String mVersion;
 
     /**
      * 状态
@@ -110,25 +105,12 @@ public class Response {
         mId = id;
     }
 
-    public Response(long id, String version) {
-        mId = id;
-        mVersion = version;
-    }
-
     public long getId() {
         return mId;
     }
 
     public void setId(long id) {
         mId = id;
-    }
-
-    public String getVersion() {
-        return mVersion;
-    }
-
-    public void setVersion(String version) {
-        mVersion = version;
     }
 
     public byte getStatus() {
@@ -181,7 +163,7 @@ public class Response {
 
     @Override
     public String toString() {
-        return "Response [id=" + mId + ", version=" + mVersion + ", status=" + mStatus + ", event=" + mEvent
+        return "Response [id=" + mId + ", status=" + mStatus + ", event=" + mEvent
                 + ", error=" + mErrorMsg + ", result=" + (mResult == this ? "this" : mResult) + "]";
     }
 }

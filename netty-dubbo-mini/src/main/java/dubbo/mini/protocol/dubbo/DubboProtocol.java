@@ -1,4 +1,4 @@
-package dubbo.mini.protocol;
+package dubbo.mini.protocol.dubbo;
 
 import dubbo.mini.common.Constants;
 import dubbo.mini.common.NetURL;
@@ -6,6 +6,10 @@ import dubbo.mini.common.URLBuilder;
 import dubbo.mini.common.utils.NetUtils;
 import dubbo.mini.exception.RpcException;
 import dubbo.mini.exchange.*;
+import dubbo.mini.protocol.AbstractProtocol;
+import dubbo.mini.protocol.DubboExporter;
+import dubbo.mini.protocol.Exporter;
+import dubbo.mini.protocol.Protocol;
 import dubbo.mini.remote.NetChannel;
 import dubbo.mini.remote.RemotingException;
 import dubbo.mini.remote.Transporter;
@@ -17,7 +21,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author why
@@ -31,8 +34,6 @@ public class DubboProtocol extends AbstractProtocol {
     private static final String IS_CALLBACK_SERVICE_INVOKE = "_isCallBackServiceInvoke";
     public static final int DEFAULT_PORT = 20880;
     private final Map<String, ExchangeServer> serverMap = new ConcurrentHashMap<>();
-    private final ConcurrentMap<String, String> stubServiceMethodsMap = new ConcurrentHashMap<>();
-
 
     public DubboProtocol() {
         INSTANCE = this;
@@ -160,22 +161,6 @@ public class DubboProtocol extends AbstractProtocol {
         DubboExporter<T> exporter = new DubboExporter<T>(invoker, key, exporterMap);
         exporterMap.put(key, exporter);
 
-        //export an stub service for dispatching event
-        boolean isStubSupportEvent = url.getParameter(Constants.STUB_EVENT_KEY, Constants.DEFAULT_STUB_EVENT);
-        boolean isCallbackservice = url.getParameter(Constants.IS_CALLBACK_SERVICE, false);
-        if (isStubSupportEvent && !isCallbackservice) {
-            String stubServiceMethods = url.getParameter(Constants.STUB_EVENT_METHODS_KEY);
-            if (stubServiceMethods == null || stubServiceMethods.length() == 0) {
-                if (logger.isWarnEnabled()) {
-                    logger.warn("", new IllegalStateException("consumer [" + url.getParameter(Constants.INTERFACE_KEY) +
-                            "], has set stubproxy support event ,but no stub methods founded."));
-                }
-
-            } else {
-                stubServiceMethodsMap.put(url.getServiceKey(), stubServiceMethods);
-            }
-        }
-
         openServer(url);
 
         return exporter;
@@ -204,7 +189,7 @@ public class DubboProtocol extends AbstractProtocol {
     }
 
 
-    private ExchangeServer createServer(NetURL url) {
+    protected ExchangeServer createServer(NetURL url) {
         url = URLBuilder.from(url)
                 // send readonly event when server closes, it's enabled by default
                 .addParameterIfAbsent(Constants.CHANNEL_READONLYEVENT_SENT_KEY, Boolean.TRUE.toString())

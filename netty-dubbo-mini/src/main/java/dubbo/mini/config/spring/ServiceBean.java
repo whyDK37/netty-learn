@@ -37,15 +37,13 @@ import java.util.concurrent.TimeUnit;
 public class ServiceBean<T> implements InitializingBean, DisposableBean,
         ApplicationContextAware, ApplicationListener<ContextRefreshedEvent>, BeanNameAware {
 
-    private static final long serialVersionUID = 213195494150089726L;
-
     private Logger logger = LoggerFactory.getLogger(ServiceBean.class);
 
     private static final Protocol protocol = ExtensionLoader.getExtensionLoader(Protocol.class).getDefaultExtension();
 
     private static final ProxyFactory proxyFactory = ExtensionLoader.getExtensionLoader(ProxyFactory.class).getDefaultExtension();
 
-    private final List<Exporter<?>> exporters = new ArrayList<Exporter<?>>();
+    private final List<Exporter<?>> exporters = new ArrayList<>();
 
     private static final ScheduledExecutorService delayExportExecutor = Executors.newSingleThreadScheduledExecutor(
             new NamedThreadFactory("ServiceDelayExporter", true));
@@ -168,7 +166,7 @@ public class ServiceBean<T> implements InitializingBean, DisposableBean,
                     logger.info("Export dubbo service " + interfaceClass.getName() + " to url " + url);
                 }
                 Invoker<?> invoker = proxyFactory.getInvoker(ref, (Class) interfaceClass, url);
-                DelegateProviderMetaDataInvoker wrapperInvoker = new DelegateProviderMetaDataInvoker(invoker, this);
+                DelegateProviderMetaDataInvoker<T> wrapperInvoker = new DelegateProviderMetaDataInvoker(invoker, this);
 
                 Exporter<?> exporter = protocol.export(wrapperInvoker);
                 exporters.add(exporter);

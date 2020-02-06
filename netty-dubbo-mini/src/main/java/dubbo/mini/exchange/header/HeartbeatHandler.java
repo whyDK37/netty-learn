@@ -1,8 +1,12 @@
-package dubbo.mini.remote;
+package dubbo.mini.exchange.header;
 
 import dubbo.mini.common.Constants;
 import dubbo.mini.exchange.Request;
 import dubbo.mini.exchange.Response;
+import dubbo.mini.remote.AbstractChannelHandlerDelegate;
+import dubbo.mini.remote.ChannelEventHandler;
+import dubbo.mini.remote.NetChannel;
+import dubbo.mini.remote.RemotingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,7 +48,7 @@ public class HeartbeatHandler extends AbstractChannelHandlerDelegate {
         if (isHeartbeatRequest(message)) {
             Request req = (Request) message;
             if (req.isTwoWay()) {
-                Response res = new Response(req.getId(), req.getVersion());
+                Response res = new Response(req.getId());
                 res.setEvent(Response.HEARTBEAT_EVENT);
                 channel.send(res);
                 if (logger.isInfoEnabled()) {

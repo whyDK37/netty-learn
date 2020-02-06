@@ -1,6 +1,7 @@
 package dubbo.mini.remote;
 
 import dubbo.mini.common.NetURL;
+import dubbo.mini.exchange.header.HeartbeatHandler;
 
 public class ChannelHandlers {
 

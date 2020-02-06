@@ -1,8 +1,9 @@
-package dubbo.mini.protocol;
+package dubbo.mini.protocol.jvm;
 
 import dubbo.mini.common.Constants;
 import dubbo.mini.common.NetURL;
 import dubbo.mini.exception.RpcException;
+import dubbo.mini.protocol.Exporter;
 import dubbo.mini.rpc.AbstractInvoker;
 import dubbo.mini.rpc.Invocation;
 import dubbo.mini.rpc.Result;

@@ -9,7 +9,6 @@ public interface ResponseFuture {
 
     <T> T get(int timeoutInMillis) throws RemotingException;
 
-
     boolean isDone();
 
 }

@@ -1,5 +1,7 @@
-package dubbo.mini.protocol;
+package dubbo.mini.protocol.jvm;
 
+import dubbo.mini.protocol.AbstractExporter;
+import dubbo.mini.protocol.Exporter;
 import dubbo.mini.rpc.Invoker;
 
 import java.util.Map;
