@@ -79,7 +79,6 @@ public class Constants {
 
     public static final boolean DEFAULT_SENT = false;
 
-    public static final String REGISTRY_PROTOCOL = "registry";
 
     public static final String $INVOKE = "$invoke";
 

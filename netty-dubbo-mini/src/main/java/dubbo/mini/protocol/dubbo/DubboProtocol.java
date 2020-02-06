@@ -3,13 +3,13 @@ package dubbo.mini.protocol.dubbo;
 import dubbo.mini.common.Constants;
 import dubbo.mini.common.NetURL;
 import dubbo.mini.common.URLBuilder;
+import dubbo.mini.common.utils.CollectionUtils;
+import dubbo.mini.common.utils.ConfigUtils;
 import dubbo.mini.common.utils.NetUtils;
+import dubbo.mini.common.utils.StringUtils;
 import dubbo.mini.exception.RpcException;
 import dubbo.mini.exchange.*;
-import dubbo.mini.protocol.AbstractProtocol;
-import dubbo.mini.protocol.DubboExporter;
-import dubbo.mini.protocol.Exporter;
-import dubbo.mini.protocol.Protocol;
+import dubbo.mini.protocol.*;
 import dubbo.mini.remote.NetChannel;
 import dubbo.mini.remote.RemotingException;
 import dubbo.mini.remote.Transporter;
@@ -17,10 +17,13 @@ import dubbo.mini.rpc.*;
 import dubbo.mini.support.ExtensionLoader;
 
 import java.net.InetSocketAddress;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * @author why
@@ -34,6 +37,7 @@ public class DubboProtocol extends AbstractProtocol {
     private static final String IS_CALLBACK_SERVICE_INVOKE = "_isCallBackServiceInvoke";
     public static final int DEFAULT_PORT = 20880;
     private final Map<String, ExchangeServer> serverMap = new ConcurrentHashMap<>();
+    private final ConcurrentMap<String, Object> locks = new ConcurrentHashMap<>();
 
     public DubboProtocol() {
         INSTANCE = this;
@@ -262,7 +266,176 @@ public class DubboProtocol extends AbstractProtocol {
     }
 
     @Override
-    public <T> Invoker<T> refer(Class<T> type, NetURL url) throws RpcException {
-        return null;
+    public <T> Invoker<T> refer(Class<T> serviceType, NetURL url) throws RpcException {
+        // create rpc invoker.
+        DubboInvoker<T> invoker = new DubboInvoker<T>(serviceType, url, getClients(url), invokers);
+        invokers.add(invoker);
+
+        return invoker;
+    }
+
+
+    private ExchangeClient[] getClients(NetURL url) {
+        // whether to share connection
+
+        boolean useShareConnect = false;
+
+        int connections = url.getParameter(Constants.CONNECTIONS_KEY, 0);
+        List<ReferenceCountExchangeClient> shareClients = null;
+        // if not configured, connection is shared, otherwise, one connection for one service
+        if (connections == 0) {
+            useShareConnect = true;
+
+            /**
+             * The xml configuration should have a higher priority than properties.
+             */
+            String shareConnectionsStr = url.getParameter(Constants.SHARE_CONNECTIONS_KEY, (String) null);
+            connections = Integer.parseInt(StringUtils.isEmpty(shareConnectionsStr) ? ConfigUtils.getProperty(Constants.SHARE_CONNECTIONS_KEY,
+                    Constants.DEFAULT_SHARE_CONNECTIONS) : shareConnectionsStr);
+            shareClients = getSharedClient(url, connections);
+        }
+
+        ExchangeClient[] clients = new ExchangeClient[connections];
+        for (int i = 0; i < clients.length; i++) {
+            if (useShareConnect) {
+                clients[i] = shareClients.get(i);
+
+            } else {
+                clients[i] = initClient(url);
+            }
+        }
+
+        return clients;
+    }
+
+    private final Map<String, List<ReferenceCountExchangeClient>> referenceClientMap = new ConcurrentHashMap<>();
+
+    private List<ReferenceCountExchangeClient> getSharedClient(NetURL url, int connectNum) {
+        String key = url.getAddress();
+        List<ReferenceCountExchangeClient> clients = referenceClientMap.get(key);
+
+        if (checkClientCanUse(clients)) {
+            batchClientRefIncr(clients);
+            return clients;
+        }
+
+        locks.putIfAbsent(key, new Object());
+        synchronized (locks.get(key)) {
+            clients = referenceClientMap.get(key);
+            // dubbo check
+            if (checkClientCanUse(clients)) {
+                batchClientRefIncr(clients);
+                return clients;
+            }
+
+            // connectNum must be greater than or equal to 1
+            connectNum = Math.max(connectNum, 1);
+
+            // If the clients is empty, then the first initialization is
+            if (CollectionUtils.isEmpty(clients)) {
+                clients = buildReferenceCountExchangeClientList(url, connectNum);
+                referenceClientMap.put(key, clients);
+
+            } else {
+                for (int i = 0; i < clients.size(); i++) {
+                    ReferenceCountExchangeClient referenceCountExchangeClient = clients.get(i);
+                    // If there is a client in the list that is no longer available, create a new one to replace him.
+                    if (referenceCountExchangeClient == null || referenceCountExchangeClient.isClosed()) {
+                        clients.set(i, buildReferenceCountExchangeClient(url));
+                        continue;
+                    }
+
+                    referenceCountExchangeClient.incrementAndGetCount();
+                }
+            }
+
+            /**
+             * I understand that the purpose of the remove operation here is to avoid the expired url key
+             * always occupying this memory space.
+             */
+            locks.remove(key);
+
+            return clients;
+        }
+    }
+
+
+    private boolean checkClientCanUse(List<ReferenceCountExchangeClient> referenceCountExchangeClients) {
+        if (CollectionUtils.isEmpty(referenceCountExchangeClients)) {
+            return false;
+        }
+
+        for (ReferenceCountExchangeClient referenceCountExchangeClient : referenceCountExchangeClients) {
+            // As long as one client is not available, you need to replace the unavailable client with the available one.
+            if (referenceCountExchangeClient == null || referenceCountExchangeClient.isClosed()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
+    private void batchClientRefIncr(List<ReferenceCountExchangeClient> referenceCountExchangeClients) {
+        if (CollectionUtils.isEmpty(referenceCountExchangeClients)) {
+            return;
+        }
+
+        for (ReferenceCountExchangeClient referenceCountExchangeClient : referenceCountExchangeClients) {
+            if (referenceCountExchangeClient != null) {
+                referenceCountExchangeClient.incrementAndGetCount();
+            }
+        }
+    }
+
+
+    private List<ReferenceCountExchangeClient> buildReferenceCountExchangeClientList(NetURL url, int connectNum) {
+        List<ReferenceCountExchangeClient> clients = new CopyOnWriteArrayList<>();
+
+        for (int i = 0; i < connectNum; i++) {
+            clients.add(buildReferenceCountExchangeClient(url));
+        }
+
+        return clients;
+    }
+
+
+    private ReferenceCountExchangeClient buildReferenceCountExchangeClient(NetURL url) {
+        ExchangeClient exchangeClient = initClient(url);
+
+        return new ReferenceCountExchangeClient(exchangeClient);
+    }
+
+
+    private ExchangeClient initClient(NetURL url) {
+
+        // client type setting.
+        String str = url.getParameter(Constants.CLIENT_KEY, url.getParameter(Constants.SERVER_KEY, Constants.DEFAULT_REMOTING_CLIENT));
+
+        url = url.addParameter(Constants.CODEC_KEY, DubboCodec.NAME);
+        // enable heartbeat by default
+        url = url.addParameterIfAbsent(Constants.HEARTBEAT_KEY, String.valueOf(Constants.DEFAULT_HEARTBEAT));
+
+        // BIO is not allowed since it has severe performance issue.
+        if (str != null && str.length() > 0 && !ExtensionLoader.getExtensionLoader(Transporter.class).hasExtension(str)) {
+            throw new RpcException("Unsupported client type: " + str + "," +
+                    " supported client type is " + StringUtils.join(ExtensionLoader.getExtensionLoader(Transporter.class).getSupportedExtensions(), " "));
+        }
+
+        ExchangeClient client;
+        try {
+            // connection should be lazy
+            if (url.getParameter(Constants.LAZY_CONNECT_KEY, false)) {
+                client = new LazyConnectExchangeClient(url, requestHandler);
+
+            } else {
+                client = Exchangers.connect(url, requestHandler);
+            }
+
+        } catch (RemotingException e) {
+            throw new RpcException("Fail to create remoting client for service(" + url + "): " + e.getMessage(), e);
+        }
+
+        return client;
     }
 }

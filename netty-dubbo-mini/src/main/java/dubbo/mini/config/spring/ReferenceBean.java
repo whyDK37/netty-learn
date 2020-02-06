@@ -2,7 +2,10 @@ package dubbo.mini.config.spring;
 
 import dubbo.mini.common.Constants;
 import dubbo.mini.common.NetURL;
+import dubbo.mini.common.utils.CollectionUtils;
+import dubbo.mini.common.utils.NetUtils;
 import dubbo.mini.common.utils.StringUtils;
+import dubbo.mini.protocol.ProtocolAdaptive;
 import dubbo.mini.rpc.Invoker;
 import dubbo.mini.rpc.ProxyFactory;
 import dubbo.mini.rpc.model.ApplicationModel;
@@ -17,6 +20,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +34,6 @@ public class ReferenceBean<T> implements FactoryBean, ApplicationContextAware, I
 
     private T ref;
 
-
     private String interfaceName;
     private Class<?> interfaceClass;
 
@@ -38,17 +41,21 @@ public class ReferenceBean<T> implements FactoryBean, ApplicationContextAware, I
     /**
      * The invoker of the reference service
      */
-    private NetURL url;
+    private String urlStr;
     private transient volatile Invoker<?> invoker;
 
     private transient volatile boolean destroyed;
     private transient volatile boolean initialized;
 
+    public void setUrl(String url) {
+        this.urlStr = url;
+    }
+
     public synchronized T get() {
         checkAndUpdateSubConfigs();
 
         if (destroyed) {
-            throw new IllegalStateException("The invoker of ReferenceConfig(" + url + ") has already destroyed!");
+            throw new IllegalStateException("The invoker of ReferenceConfig(" + urlStr + ") has already destroyed!");
         }
         if (ref == null) {
             init();
@@ -94,12 +101,30 @@ public class ReferenceBean<T> implements FactoryBean, ApplicationContextAware, I
     }
 
     private T createProxy(Map<String, String> map) {
-
+        if (shouldJvmRefer(map)) {
+            NetURL url = new NetURL(Constants.LOCAL_PROTOCOL, Constants.LOCALHOST_VALUE, 0, interfaceClass.getName(), map);
+//            invoker = refprotocol.refer(interfaceClass, url);
+//            if (logger.isInfoEnabled()) {
+//                logger.info("Using injvm service " + interfaceClass.getName());
+//            }
+        } else {
+            NetURL url;
+            if (urlStr != null && urlStr.length() > 0) { // user specified URL, could be peer-to-peer address, or register center's address.
+                url = NetURL.valueOf(urlStr);
+            } else { // assemble URL from register center's configuration
+                throw new IllegalStateException("No url to reference " + interfaceName + " on the consumer " + NetUtils.getLocalHost());
+            }
+            invoker = ProtocolAdaptive.getInstance().refer(interfaceClass, url);
+        }
         if (logger.isInfoEnabled()) {
             logger.info("Refer dubbo service " + interfaceName + " from url " + invoker.getUrl());
         }
 
         return (T) proxyFactory.getProxy(invoker);
+    }
+
+    private boolean shouldJvmRefer(Map<String, String> map) {
+        return false;
     }
 
 
@@ -119,7 +144,7 @@ public class ReferenceBean<T> implements FactoryBean, ApplicationContextAware, I
         try {
             invoker.destroy();
         } catch (Throwable t) {
-            logger.warn("Unexpected error occured when destroy invoker of ReferenceConfig(" + url + ").", t);
+            logger.warn("Unexpected error occured when destroy invoker of ReferenceConfig(" + urlStr + ").", t);
         }
         invoker = null;
         ref = null;
@@ -127,7 +152,7 @@ public class ReferenceBean<T> implements FactoryBean, ApplicationContextAware, I
 
     @Override
     public Object getObject() throws Exception {
-        return null;
+        return get();
     }
 
     @Override

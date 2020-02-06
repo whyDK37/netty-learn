@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 /**
  *
  */
+@io.netty.channel.ChannelHandler.Sharable
 public class NettyClientHandler extends ChannelDuplexHandler {
 
     private static Logger logger = LoggerFactory.getLogger(NettyClientHandler.class);

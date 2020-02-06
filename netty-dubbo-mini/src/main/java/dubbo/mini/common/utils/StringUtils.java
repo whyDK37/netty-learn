@@ -3,8 +3,10 @@ package dubbo.mini.common.utils;
 import dubbo.mini.common.UnsafeStringWriter;
 
 import java.io.PrintWriter;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -93,6 +95,23 @@ public class StringUtils {
         }
     }
 
+    public static String join(Collection<String> coll, String split) {
+        if (CollectionUtils.isEmpty(coll)) {
+            return EMPTY;
+        }
+
+        StringBuilder sb = new StringBuilder();
+        boolean isFirst = true;
+        for (String s : coll) {
+            if (isFirst) {
+                isFirst = false;
+            } else {
+                sb.append(split);
+            }
+            sb.append(s);
+        }
+        return sb.toString();
+    }
     public static String join(String[] array, String split) {
         if (ArrayUtils.isEmpty(array)) {
             return EMPTY;
@@ -106,4 +125,37 @@ public class StringUtils {
         }
         return sb.toString();
     }
+
+    public static String toQueryString(Map<String, String> ps) {
+        StringBuilder buf = new StringBuilder();
+        if (ps != null && ps.size() > 0) {
+            for (Map.Entry<String, String> entry : new TreeMap<String, String>(ps).entrySet()) {
+                String key = entry.getKey();
+                String value = entry.getValue();
+                if (isNoneEmpty(key, value)) {
+                    if (buf.length() > 0) {
+                        buf.append("&");
+                    }
+                    buf.append(key);
+                    buf.append("=");
+                    buf.append(value);
+                }
+            }
+        }
+        return buf.toString();
+    }
+
+
+    public static boolean isNoneEmpty(final String... ss) {
+        if (ArrayUtils.isEmpty(ss)) {
+            return false;
+        }
+        for (final String s : ss) {
+            if (isEmpty(s)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }

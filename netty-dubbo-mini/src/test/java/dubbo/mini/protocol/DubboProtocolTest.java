@@ -19,7 +19,7 @@ class DubboProtocolTest {
 
         Protocol protocol = ExtensionLoader.getExtensionLoader(Protocol.class).getDefaultExtension();
 
-        NetURL url = new NetURL("dubbo", "127.0.0.1", 12345, "", null);
+        NetURL url = new NetURL("dubbo", "127.0.0.1", 2022, "", null);
 //        url.addParameter(Constants.BIND_IP_KEY, "127.0.0.1");
 //        url.addParameter(Constants.BIND_PORT_KEY, 12345);
         Invoker<?> invoker = proxyFactory.getInvoker(new ServDemoServiceImpl(), DemoService.class, url);
