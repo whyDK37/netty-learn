@@ -28,41 +28,41 @@ import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.SelfSignedCertificate;
 
 /**
- * Serves two protocols (HTTP and Factorial) using only one port, enabling
- * either SSL or GZIP dynamically on demand.
+ * Serves two protocols (HTTP and Factorial) using only one port, enabling either SSL or GZIP
+ * dynamically on demand.
  * <p>
- * Because SSL and GZIP are enabled on demand, 5 combinations per protocol
- * are possible: none, SSL only, GZIP only, SSL + GZIP, and GZIP + SSL.
+ * Because SSL and GZIP are enabled on demand, 5 combinations per protocol are possible: none, SSL
+ * only, GZIP only, SSL + GZIP, and GZIP + SSL.
  */
 public final class PortUnificationServer {
 
-    static final int PORT = Integer.parseInt(System.getProperty("port", "8080"));
+  static final int PORT = Integer.parseInt(System.getProperty("port", "8080"));
 
-    public static void main(String[] args) throws Exception {
-        // Configure SSL context
-        SelfSignedCertificate ssc = new SelfSignedCertificate();
-        final SslContext sslCtx = SslContextBuilder.forServer(ssc.certificate(), ssc.privateKey())
-            .build();
+  public static void main(String[] args) throws Exception {
+    // Configure SSL context
+    SelfSignedCertificate ssc = new SelfSignedCertificate();
+    final SslContext sslCtx = SslContextBuilder.forServer(ssc.certificate(), ssc.privateKey())
+        .build();
 
-        EventLoopGroup bossGroup = new NioEventLoopGroup(1);
-        EventLoopGroup workerGroup = new NioEventLoopGroup();
-        try {
-            ServerBootstrap b = new ServerBootstrap();
-            b.group(bossGroup, workerGroup)
-             .channel(NioServerSocketChannel.class)
-             .handler(new LoggingHandler(LogLevel.INFO))
-             .childHandler(new ChannelInitializer<SocketChannel>() {
-                @Override
-                public void initChannel(SocketChannel ch) throws Exception {
-                    ch.pipeline().addLast(new PortUnificationServerHandler(sslCtx));
-                }
-            });
+    EventLoopGroup bossGroup = new NioEventLoopGroup(1);
+    EventLoopGroup workerGroup = new NioEventLoopGroup();
+    try {
+      ServerBootstrap b = new ServerBootstrap();
+      b.group(bossGroup, workerGroup)
+          .channel(NioServerSocketChannel.class)
+          .handler(new LoggingHandler(LogLevel.INFO))
+          .childHandler(new ChannelInitializer<SocketChannel>() {
+            @Override
+            public void initChannel(SocketChannel ch) throws Exception {
+              ch.pipeline().addLast(new PortUnificationServerHandler(sslCtx));
+            }
+          });
 
-            // Bind and start to accept incoming connections.
-            b.bind(PORT).sync().channel().closeFuture().sync();
-        } finally {
-            bossGroup.shutdownGracefully();
-            workerGroup.shutdownGracefully();
-        }
+      // Bind and start to accept incoming connections.
+      b.bind(PORT).sync().channel().closeFuture().sync();
+    } finally {
+      bossGroup.shutdownGracefully();
+      workerGroup.shutdownGracefully();
     }
+  }
 }

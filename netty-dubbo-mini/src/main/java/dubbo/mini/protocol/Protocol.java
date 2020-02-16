@@ -8,12 +8,12 @@ import dubbo.mini.support.SPI;
 @SPI("dubbo")
 public interface Protocol {
 
-    int getDefaultPort();
+  int getDefaultPort();
 
-    <T> Exporter<T> export(Invoker<T> invoker) throws RpcException;
+  <T> Exporter<T> export(Invoker<T> invoker) throws RpcException;
 
-    <T> Invoker<T> refer(Class<T> type, NetURL url) throws RpcException;
+  <T> Invoker<T> refer(Class<T> type, NetURL url) throws RpcException;
 
-    void destroy();
+  void destroy();
 
 }

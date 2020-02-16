@@ -5,28 +5,28 @@ import java.util.Map;
 
 public interface Result extends Serializable {
 
-    Object getValue();
+  Object getValue();
 
-    Throwable getException();
+  Throwable getException();
 
-    boolean hasException();
+  boolean hasException();
 
-    Object recreate() throws Throwable;
+  Object recreate() throws Throwable;
 
-    @Deprecated
-    Object getResult();
+  @Deprecated
+  Object getResult();
 
 
-    Map<String, String> getAttachments();
+  Map<String, String> getAttachments();
 
-    void addAttachments(Map<String, String> map);
+  void addAttachments(Map<String, String> map);
 
-    void setAttachments(Map<String, String> map);
+  void setAttachments(Map<String, String> map);
 
-    String getAttachment(String key);
+  String getAttachment(String key);
 
-    String getAttachment(String key, String defaultValue);
+  String getAttachment(String key, String defaultValue);
 
-    void setAttachment(String key, String value);
+  void setAttachment(String key, String value);
 
 }

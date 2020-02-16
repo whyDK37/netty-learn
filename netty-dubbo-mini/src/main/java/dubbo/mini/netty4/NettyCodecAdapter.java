@@ -1,4 +1,3 @@
-
 package dubbo.mini.netty4;
 
 import dubbo.mini.buffer.ChannelBuffer;
@@ -12,7 +11,6 @@ import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 import io.netty.handler.codec.MessageToByteEncoder;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -21,84 +19,85 @@ import java.util.List;
  */
 public final class NettyCodecAdapter {
 
-    private final ChannelHandler encoder = new InternalEncoder();
+  private final ChannelHandler encoder = new InternalEncoder();
 
-    private final ChannelHandler decoder = new InternalDecoder();
+  private final ChannelHandler decoder = new InternalDecoder();
 
-    private final Codec codec;
+  private final Codec codec;
 
 
-    private final ChannelEventHandler handler;
-    private final NetURL url;
+  private final ChannelEventHandler handler;
+  private final NetURL url;
 
-    public NettyCodecAdapter(Codec codec, NetURL url, ChannelEventHandler handler) {
-        this.codec = codec;
-        this.url = url;
-        this.handler = handler;
-    }
+  public NettyCodecAdapter(Codec codec, NetURL url, ChannelEventHandler handler) {
+    this.codec = codec;
+    this.url = url;
+    this.handler = handler;
+  }
 
-    public ChannelHandler getEncoder() {
-        return encoder;
-    }
+  public ChannelHandler getEncoder() {
+    return encoder;
+  }
 
-    public ChannelHandler getDecoder() {
-        return decoder;
-    }
+  public ChannelHandler getDecoder() {
+    return decoder;
+  }
 
-    private class InternalEncoder extends MessageToByteEncoder {
+  private class InternalEncoder extends MessageToByteEncoder {
 
-        @Override
-        protected void encode(ChannelHandlerContext ctx, Object msg, ByteBuf out) throws Exception {
+    @Override
+    protected void encode(ChannelHandlerContext ctx, Object msg, ByteBuf out) throws Exception {
 //            com.alibaba.dubbo.remoting.buffer.ChannelBuffer buffer = new NettyBackedChannelBuffer(out);
-            ChannelBuffer buffer = new NettyBackedChannelBuffer(out);
-            Channel ch = ctx.channel();
+      ChannelBuffer buffer = new NettyBackedChannelBuffer(out);
+      Channel ch = ctx.channel();
 //            NettyChannel channel = NettyChannel.getOrAddChannel(ch, url, handler);
 //            try {
 //                codec.encode(ctx.channel(), buffer, msg);
 //            } finally {
 ////                NettyChannel.removeChannelIfDisconnected(ch);
 //            }
-        }
     }
+  }
 
-    private class InternalDecoder extends ByteToMessageDecoder {
+  private class InternalDecoder extends ByteToMessageDecoder {
 
-        @Override
-        protected void decode(ChannelHandlerContext ctx, ByteBuf input, List<Object> out) throws Exception {
+    @Override
+    protected void decode(ChannelHandlerContext ctx, ByteBuf input, List<Object> out)
+        throws Exception {
 
-            ChannelBuffer message = new NettyBackedChannelBuffer(input);
+      ChannelBuffer message = new NettyBackedChannelBuffer(input);
 
-            NettyChannel channel = NettyChannel.getOrAddChannel(ctx.channel(), url, handler);
+      NettyChannel channel = NettyChannel.getOrAddChannel(ctx.channel(), url, handler);
 
-            Object msg;
+      Object msg;
 
-            int saveReaderIndex;
+      int saveReaderIndex;
 
-            try {
-                // decode object.
-                do {
-                    saveReaderIndex = message.readerIndex();
-                    try {
-                        msg = codec.decode(channel, message);
-                    } catch (IOException e) {
-                        throw e;
-                    }
-                    if (msg == Codec.DecodeResult.NEED_MORE_INPUT) {
-                        message.readerIndex(saveReaderIndex);
-                        break;
-                    } else {
-                        //is it possible to go here ?
-                        if (saveReaderIndex == message.readerIndex()) {
-                            throw new IOException("Decode without read data.");
-                        }
-                        if (msg != null) {
-                            out.add(msg);
-                        }
-                    }
-                } while (message.readable());
-            } finally {
-//                NettyChannel.removeChannelIfDisconnected(ctx.channel());
+      try {
+        // decode object.
+        do {
+          saveReaderIndex = message.readerIndex();
+          try {
+            msg = codec.decode(channel, message);
+          } catch (IOException e) {
+            throw e;
+          }
+          if (msg == Codec.DecodeResult.NEED_MORE_INPUT) {
+            message.readerIndex(saveReaderIndex);
+            break;
+          } else {
+            //is it possible to go here ?
+            if (saveReaderIndex == message.readerIndex()) {
+              throw new IOException("Decode without read data.");
             }
-        }
+            if (msg != null) {
+              out.add(msg);
+            }
+          }
+        } while (message.readable());
+      } finally {
+//                NettyChannel.removeChannelIfDisconnected(ctx.channel());
+      }
     }
+  }
 }

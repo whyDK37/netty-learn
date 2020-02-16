@@ -3,22 +3,23 @@ package com.atguigu.netty.protocoltcp;
 
 //协议包
 public class MessageProtocol {
-    private int len; //关键
-    private byte[] content;
 
-    public int getLen() {
-        return len;
-    }
+  private int len; //关键
+  private byte[] content;
 
-    public void setLen(int len) {
-        this.len = len;
-    }
+  public int getLen() {
+    return len;
+  }
 
-    public byte[] getContent() {
-        return content;
-    }
+  public void setLen(int len) {
+    this.len = len;
+  }
 
-    public void setContent(byte[] content) {
-        this.content = content;
-    }
+  public byte[] getContent() {
+    return content;
+  }
+
+  public void setContent(byte[] content) {
+    this.content = content;
+  }
 }

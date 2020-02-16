@@ -3,12 +3,12 @@ package dubbo.mini.remote;
 import java.net.InetSocketAddress;
 import java.util.Collection;
 
-public interface Server extends Endpoint,IdleSensible, Resetable {
+public interface Server extends Endpoint, IdleSensible, Resetable {
 
-    boolean isBound();
+  boolean isBound();
 
-    Collection<NetChannel> getChannels();
+  Collection<NetChannel> getChannels();
 
-    NetChannel getChannel(InetSocketAddress remoteAddress);
+  NetChannel getChannel(InetSocketAddress remoteAddress);
 
 }

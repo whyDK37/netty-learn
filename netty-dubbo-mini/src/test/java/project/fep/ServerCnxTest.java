@@ -2,7 +2,7 @@ package project.fep;
 
 public class ServerCnxTest {
 
-    public static void main(String[] args) throws Throwable {
+  public static void main(String[] args) throws Throwable {
 //        NettyServer serverCnx = new NettyServer(ip, port, timeout, idleTimeout, connectTimeout);
 //        serverCnx.open();
 //        Scanner scanner = new Scanner(System.in);
@@ -24,6 +24,6 @@ public class ServerCnxTest {
 //                System.out.println("query.getSuccess() = " + query.getSuccess());
 //            }
 //        }
-    }
+  }
 
 }

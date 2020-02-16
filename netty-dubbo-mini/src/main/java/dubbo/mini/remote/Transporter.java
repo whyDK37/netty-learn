@@ -6,8 +6,8 @@ import dubbo.mini.support.SPI;
 @SPI("netty")
 public interface Transporter {
 
-    Server bind(NetURL url, ChannelEventHandler handler) throws RemotingException;
+  Server bind(NetURL url, ChannelEventHandler handler) throws RemotingException;
 
-    Client connect(NetURL url, ChannelEventHandler handler) throws RemotingException;
+  Client connect(NetURL url, ChannelEventHandler handler) throws RemotingException;
 
 }

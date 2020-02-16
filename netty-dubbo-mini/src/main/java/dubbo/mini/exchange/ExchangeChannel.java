@@ -6,12 +6,12 @@ import dubbo.mini.support.ResponseFuture;
 
 public interface ExchangeChannel extends NetChannel {
 
-    ResponseFuture request(Object request) throws RemotingException;
+  ResponseFuture request(Object request) throws RemotingException;
 
-    ResponseFuture request(Object request, int timeout) throws RemotingException;
+  ResponseFuture request(Object request, int timeout) throws RemotingException;
 
-    ExchangeHandler getExchangeHandler();
+  ExchangeHandler getExchangeHandler();
 
-    @Override
-    void close(int timeout);
+  @Override
+  void close(int timeout);
 }

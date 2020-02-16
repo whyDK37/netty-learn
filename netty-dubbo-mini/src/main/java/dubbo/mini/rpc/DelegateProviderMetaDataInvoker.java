@@ -5,40 +5,41 @@ import dubbo.mini.config.spring.ServiceBean;
 import dubbo.mini.exception.RpcException;
 
 public class DelegateProviderMetaDataInvoker<T> implements Invoker {
-    protected final Invoker<T> invoker;
-    private ServiceBean metadata;
 
-    public DelegateProviderMetaDataInvoker(Invoker<T> invoker, ServiceBean metadata) {
-        this.invoker = invoker;
-        this.metadata = metadata;
-    }
+  protected final Invoker<T> invoker;
+  private ServiceBean metadata;
 
-    @Override
-    public Class<T> getInterface() {
-        return invoker.getInterface();
-    }
+  public DelegateProviderMetaDataInvoker(Invoker<T> invoker, ServiceBean metadata) {
+    this.invoker = invoker;
+    this.metadata = metadata;
+  }
 
-    @Override
-    public NetURL getUrl() {
-        return invoker.getUrl();
-    }
+  @Override
+  public Class<T> getInterface() {
+    return invoker.getInterface();
+  }
 
-    @Override
-    public boolean isAvailable() {
-        return invoker.isAvailable();
-    }
+  @Override
+  public NetURL getUrl() {
+    return invoker.getUrl();
+  }
 
-    @Override
-    public Result invoke(Invocation invocation) throws RpcException {
-        return invoker.invoke(invocation);
-    }
+  @Override
+  public boolean isAvailable() {
+    return invoker.isAvailable();
+  }
 
-    @Override
-    public void destroy() {
-        invoker.destroy();
-    }
+  @Override
+  public Result invoke(Invocation invocation) throws RpcException {
+    return invoker.invoke(invocation);
+  }
 
-    public ServiceBean getMetadata() {
-        return metadata;
-    }
+  @Override
+  public void destroy() {
+    invoker.destroy();
+  }
+
+  public ServiceBean getMetadata() {
+    return metadata;
+  }
 }

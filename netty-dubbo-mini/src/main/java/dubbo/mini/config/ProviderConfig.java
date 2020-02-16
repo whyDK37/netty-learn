@@ -4,15 +4,16 @@ package dubbo.mini.config;
  * @author why
  */
 public class ProviderConfig {
-    public String getId() {
-        return null;
-    }
 
-    public Boolean isDefault() {
-        return false;
-    }
+  public String getId() {
+    return null;
+  }
 
-    public static void refresh(ProviderConfig providerConfig) {
+  public Boolean isDefault() {
+    return false;
+  }
 
-    }
+  public static void refresh(ProviderConfig providerConfig) {
+
+  }
 }

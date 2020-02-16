@@ -31,31 +31,31 @@ import io.netty.handler.codec.string.StringEncoder;
  */
 public final class RxtxClient {
 
-    static final String PORT = System.getProperty("port", "/dev/ttyUSB0");
+  static final String PORT = System.getProperty("port", "/dev/ttyUSB0");
 
-    public static void main(String[] args) throws Exception {
-        EventLoopGroup group = new OioEventLoopGroup();
-        try {
-            Bootstrap b = new Bootstrap();
-            b.group(group)
-             .channel(RxtxChannel.class)
-             .handler(new ChannelInitializer<RxtxChannel>() {
-                 @Override
-                 public void initChannel(RxtxChannel ch) throws Exception {
-                     ch.pipeline().addLast(
-                         new LineBasedFrameDecoder(32768),
-                         new StringEncoder(),
-                         new StringDecoder(),
-                         new RxtxClientHandler()
-                     );
-                 }
-             });
+  public static void main(String[] args) throws Exception {
+    EventLoopGroup group = new OioEventLoopGroup();
+    try {
+      Bootstrap b = new Bootstrap();
+      b.group(group)
+          .channel(RxtxChannel.class)
+          .handler(new ChannelInitializer<RxtxChannel>() {
+            @Override
+            public void initChannel(RxtxChannel ch) throws Exception {
+              ch.pipeline().addLast(
+                  new LineBasedFrameDecoder(32768),
+                  new StringEncoder(),
+                  new StringDecoder(),
+                  new RxtxClientHandler()
+              );
+            }
+          });
 
-            ChannelFuture f = b.connect(new RxtxDeviceAddress(PORT)).sync();
+      ChannelFuture f = b.connect(new RxtxDeviceAddress(PORT)).sync();
 
-            f.channel().closeFuture().sync();
-        } finally {
-            group.shutdownGracefully();
-        }
+      f.channel().closeFuture().sync();
+    } finally {
+      group.shutdownGracefully();
     }
+  }
 }

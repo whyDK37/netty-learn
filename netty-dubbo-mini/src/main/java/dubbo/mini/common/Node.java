@@ -2,10 +2,10 @@ package dubbo.mini.common;
 
 public interface Node {
 
-    NetURL getUrl();
+  NetURL getUrl();
 
-    boolean isAvailable();
+  boolean isAvailable();
 
-    void destroy();
+  void destroy();
 
 }

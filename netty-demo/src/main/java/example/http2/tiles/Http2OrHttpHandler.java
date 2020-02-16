@@ -27,49 +27,49 @@ import io.netty.handler.ssl.ApplicationProtocolNames;
 import io.netty.handler.ssl.ApplicationProtocolNegotiationHandler;
 
 /**
- * Used during protocol negotiation, the main function of this handler is to
- * return the HTTP/1.1 or HTTP/2 handler once the protocol has been negotiated.
+ * Used during protocol negotiation, the main function of this handler is to return the HTTP/1.1 or
+ * HTTP/2 handler once the protocol has been negotiated.
  */
 public class Http2OrHttpHandler extends ApplicationProtocolNegotiationHandler {
 
-    private static final int MAX_CONTENT_LENGTH = 1024 * 100;
+  private static final int MAX_CONTENT_LENGTH = 1024 * 100;
 
-    protected Http2OrHttpHandler() {
-        super(ApplicationProtocolNames.HTTP_1_1);
+  protected Http2OrHttpHandler() {
+    super(ApplicationProtocolNames.HTTP_1_1);
+  }
+
+  @Override
+  protected void configurePipeline(ChannelHandlerContext ctx, String protocol) throws Exception {
+    if (ApplicationProtocolNames.HTTP_2.equals(protocol)) {
+      configureHttp2(ctx);
+      return;
     }
 
-    @Override
-    protected void configurePipeline(ChannelHandlerContext ctx, String protocol) throws Exception {
-        if (ApplicationProtocolNames.HTTP_2.equals(protocol)) {
-            configureHttp2(ctx);
-            return;
-        }
-
-        if (ApplicationProtocolNames.HTTP_1_1.equals(protocol)) {
-            configureHttp1(ctx);
-            return;
-        }
-
-        throw new IllegalStateException("unknown protocol: " + protocol);
+    if (ApplicationProtocolNames.HTTP_1_1.equals(protocol)) {
+      configureHttp1(ctx);
+      return;
     }
 
-    private static void configureHttp2(ChannelHandlerContext ctx) {
-        DefaultHttp2Connection connection = new DefaultHttp2Connection(true);
-        InboundHttp2ToHttpAdapter listener = new InboundHttp2ToHttpAdapterBuilder(connection)
-                .propagateSettings(true).validateHttpHeaders(false)
-                .maxContentLength(MAX_CONTENT_LENGTH).build();
+    throw new IllegalStateException("unknown protocol: " + protocol);
+  }
 
-        ctx.pipeline().addLast(new HttpToHttp2ConnectionHandlerBuilder()
-                .frameListener(listener)
-                // .frameLogger(TilesHttp2ToHttpHandler.logger)
-                .connection(connection).build());
+  private static void configureHttp2(ChannelHandlerContext ctx) {
+    DefaultHttp2Connection connection = new DefaultHttp2Connection(true);
+    InboundHttp2ToHttpAdapter listener = new InboundHttp2ToHttpAdapterBuilder(connection)
+        .propagateSettings(true).validateHttpHeaders(false)
+        .maxContentLength(MAX_CONTENT_LENGTH).build();
 
-        ctx.pipeline().addLast(new Http2RequestHandler());
-    }
+    ctx.pipeline().addLast(new HttpToHttp2ConnectionHandlerBuilder()
+        .frameListener(listener)
+        // .frameLogger(TilesHttp2ToHttpHandler.logger)
+        .connection(connection).build());
 
-    private static void configureHttp1(ChannelHandlerContext ctx) throws Exception {
-        ctx.pipeline().addLast(new HttpServerCodec(),
-                               new HttpObjectAggregator(MAX_CONTENT_LENGTH),
-                               new FallbackRequestHandler());
-    }
+    ctx.pipeline().addLast(new Http2RequestHandler());
+  }
+
+  private static void configureHttp1(ChannelHandlerContext ctx) throws Exception {
+    ctx.pipeline().addLast(new HttpServerCodec(),
+        new HttpObjectAggregator(MAX_CONTENT_LENGTH),
+        new FallbackRequestHandler());
+  }
 }

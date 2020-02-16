@@ -1,7 +1,7 @@
 package dubbo.mini.remote;
 
-public interface Client extends Endpoint, NetChannel, IdleSensible,Resetable {
+public interface Client extends Endpoint, NetChannel, IdleSensible, Resetable {
 
-    void reconnect() throws RemotingException;
+  void reconnect() throws RemotingException;
 
 }

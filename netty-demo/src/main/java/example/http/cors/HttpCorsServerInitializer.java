@@ -28,9 +28,9 @@ import io.netty.handler.ssl.SslContext;
 import io.netty.handler.stream.ChunkedWriteHandler;
 
 /**
- * Please refer to the {@link CorsConfig} javadocs for information about all the
- * configuration options available.
- *
+ * Please refer to the {@link CorsConfig} javadocs for information about all the configuration
+ * options available.
+ * <p>
  * Below are some of configuration discussed in this example:
  * <h3>Support only a specific origin</h3>
  * To support a single origin instead of the wildcard use the following:
@@ -39,8 +39,8 @@ import io.netty.handler.stream.ChunkedWriteHandler;
  * </pre>
  *
  * <h3>Enable loading from the file system</h3>
- * To enable the server to handle an origin specified as 'null', which happens
- * when a web browser loads a file from the local file system use the following:
+ * To enable the server to handle an origin specified as 'null', which happens when a web browser
+ * loads a file from the local file system use the following:
  * <pre>
  * corsConfig.isNullOriginAllowed()
  * </pre>
@@ -72,25 +72,26 @@ import io.netty.handler.stream.ChunkedWriteHandler;
  */
 public class HttpCorsServerInitializer extends ChannelInitializer<SocketChannel> {
 
-    private final SslContext sslCtx;
+  private final SslContext sslCtx;
 
-    public HttpCorsServerInitializer(SslContext sslCtx) {
-        this.sslCtx = sslCtx;
-    }
+  public HttpCorsServerInitializer(SslContext sslCtx) {
+    this.sslCtx = sslCtx;
+  }
 
-    @Override
-    public void initChannel(SocketChannel ch) {
-        CorsConfig corsConfig = CorsConfigBuilder.forAnyOrigin().allowNullOrigin().allowCredentials().build();
-        ChannelPipeline pipeline = ch.pipeline();
-        if (sslCtx != null) {
-            pipeline.addLast(sslCtx.newHandler(ch.alloc()));
-        }
-        pipeline.addLast(new HttpResponseEncoder());
-        pipeline.addLast(new HttpRequestDecoder());
-        pipeline.addLast(new HttpObjectAggregator(65536));
-        pipeline.addLast(new ChunkedWriteHandler());
-        pipeline.addLast(new CorsHandler(corsConfig));
-        pipeline.addLast(new OkResponseHandler());
+  @Override
+  public void initChannel(SocketChannel ch) {
+    CorsConfig corsConfig = CorsConfigBuilder.forAnyOrigin().allowNullOrigin().allowCredentials()
+        .build();
+    ChannelPipeline pipeline = ch.pipeline();
+    if (sslCtx != null) {
+      pipeline.addLast(sslCtx.newHandler(ch.alloc()));
     }
+    pipeline.addLast(new HttpResponseEncoder());
+    pipeline.addLast(new HttpRequestDecoder());
+    pipeline.addLast(new HttpObjectAggregator(65536));
+    pipeline.addLast(new ChunkedWriteHandler());
+    pipeline.addLast(new CorsHandler(corsConfig));
+    pipeline.addLast(new OkResponseHandler());
+  }
 
 }

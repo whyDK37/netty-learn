@@ -13,15 +13,17 @@ import org.junit.jupiter.api.Test;
  */
 class ExtensionLoaderTest {
 
-    @Test
-    void getExtensionLoader() {
-        ExtensionLoader<Serialization> extensionLoader = ExtensionLoader.getExtensionLoader(Serialization.class);
+  @Test
+  void getExtensionLoader() {
+    ExtensionLoader<Serialization> extensionLoader = ExtensionLoader
+        .getExtensionLoader(Serialization.class);
 
-        Serialization extension = extensionLoader.getExtension(Constants.DEFAULT_REMOTING_SERIALIZATION);
-        Assertions.assertTrue(extension instanceof Hessian2Serialization);
+    Serialization extension = extensionLoader
+        .getExtension(Constants.DEFAULT_REMOTING_SERIALIZATION);
+    Assertions.assertTrue(extension instanceof Hessian2Serialization);
 
-        Codec telnet = ExtensionLoader.getExtensionLoader(Codec.class).getExtension("telnet");
-        Assertions.assertTrue(telnet instanceof TelnetCodec);
+    Codec telnet = ExtensionLoader.getExtensionLoader(Codec.class).getExtension("telnet");
+    Assertions.assertTrue(telnet instanceof TelnetCodec);
 
-    }
+  }
 }

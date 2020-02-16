@@ -7,139 +7,139 @@ import java.nio.ByteBuffer;
 
 public interface ChannelBuffer extends Comparable<ChannelBuffer> {
 
-    int capacity();
+  int capacity();
 
-    void clear();
+  void clear();
 
-    ChannelBuffer copy();
+  ChannelBuffer copy();
 
-    ChannelBuffer copy(int index, int length);
+  ChannelBuffer copy(int index, int length);
 
-    void discardReadBytes();
+  void discardReadBytes();
 
 
-    void ensureWritableBytes(int writableBytes);
+  void ensureWritableBytes(int writableBytes);
 
 
-    @Override
-    public boolean equals(Object o);
+  @Override
+  public boolean equals(Object o);
 
 
-    ChannelBufferFactory factory();
+  ChannelBufferFactory factory();
 
 
-    byte getByte(int index);
+  byte getByte(int index);
 
 
-    void getBytes(int index, byte[] dst);
+  void getBytes(int index, byte[] dst);
 
-    void getBytes(int index, byte[] dst, int dstIndex, int length);
+  void getBytes(int index, byte[] dst, int dstIndex, int length);
 
-    void getBytes(int index, ByteBuffer dst);
+  void getBytes(int index, ByteBuffer dst);
 
-    void getBytes(int index, ChannelBuffer dst);
+  void getBytes(int index, ChannelBuffer dst);
 
-    void getBytes(int index, ChannelBuffer dst, int length);
+  void getBytes(int index, ChannelBuffer dst, int length);
 
-    void getBytes(int index, ChannelBuffer dst, int dstIndex, int length);
+  void getBytes(int index, ChannelBuffer dst, int dstIndex, int length);
 
-    void getBytes(int index, OutputStream dst, int length) throws IOException;
+  void getBytes(int index, OutputStream dst, int length) throws IOException;
 
-    boolean isDirect();
+  boolean isDirect();
 
-    void markReaderIndex();
+  void markReaderIndex();
 
-    void markWriterIndex();
+  void markWriterIndex();
 
-    boolean readable();
+  boolean readable();
 
-    int readableBytes();
+  int readableBytes();
 
-    byte readByte();
+  byte readByte();
 
-    void readBytes(byte[] dst);
+  void readBytes(byte[] dst);
 
-    void readBytes(byte[] dst, int dstIndex, int length);
+  void readBytes(byte[] dst, int dstIndex, int length);
 
-    void readBytes(ByteBuffer dst);
+  void readBytes(ByteBuffer dst);
 
-    void readBytes(ChannelBuffer dst);
+  void readBytes(ChannelBuffer dst);
 
 
-    void readBytes(ChannelBuffer dst, int length);
+  void readBytes(ChannelBuffer dst, int length);
 
-    void readBytes(ChannelBuffer dst, int dstIndex, int length);
+  void readBytes(ChannelBuffer dst, int dstIndex, int length);
 
-    ChannelBuffer readBytes(int length);
+  ChannelBuffer readBytes(int length);
 
-    void resetReaderIndex();
+  void resetReaderIndex();
 
-    void resetWriterIndex();
+  void resetWriterIndex();
 
-    int readerIndex();
+  int readerIndex();
 
-    void readerIndex(int readerIndex);
+  void readerIndex(int readerIndex);
 
-    void readBytes(OutputStream dst, int length) throws IOException;
+  void readBytes(OutputStream dst, int length) throws IOException;
 
-    void setByte(int index, int value);
+  void setByte(int index, int value);
 
-    void setBytes(int index, byte[] src);
+  void setBytes(int index, byte[] src);
 
-    void setBytes(int index, byte[] src, int srcIndex, int length);
+  void setBytes(int index, byte[] src, int srcIndex, int length);
 
-    void setBytes(int index, ByteBuffer src);
+  void setBytes(int index, ByteBuffer src);
 
-    void setBytes(int index, ChannelBuffer src);
+  void setBytes(int index, ChannelBuffer src);
 
-    void setBytes(int index, ChannelBuffer src, int length);
+  void setBytes(int index, ChannelBuffer src, int length);
 
-    void setBytes(int index, ChannelBuffer src, int srcIndex, int length);
+  void setBytes(int index, ChannelBuffer src, int srcIndex, int length);
 
-    int setBytes(int index, InputStream src, int length) throws IOException;
+  int setBytes(int index, InputStream src, int length) throws IOException;
 
-    void setIndex(int readerIndex, int writerIndex);
+  void setIndex(int readerIndex, int writerIndex);
 
 
-    void skipBytes(int length);
+  void skipBytes(int length);
 
 
-    ByteBuffer toByteBuffer();
+  ByteBuffer toByteBuffer();
 
 
-    ByteBuffer toByteBuffer(int index, int length);
+  ByteBuffer toByteBuffer(int index, int length);
 
 
-    boolean writable();
+  boolean writable();
 
-    int writableBytes();
+  int writableBytes();
 
-    void writeByte(int value);
+  void writeByte(int value);
 
-    void writeBytes(byte[] src);
+  void writeBytes(byte[] src);
 
-    void writeBytes(byte[] src, int index, int length);
+  void writeBytes(byte[] src, int index, int length);
 
-    void writeBytes(ByteBuffer src);
+  void writeBytes(ByteBuffer src);
 
-    void writeBytes(ChannelBuffer src);
+  void writeBytes(ChannelBuffer src);
 
-    void writeBytes(ChannelBuffer src, int length);
+  void writeBytes(ChannelBuffer src, int length);
 
 
-    void writeBytes(ChannelBuffer src, int srcIndex, int length);
+  void writeBytes(ChannelBuffer src, int srcIndex, int length);
 
-    int writeBytes(InputStream src, int length) throws IOException;
+  int writeBytes(InputStream src, int length) throws IOException;
 
-    int writerIndex();
+  int writerIndex();
 
 
-    void writerIndex(int writerIndex);
+  void writerIndex(int writerIndex);
 
 
-    byte[] array();
+  byte[] array();
 
-    boolean hasArray();
+  boolean hasArray();
 
-    int arrayOffset();
+  int arrayOffset();
 }

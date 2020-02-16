@@ -8,10 +8,10 @@ import io.netty.channel.socket.SocketChannel;
 
 public class MyServerInitializer extends ChannelInitializer<SocketChannel> {
 
-    @Override
-    protected void initChannel(SocketChannel ch) throws Exception {
-        ChannelPipeline pipeline = ch.pipeline();
+  @Override
+  protected void initChannel(SocketChannel ch) throws Exception {
+    ChannelPipeline pipeline = ch.pipeline();
 
-        pipeline.addLast(new MyServerHandler());
-    }
+    pipeline.addLast(new MyServerHandler());
+  }
 }

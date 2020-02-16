@@ -3,15 +3,16 @@ package dubbo.mini.remote;
 import java.net.InetSocketAddress;
 
 public interface NetChannel extends Endpoint {
-    InetSocketAddress getRemoteAddress();
 
-    boolean isConnected();
+  InetSocketAddress getRemoteAddress();
 
-    boolean hasAttribute(String key);
+  boolean isConnected();
 
-    Object getAttribute(String key);
+  boolean hasAttribute(String key);
 
-    void setAttribute(String key, Object value);
+  Object getAttribute(String key);
 
-    void removeAttribute(String key);
+  void setAttribute(String key, Object value);
+
+  void removeAttribute(String key);
 }

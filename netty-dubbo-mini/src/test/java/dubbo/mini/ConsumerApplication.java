@@ -23,26 +23,27 @@ import dubbo.mini.config.spring.ReferenceBean;
 import dubbo.mini.rpc.ProxyFactory;
 import dubbo.mini.support.DemoService;
 import dubbo.mini.support.ExtensionLoader;
-
 import java.io.IOException;
 
 public class ConsumerApplication {
-    private static ProxyFactory proxy = ExtensionLoader.getExtensionLoader(ProxyFactory.class).getDefaultExtension();
 
-    /**
-     * In order to make sure multicast registry works, need to specify '-Djava.net.preferIPv4Stack=true' before
-     * launch the application
-     */
-    public static void main(String[] args) throws IOException {
+  private static ProxyFactory proxy = ExtensionLoader.getExtensionLoader(ProxyFactory.class)
+      .getDefaultExtension();
 
-        ReferenceBean<DemoService> reference = new ReferenceBean<>();
-        reference.setInterface(DemoService.class);
+  /**
+   * In order to make sure multicast registry works, need to specify '-Djava.net.preferIPv4Stack=true'
+   * before launch the application
+   */
+  public static void main(String[] args) throws IOException {
 
-        DemoService service = reference.get();
-        String message = service.sayHello("dubbo");
-        System.out.println(message);
+    ReferenceBean<DemoService> reference = new ReferenceBean<>();
+    reference.setInterface(DemoService.class);
 
-        // 客户端回调服务
+    DemoService service = reference.get();
+    String message = service.sayHello("dubbo");
+    System.out.println(message);
+
+    // 客户端回调服务
 //        DubboProtocol protocol = DubboProtocol.getDubboProtocol();
 //        Collection<Invoker<?>> invokers = protocol.getInvokers();
 //        Collection<ExchangeServer> servers = protocol.getServers();
@@ -56,6 +57,6 @@ public class ConsumerApplication {
 //                .addParameter(Constants.IS_SERVER_KEY, Boolean.FALSE);
 //        Exporter<?> exporter = protocol.export(proxy.getInvoker(cliSer, DemoService.class, url));
 
-        System.in.read();
-    }
+    System.in.read();
+  }
 }

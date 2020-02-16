@@ -25,26 +25,26 @@ import io.netty.handler.ssl.SslContext;
 
 public class HttpUploadServerInitializer extends ChannelInitializer<SocketChannel> {
 
-    private final SslContext sslCtx;
+  private final SslContext sslCtx;
 
-    public HttpUploadServerInitializer(SslContext sslCtx) {
-        this.sslCtx = sslCtx;
+  public HttpUploadServerInitializer(SslContext sslCtx) {
+    this.sslCtx = sslCtx;
+  }
+
+  @Override
+  public void initChannel(SocketChannel ch) {
+    ChannelPipeline pipeline = ch.pipeline();
+
+    if (sslCtx != null) {
+      pipeline.addLast(sslCtx.newHandler(ch.alloc()));
     }
 
-    @Override
-    public void initChannel(SocketChannel ch) {
-        ChannelPipeline pipeline = ch.pipeline();
+    pipeline.addLast(new HttpRequestDecoder());
+    pipeline.addLast(new HttpResponseEncoder());
 
-        if (sslCtx != null) {
-            pipeline.addLast(sslCtx.newHandler(ch.alloc()));
-        }
+    // Remove the following line if you don't want automatic content compression.
+    pipeline.addLast(new HttpContentCompressor());
 
-        pipeline.addLast(new HttpRequestDecoder());
-        pipeline.addLast(new HttpResponseEncoder());
-
-        // Remove the following line if you don't want automatic content compression.
-        pipeline.addLast(new HttpContentCompressor());
-
-        pipeline.addLast(new HttpUploadServerHandler());
-    }
+    pipeline.addLast(new HttpUploadServerHandler());
+  }
 }

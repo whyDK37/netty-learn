@@ -4,25 +4,25 @@ import java.util.Map;
 
 public interface Invocation {
 
-    String getMethodName();
+  String getMethodName();
 
-    Class<?>[] getParameterTypes();
+  Class<?>[] getParameterTypes();
 
-    Object[] getArguments();
+  Object[] getArguments();
 
-    Map<String, String> getAttachments();
+  Map<String, String> getAttachments();
 
-    String getAttachment(String key);
+  String getAttachment(String key);
 
-    String getAttachment(String key, String defaultValue);
+  String getAttachment(String key, String defaultValue);
 
-    Invoker<?> getInvoker();
+  Invoker<?> getInvoker();
 
-    void setInvoker(Invoker<?> invoker);
+  void setInvoker(Invoker<?> invoker);
 
-    void addAttachmentsIfAbsent(Map<String, String> attachment);
+  void addAttachmentsIfAbsent(Map<String, String> attachment);
 
-    void addAttachments(Map<String, String> contextAttachments);
+  void addAttachments(Map<String, String> contextAttachments);
 
-    void setAttachment(String asyncKey, String toString);
+  void setAttachment(String asyncKey, String toString);
 }

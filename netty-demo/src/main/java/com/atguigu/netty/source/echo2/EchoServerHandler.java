@@ -30,16 +30,16 @@ import io.netty.util.concurrent.EventExecutorGroup;
 @Sharable
 public class EchoServerHandler extends ChannelInboundHandlerAdapter {
 
-    // group 就是充当业务线程池，可以将任务提交到该线程池
-    // 这里我们创建了16个线程
-    static final EventExecutorGroup group = new DefaultEventExecutorGroup(16);
+  // group 就是充当业务线程池，可以将任务提交到该线程池
+  // 这里我们创建了16个线程
+  static final EventExecutorGroup group = new DefaultEventExecutorGroup(16);
 
-    @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+  @Override
+  public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 
-        System.out.println("EchoServer Handler 的线程是=" + Thread.currentThread().getName());
+    System.out.println("EchoServer Handler 的线程是=" + Thread.currentThread().getName());
 
-        //按照原来的方法处理耗时任务
+    //按照原来的方法处理耗时任务
         /*
         //解决方案1 用户程序自定义的普通任务
 
@@ -134,31 +134,30 @@ public class EchoServerHandler extends ChannelInboundHandlerAdapter {
             }
         });*/
 
+    //普通方式
+    //接收客户端信息
+    ByteBuf buf = (ByteBuf) msg;
+    byte[] bytes = new byte[buf.readableBytes()];
+    buf.readBytes(bytes);
+    String body = new String(bytes, "UTF-8");
+    //休眠10秒
+    Thread.sleep(10 * 1000);
+    System.out.println("普通调用方式的 线程是=" + Thread.currentThread().getName());
+    ctx.writeAndFlush(Unpooled.copiedBuffer("hello, 客户端~(>^ω^<)喵2", CharsetUtil.UTF_8));
 
-        //普通方式
-        //接收客户端信息
-        ByteBuf buf = (ByteBuf) msg;
-        byte[] bytes = new byte[buf.readableBytes()];
-        buf.readBytes(bytes);
-        String body = new String(bytes, "UTF-8");
-        //休眠10秒
-        Thread.sleep(10 * 1000);
-        System.out.println("普通调用方式的 线程是=" + Thread.currentThread().getName());
-        ctx.writeAndFlush(Unpooled.copiedBuffer("hello, 客户端~(>^ω^<)喵2", CharsetUtil.UTF_8));
+    System.out.println("go on ");
 
-        System.out.println("go on ");
+  }
 
-    }
+  @Override
+  public void channelReadComplete(ChannelHandlerContext ctx) {
+    ctx.flush();
+  }
 
-    @Override
-    public void channelReadComplete(ChannelHandlerContext ctx) {
-        ctx.flush();
-    }
-
-    @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        // Close the connection when an exception is raised.
-        //cause.printStackTrace();
-        ctx.close();
-    }
+  @Override
+  public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
+    // Close the connection when an exception is raised.
+    //cause.printStackTrace();
+    ctx.close();
+  }
 }

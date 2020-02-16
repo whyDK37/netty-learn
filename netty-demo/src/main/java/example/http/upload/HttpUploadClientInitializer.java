@@ -25,28 +25,28 @@ import io.netty.handler.stream.ChunkedWriteHandler;
 
 public class HttpUploadClientInitializer extends ChannelInitializer<SocketChannel> {
 
-    private final SslContext sslCtx;
+  private final SslContext sslCtx;
 
-    public HttpUploadClientInitializer(SslContext sslCtx) {
-        this.sslCtx = sslCtx;
+  public HttpUploadClientInitializer(SslContext sslCtx) {
+    this.sslCtx = sslCtx;
+  }
+
+  @Override
+  public void initChannel(SocketChannel ch) {
+    ChannelPipeline pipeline = ch.pipeline();
+
+    if (sslCtx != null) {
+      pipeline.addLast("ssl", sslCtx.newHandler(ch.alloc()));
     }
 
-    @Override
-    public void initChannel(SocketChannel ch) {
-        ChannelPipeline pipeline = ch.pipeline();
+    pipeline.addLast("codec", new HttpClientCodec());
 
-        if (sslCtx != null) {
-            pipeline.addLast("ssl", sslCtx.newHandler(ch.alloc()));
-        }
+    // Remove the following line if you don't want automatic content decompression.
+    pipeline.addLast("inflater", new HttpContentDecompressor());
 
-        pipeline.addLast("codec", new HttpClientCodec());
+    // to be used since huge file transfer
+    pipeline.addLast("chunkedWriter", new ChunkedWriteHandler());
 
-        // Remove the following line if you don't want automatic content decompression.
-        pipeline.addLast("inflater", new HttpContentDecompressor());
-
-        // to be used since huge file transfer
-        pipeline.addLast("chunkedWriter", new ChunkedWriteHandler());
-
-        pipeline.addLast("handler", new HttpUploadClientHandler());
-    }
+    pipeline.addLast("handler", new HttpUploadClientHandler());
+  }
 }

@@ -1,4 +1,3 @@
-
 package dubbo.mini.config;
 
 
@@ -15,17 +14,17 @@ import java.lang.annotation.Target;
 @Inherited
 public @interface Service {
 
-    Class<?> interfaceClass() default void.class;
+  Class<?> interfaceClass() default void.class;
 
-    String interfaceName() default "";
+  String interfaceName() default "";
 
-    String path() default "";
+  String path() default "";
 
-    boolean export() default true;
+  boolean export() default true;
 
-    String proxy() default "";
+  String proxy() default "";
 
-    String[] protocol() default {};
+  String[] protocol() default {};
 
 
 }

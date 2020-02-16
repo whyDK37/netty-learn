@@ -4,7 +4,6 @@ import dubbo.mini.common.NetURL;
 import dubbo.mini.protocol.Exporter;
 import dubbo.mini.protocol.Protocol;
 import dubbo.mini.support.ExtensionLoader;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,16 +12,17 @@ import java.util.List;
  */
 public class ServiceConfig {
 
-    private final Protocol protocol = ExtensionLoader.getExtensionLoader(Protocol.class).getDefaultExtension();
+  private final Protocol protocol = ExtensionLoader.getExtensionLoader(Protocol.class)
+      .getDefaultExtension();
 
-    private final List<NetURL> urls = new ArrayList<NetURL>();
+  private final List<NetURL> urls = new ArrayList<NetURL>();
 
-    private final List<Exporter<?>> exporters = new ArrayList<Exporter<?>>();
+  private final List<Exporter<?>> exporters = new ArrayList<Exporter<?>>();
 
-    protected String interfaceName;
-    protected Class<?> interfaceClass;
+  protected String interfaceName;
+  protected Class<?> interfaceClass;
 
-    public Protocol getProtocol() {
-        return protocol;
-    }
+  public Protocol getProtocol() {
+    return protocol;
+  }
 }

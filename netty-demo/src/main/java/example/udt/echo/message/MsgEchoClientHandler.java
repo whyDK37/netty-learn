@@ -23,42 +23,41 @@ import io.netty.channel.udt.UdtMessage;
 import io.netty.channel.udt.nio.NioUdtProvider;
 
 /**
- * Handler implementation for the echo client. It initiates the ping-pong
- * traffic between the echo client and server by sending the first message to
- * the server on activation.
+ * Handler implementation for the echo client. It initiates the ping-pong traffic between the echo
+ * client and server by sending the first message to the server on activation.
  */
 public class MsgEchoClientHandler extends SimpleChannelInboundHandler<UdtMessage> {
 
-    private final UdtMessage message;
+  private final UdtMessage message;
 
-    public MsgEchoClientHandler() {
-        super(false);
-        final ByteBuf byteBuf = Unpooled.buffer(MsgEchoClient.SIZE);
-        for (int i = 0; i < byteBuf.capacity(); i++) {
-            byteBuf.writeByte((byte) i);
-        }
-        message = new UdtMessage(byteBuf);
+  public MsgEchoClientHandler() {
+    super(false);
+    final ByteBuf byteBuf = Unpooled.buffer(MsgEchoClient.SIZE);
+    for (int i = 0; i < byteBuf.capacity(); i++) {
+      byteBuf.writeByte((byte) i);
     }
+    message = new UdtMessage(byteBuf);
+  }
 
-    @Override
-    public void channelActive(final ChannelHandlerContext ctx) {
-        System.err.println("ECHO active " + NioUdtProvider.socketUDT(ctx.channel()).toStringOptions());
-        ctx.writeAndFlush(message);
-    }
+  @Override
+  public void channelActive(final ChannelHandlerContext ctx) {
+    System.err.println("ECHO active " + NioUdtProvider.socketUDT(ctx.channel()).toStringOptions());
+    ctx.writeAndFlush(message);
+  }
 
-    @Override
-    public void channelRead0(ChannelHandlerContext ctx, UdtMessage msg) {
-        ctx.write(msg);
-    }
+  @Override
+  public void channelRead0(ChannelHandlerContext ctx, UdtMessage msg) {
+    ctx.write(msg);
+  }
 
-    @Override
-    public void channelReadComplete(ChannelHandlerContext ctx) {
-        ctx.flush();
-    }
+  @Override
+  public void channelReadComplete(ChannelHandlerContext ctx) {
+    ctx.flush();
+  }
 
-    @Override
-    public void exceptionCaught(final ChannelHandlerContext ctx, final Throwable cause) {
-        cause.printStackTrace();
-        ctx.close();
-    }
+  @Override
+  public void exceptionCaught(final ChannelHandlerContext ctx, final Throwable cause) {
+    cause.printStackTrace();
+    ctx.close();
+  }
 }

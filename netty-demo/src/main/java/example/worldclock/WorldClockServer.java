@@ -26,37 +26,37 @@ import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.SelfSignedCertificate;
 
 /**
- * Receives a list of continent/city pairs from a {@link WorldClockClient} to
- * get the local times of the specified cities.
+ * Receives a list of continent/city pairs from a {@link WorldClockClient} to get the local times of
+ * the specified cities.
  */
 public final class WorldClockServer {
 
-    static final boolean SSL = System.getProperty("ssl") != null;
-    static final int PORT = Integer.parseInt(System.getProperty("port", "8463"));
+  static final boolean SSL = System.getProperty("ssl") != null;
+  static final int PORT = Integer.parseInt(System.getProperty("port", "8463"));
 
-    public static void main(String[] args) throws Exception {
-        // Configure SSL.
-        final SslContext sslCtx;
-        if (SSL) {
-            SelfSignedCertificate ssc = new SelfSignedCertificate();
-            sslCtx = SslContextBuilder.forServer(ssc.certificate(), ssc.privateKey()).build();
-        } else {
-            sslCtx = null;
-        }
-
-        EventLoopGroup bossGroup = new NioEventLoopGroup(1);
-        EventLoopGroup workerGroup = new NioEventLoopGroup();
-        try {
-            ServerBootstrap b = new ServerBootstrap();
-            b.group(bossGroup, workerGroup)
-             .channel(NioServerSocketChannel.class)
-             .handler(new LoggingHandler(LogLevel.INFO))
-             .childHandler(new WorldClockServerInitializer(sslCtx));
-
-            b.bind(PORT).sync().channel().closeFuture().sync();
-        } finally {
-            bossGroup.shutdownGracefully();
-            workerGroup.shutdownGracefully();
-        }
+  public static void main(String[] args) throws Exception {
+    // Configure SSL.
+    final SslContext sslCtx;
+    if (SSL) {
+      SelfSignedCertificate ssc = new SelfSignedCertificate();
+      sslCtx = SslContextBuilder.forServer(ssc.certificate(), ssc.privateKey()).build();
+    } else {
+      sslCtx = null;
     }
+
+    EventLoopGroup bossGroup = new NioEventLoopGroup(1);
+    EventLoopGroup workerGroup = new NioEventLoopGroup();
+    try {
+      ServerBootstrap b = new ServerBootstrap();
+      b.group(bossGroup, workerGroup)
+          .channel(NioServerSocketChannel.class)
+          .handler(new LoggingHandler(LogLevel.INFO))
+          .childHandler(new WorldClockServerInitializer(sslCtx));
+
+      b.bind(PORT).sync().channel().closeFuture().sync();
+    } finally {
+      bossGroup.shutdownGracefully();
+      workerGroup.shutdownGracefully();
+    }
+  }
 }

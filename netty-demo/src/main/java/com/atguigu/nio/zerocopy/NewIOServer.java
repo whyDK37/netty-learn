@@ -8,35 +8,36 @@ import java.nio.channels.SocketChannel;
 
 //服务器
 public class NewIOServer {
-    public static void main(String[] args) throws Exception {
 
-        InetSocketAddress address = new InetSocketAddress(7001);
+  public static void main(String[] args) throws Exception {
 
-        ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
+    InetSocketAddress address = new InetSocketAddress(7001);
 
-        ServerSocket serverSocket = serverSocketChannel.socket();
+    ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
 
-        serverSocket.bind(address);
+    ServerSocket serverSocket = serverSocketChannel.socket();
 
-        //创建buffer
-        ByteBuffer byteBuffer = ByteBuffer.allocate(4096);
+    serverSocket.bind(address);
 
-        while (true) {
-            SocketChannel socketChannel = serverSocketChannel.accept();
+    //创建buffer
+    ByteBuffer byteBuffer = ByteBuffer.allocate(4096);
 
-            int readcount = 0;
-            while (-1 != readcount) {
-                try {
+    while (true) {
+      SocketChannel socketChannel = serverSocketChannel.accept();
 
-                    readcount = socketChannel.read(byteBuffer);
+      int readcount = 0;
+      while (-1 != readcount) {
+        try {
 
-                } catch (Exception ex) {
-                    // ex.printStackTrace();
-                    break;
-                }
-                //
-                byteBuffer.rewind(); //倒带 position = 0 mark 作废
-            }
+          readcount = socketChannel.read(byteBuffer);
+
+        } catch (Exception ex) {
+          // ex.printStackTrace();
+          break;
         }
+        //
+        byteBuffer.rewind(); //倒带 position = 0 mark 作废
+      }
     }
+  }
 }

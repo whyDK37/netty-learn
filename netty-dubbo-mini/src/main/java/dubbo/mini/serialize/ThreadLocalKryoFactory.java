@@ -4,20 +4,20 @@ import com.esotericsoftware.kryo.Kryo;
 
 public class ThreadLocalKryoFactory extends AbstractKryoFactory {
 
-    private final ThreadLocal<Kryo> holder = new ThreadLocal<Kryo>() {
-        @Override
-        protected Kryo initialValue() {
-            return create();
-        }
-    };
-
+  private final ThreadLocal<Kryo> holder = new ThreadLocal<Kryo>() {
     @Override
-    public void returnKryo(Kryo kryo) {
-        // do nothing
+    protected Kryo initialValue() {
+      return create();
     }
+  };
 
-    @Override
-    public Kryo getKryo() {
-        return holder.get();
-    }
+  @Override
+  public void returnKryo(Kryo kryo) {
+    // do nothing
+  }
+
+  @Override
+  public Kryo getKryo() {
+    return holder.get();
+  }
 }

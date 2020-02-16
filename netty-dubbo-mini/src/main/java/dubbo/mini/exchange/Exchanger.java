@@ -11,9 +11,9 @@ import dubbo.mini.support.SPI;
 @SPI(HeaderExchanger.NAME)
 public interface Exchanger {
 
-    ExchangeServer bind(NetURL url, ExchangeHandler handler) throws RemotingException;
+  ExchangeServer bind(NetURL url, ExchangeHandler handler) throws RemotingException;
 
 
-    ExchangeClient connect(NetURL url, ExchangeHandler handler) throws RemotingException;
+  ExchangeClient connect(NetURL url, ExchangeHandler handler) throws RemotingException;
 
 }

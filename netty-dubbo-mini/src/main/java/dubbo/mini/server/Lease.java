@@ -6,31 +6,32 @@ import java.util.Date;
  * @author why
  */
 public class Lease {
-    private Date createTime;
-    private Date latest;
 
-    public Lease() {
-        this.createTime = new Date();
-        this.latest = createTime;
-    }
+  private Date createTime;
+  private Date latest;
 
-    public void touch() {
-        latest = new Date();
-    }
+  public Lease() {
+    this.createTime = new Date();
+    this.latest = createTime;
+  }
 
-    public Date getCreateTime() {
-        return createTime;
-    }
+  public void touch() {
+    latest = new Date();
+  }
 
-    public Date getLatest() {
-        return latest;
-    }
+  public Date getCreateTime() {
+    return createTime;
+  }
 
-    @Override
-    public String toString() {
-        return "Lease{" +
-                "createTime=" + createTime +
-                ", latest=" + latest +
-                '}';
-    }
+  public Date getLatest() {
+    return latest;
+  }
+
+  @Override
+  public String toString() {
+    return "Lease{" +
+        "createTime=" + createTime +
+        ", latest=" + latest +
+        '}';
+  }
 }
