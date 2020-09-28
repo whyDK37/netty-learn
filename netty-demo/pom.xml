@@ -12,6 +12,12 @@
     <artifactId>netty-demo</artifactId>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.73</version>
+        </dependency>
 
         <dependency>
             <groupId>io.netty</groupId>
