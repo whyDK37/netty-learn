@@ -1,0 +1,2 @@
+telnet=dubbo.mini.codec.TelnetCodec
+dubbo=dubbo.mini.protocol.dubbo.DubboCountCodec

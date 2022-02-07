@@ -1,0 +1,2 @@
+injvm=dubbo.mini.protocol.jvm.InjvmProtocol
+dubbo=dubbo.mini.protocol.dubbo.DubboProtocol
