@@ -25,6 +25,7 @@ public class NettyServerHandler extends SimpleChannelInboundHandler<StudentPOJO.
     //读取从客户端发送的StudentPojo.Student
 
     System.out.println("客户端发送的数据 id=" + msg.getId() + " 名字=" + msg.getName());
+    ctx.fireUserEventTriggered(new UserEvent(msg.getName()));
   }
 
 //    //读取数据实际(这里我们可以读取客户端发送的消息)

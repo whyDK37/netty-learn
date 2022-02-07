@@ -47,6 +47,8 @@ public class NettyProtoServer {
               pipeline.addLast("decoder",
                   new ProtobufDecoder(StudentPOJO.Student.getDefaultInstance()));
               pipeline.addLast(new NettyServerHandler());
+              // import 处理用户自定义事件的 handler 必须在 fireEvent 之后
+              pipeline.addLast(new NettyUserEventHandler());
             }
           }); // 给我们的workerGroup 的 EventLoop 对应的管道设置处理器
 
