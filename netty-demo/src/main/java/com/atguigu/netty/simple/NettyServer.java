@@ -38,6 +38,7 @@ public class NettyServer {
           .channel(NioServerSocketChannel.class) //使用NioSocketChannel 作为服务器的通道实现
           .option(ChannelOption.SO_BACKLOG, 128) // 设置线程队列得到连接个数
           .childOption(ChannelOption.SO_KEEPALIVE, true) //设置保持活动连接状态
+          .childOption(ChannelOption.SO_TIMEOUT,1000)
 //                    .handler(null) // 该 handler对应 bossGroup , childHandler 对应 workerGroup
           .childHandler(new ChannelInitializer<SocketChannel>() {//创建一个通道初始化对象(匿名对象)
             //给pipeline 设置处理器
@@ -45,7 +46,7 @@ public class NettyServer {
             protected void initChannel(SocketChannel ch) throws Exception {
               System.out.println("客户socketchannel hashcode=" + ch
                   .hashCode()); //可以使用一个集合管理 SocketChannel， 再推送消息时，可以将业务加入到各个channel 对应的 NIOEventLoop 的 taskQueue 或者 scheduleTaskQueue
-              ch.pipeline().addLast(new SimpleChannelInboundHandler() {
+              ch.pipeline().addLast(new SimpleChannelInboundHandler<Object>() {
                 @Override
                 protected void channelRead0(ChannelHandlerContext ctx, Object msg)
                     throws Exception {
