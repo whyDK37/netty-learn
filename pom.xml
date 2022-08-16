@@ -18,7 +18,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 
-        <netty.version>4.1.72.Final</netty.version>
+        <netty.version>4.1.79.Final</netty.version>
 
         <javassist_version>3.20.0-GA</javassist_version>
         <kryo_version>4.0.1</kryo_version>
@@ -105,6 +105,13 @@
                 <groupId>de.javakaffee</groupId>
                 <artifactId>kryo-serializers</artifactId>
                 <version>${kryo_serializers_version}</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-classic -->
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>1.2.11</version>
             </dependency>
 
             <dependency>
